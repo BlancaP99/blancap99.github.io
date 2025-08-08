@@ -1,6 +1,6 @@
 <!-- =========================================================
-     thetag.html – Galería con filtros y visor
-     (fondo inmóvil con ::before · autoplay forzado · menú unificado)
+     thetag.html – Misma estructura “alphabook”
+     (menú unificado, fondo inmóvil, filtros y visor centrado)
 ========================================================= -->
 <!DOCTYPE html>
 <html lang="es">
@@ -9,34 +9,29 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>THE TAG – Project</title>
 
+<!-- ---------- 1. FUENTES ---------- -->
 <style>
-/* ---------- 1. FUENTES ---------- */
 @font-face{font-family:"Area Normal";src:url("/fonts/AreaNormal.woff2") format("woff2"),url("/fonts/AreaNormal.woff") format("woff");}
 @font-face{font-family:"Sweet Sans Pro";src:url("/fonts/SWEETSANSPROREGULAR.OTF") format("opentype");}
 @font-face{font-family:"Moglan Demo";src:url("/fonts/MOGLAN_DEMO.TTF") format("truetype");}
 
-/* ---------- 2. RESET & FONDO INMÓVIL ---------- */
+/* ---------- 2. RESET ---------- */
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 
+/* ---------- 3. FONDO INMÓVIL ---------- */
 html,body{height:100%;}
 body{
-    position:relative;                           /* stacking-context */
-    color:#fff;
-    font-family:"Area Normal",sans-serif;
+    background:url("/images/fondo_intro_2.png") center/cover no-repeat fixed;
+    color:#fff;font-family:"Area Normal",sans-serif;
 }
-/* pseudo-elemento fijo  →  también en móvil */
 body::before{
-    content:"";
-    position:fixed;
-    inset:0;
+    content:"";position:fixed;inset:0;
     background:url("/images/fondo_intro_2.png") center/cover no-repeat;
-    z-index:-1;
-    pointer-events:none;
-    transform:translateZ(0);
+    z-index:-1;pointer-events:none;transform:translateZ(0);
 }
 
-/* ---------- 3. MENÚ ---------- */
-nav{position:absolute;top:2rem;left:5%;display:flex;align-items:center;gap:1.5rem;font-family:"Sweet Sans Pro";font-size:.8rem;text-transform:uppercase;letter-spacing:1px;z-index:100;}
+/* ---------- 4. MENÚ ---------- */
+nav{position:absolute;top:2rem;left:5%;display:flex;align-items:center;gap:1.5rem;font-family:"Sweet Sans Pro";font-size:.8rem;letter-spacing:1px;text-transform:uppercase;z-index:100;}
 .nav-logo{height:1.4rem;cursor:pointer;}
 .nav-separator{width:1px;height:1.2rem;background:#ffffff80;}
 .nav-links{display:flex;gap:1.5rem;}
@@ -45,18 +40,18 @@ nav a:hover{font-weight:700;}
 .hamburger{display:none;}
 .hamburger span{display:block;width:100%;height:2px;background:#fff;margin:5px 0;}
 
-/* ---------- 4. CONTENEDOR PRINCIPAL ---------- */
+/* ---------- 5. WRAPPER ---------- */
 .wrapper{max-width:70rem;margin:11rem auto 6rem;padding:0 1rem;display:flex;flex-direction:column;gap:4rem;}
 
-/* ---------- 5. CABECERA ---------- */
+/* ---------- 6. CABECERA ---------- */
 h1{font-family:"Moglan Demo";font-size:1.4rem;font-weight:200;letter-spacing:.1rem;text-align:center;margin-bottom:.3rem;}
 h2{font-family:"Sweet Sans Pro";font-weight:300;font-size:.9rem;letter-spacing:.2rem;text-align:center;}
 .filter-bar{margin:2rem auto 0;display:flex;gap:1.2rem;flex-wrap:wrap;justify-content:center;}
-.filter-btn{background:none;border:none;color:#fff;font-family:"Sweet Sans Pro";font-size:.75rem;letter-spacing:.1rem;text-transform:uppercase;cursor:pointer;position:relative;}
+.filter-btn{background:none;border:none;color:#fff;cursor:pointer;font-family:"Sweet Sans Pro";font-size:.75rem;letter-spacing:.1rem;text-transform:uppercase;position:relative;}
 .filter-btn::after{content:"";position:absolute;left:0;bottom:-.2rem;width:0;height:1px;background:#fff;transition:.3s;}
 .filter-btn.active::after{width:100%;}
 
-/* ---------- 6. GALERÍA ---------- */
+/* ---------- 7. GALERÍA ---------- */
 .gallery-section{display:flex;flex-direction:column;gap:.6rem;}
 .media-row{display:grid;gap:.6rem;}
 .media-row.cols-1{grid-template-columns:1fr;}
@@ -69,14 +64,14 @@ h2{font-family:"Sweet Sans Pro";font-weight:300;font-size:.9rem;letter-spacing:.
 .thumb video,.thumb img{width:100%;height:100%;object-fit:cover;border-radius:6px;transition:transform .3s;}
 .thumb:hover video,.thumb:hover img{transform:scale(1.05);}
 
-/* ---------- 7. VISOR ---------- */
+/* ---------- 8. VISOR ---------- */
 .viewer{position:fixed;inset:0;background:rgba(0,0,0,.9);display:none;justify-content:center;align-items:center;z-index:200;padding:1rem;}
 .viewer.open{display:flex;}
 .viewer-content{position:relative;display:flex;justify-content:center;align-items:center;}
 .viewer-content video,.viewer-content img{width:auto;height:auto;max-width:90vw;max-height:90vh;object-fit:contain;border-radius:6px;}
 .viewer-close{position:absolute;top:-2rem;right:0;font-size:2rem;background:none;border:none;color:#fff;cursor:pointer;}
 
-/* ---------- 8. RESPONSIVE ---------- */
+/* ---------- 9. RESPONSIVE ---------- */
 @media(max-width:1024px){.media-row.cols-4{grid-template-columns:repeat(3,1fr);} }
 @media(max-width:768px){
     nav{left:0;right:0;width:100%;justify-content:center;}
@@ -94,7 +89,7 @@ h2{font-family:"Sweet Sans Pro";font-weight:300;font-size:.9rem;letter-spacing:.
 
 <body>
 
-<!-- ---------- MENÚ ---------- -->
+<!-- ======= MENÚ ======= -->
 <nav>
     <a href="index.html#skipIntro"><img src="/images/BLANCA_NAME.png" class="nav-logo" alt="Home"></a>
     <span class="nav-separator"></span>
@@ -125,20 +120,20 @@ h2{font-family:"Sweet Sans Pro";font-weight:300;font-size:.9rem;letter-spacing:.
     <!-- =========== SECCIÓN 1 — MOTION (8 vídeos) =========== -->
     <section class="gallery-section cat-motion" data-cat="motion">
         <div class="media-row cols-4">
-            <div class="thumb"><video src="THETAG/video_1.mp4" autoplay muted loop playsinline></video></div>
-            <div class="thumb"><video src="THETAG/video_2.mp4" autoplay muted loop playsinline></video></div>
-            <div class="thumb"><video src="THETAG/video_3.mp4" autoplay muted loop playsinline></video></div>
-            <div class="thumb"><video src="THETAG/video_4.mp4" autoplay muted loop playsinline></video></div>
+            <div class="thumb"><video src="THETAG/video_1.mp4" autoplay muted loop playsinline preload="auto"></video></div>
+            <div class="thumb"><video src="THETAG/video_2.mp4" autoplay muted loop playsinline preload="auto"></video></div>
+            <div class="thumb"><video src="THETAG/video_3.mp4" autoplay muted loop playsinline preload="auto"></video></div>
+            <div class="thumb"><video src="THETAG/video_4.mp4" autoplay muted loop playsinline preload="auto"></video></div>
         </div>
         <div class="media-row cols-4">
-            <div class="thumb"><video src="THETAG/video_5.mp4" autoplay muted loop playsinline></video></div>
-            <div class="thumb"><video src="THETAG/video_6.mp4" autoplay muted loop playsinline></video></div>
-            <div class="thumb"><video src="THETAG/video_7.mp4" autoplay muted loop playsinline></video></div>
-            <div class="thumb"><video src="THETAG/video_8.mp4" autoplay muted loop playsinline></video></div>
+            <div class="thumb"><video src="THETAG/video_5.mp4" autoplay muted loop playsinline preload="auto"></video></div>
+            <div class="thumb"><video src="THETAG/video_6.mp4" autoplay muted loop playsinline preload="auto"></video></div>
+            <div class="thumb"><video src="THETAG/video_7.mp4" autoplay muted loop playsinline preload="auto"></video></div>
+            <div class="thumb"><video src="THETAG/video_8.mp4" autoplay muted loop playsinline preload="auto"></video></div>
         </div>
     </section>
 
-    <!-- =========== SECCIÓN 2 — FOTOS (4) =========== -->
+    <!-- =========== SECCIÓN 2 — FOTOS =========== -->
     <section class="gallery-section cat-graphic tight" data-cat="graphic">
         <div class="media-row cols-4">
             <div class="thumb"><img src="THETAG/foto_1.png" alt=""></div>
@@ -151,7 +146,7 @@ h2{font-family:"Sweet Sans Pro";font-weight:300;font-size:.9rem;letter-spacing:.
     <!-- =========== SECCIÓN 3 — INTRO (1 vídeo) =========== -->
     <section class="gallery-section cat-motion" data-cat="motion">
         <div class="media-row cols-1">
-            <div class="thumb"><video src="THETAG/THE_TAG.mp4" autoplay muted loop playsinline></video></div>
+            <div class="thumb"><video src="THETAG/THE_TAG.mp4" autoplay muted loop playsinline preload="auto"></video></div>
         </div>
     </section>
 
@@ -170,7 +165,7 @@ document.addEventListener('DOMContentLoaded',()=>{
         v.muted=true;
         v.setAttribute('playsinline','');
         v.setAttribute('preload','auto');
-        v.play().catch(()=>{});             /* silencio si falla */
+        v.play().catch(()=>{});   // silencio si falla
     });
 });
 
