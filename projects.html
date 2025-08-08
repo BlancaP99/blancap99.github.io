@@ -1,230 +1,111 @@
-﻿<!-- =========================================================
-     projects.html  –  Galería 3×4 (hover destaca, resto oscuro)
+<!-- =========================================================
+     projects.html – Galería 3×4 (hover destaca, resto oscuro)
+     (único cambio: fondo inmóvil mediante ::before)
 ========================================================= -->
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Projects – Gallery</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Projects – Gallery</title>
 
-    <style>
-        /* ---------- 1. FUENTES ---------- */
-        @font-face {
-            font-family: "Area Normal";
-            src: url("/fonts/AreaNormal.woff2") format("woff2"),url("/fonts/AreaNormal.woff") format("woff");
-        }
+<style>
+/* ---------- 1. FUENTES ---------- */
+@font-face{font-family:"Area Normal";src:url("/fonts/AreaNormal.woff2") format("woff2"),url("/fonts/AreaNormal.woff") format("woff");}
+@font-face{font-family:"Sweet Sans Pro";src:url("/fonts/SWEETSANSPROREGULAR.OTF") format("opentype");}
+@font-face{font-family:"Moglan Demo";src:url("/fonts/MOGLAN_DEMO.TTF") format("truetype");}
 
-        @font-face {
-            font-family: "Sweet Sans Pro";
-            src: url("/fonts/SWEETSANSPROREGULAR.OTF") format("opentype");
-        }
+/* ---------- 2. RESET & FONDO INMÓVIL ---------- */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 
-        @font-face {
-            font-family: "Moglan Demo";
-            src: url("/fonts/MOGLAN_DEMO.TTF") format("truetype");
-        }
+html,body{height:100%;}
+body{
+    position:relative;                      /* stacking-context */
+    color:#fff;
+    font-family:"Area Normal",sans-serif;
+}
+/* pseudo-elemento fijo (funciona también en móvil) */
+body::before{
+    content:"";
+    position:fixed;
+    inset:0;
+    background:url("/images/fondo_intro_2.png") center/cover no-repeat;
+    z-index:-1;
+    pointer-events:none;
+    transform:translateZ(0);
+}
 
-        /* ---------- 2. RESET & FONDO ---------- */
-        *, *::before, *::after {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+/* ---------- 3. MENÚ ---------- */
+nav{position:absolute;top:2rem;left:5%;display:flex;align-items:center;gap:1.5rem;font-family:"Sweet Sans Pro";font-size:.8rem;text-transform:uppercase;letter-spacing:1px;z-index:100;}
+.nav-logo{height:1.4rem;cursor:pointer;}
+.nav-separator{width:1px;height:1.2rem;background:#ffffff80;}
+.nav-links{display:flex;gap:1.5rem;}
+nav a{color:#fff;text-decoration:none;transition:font-weight .25s;}
+nav a:hover{font-weight:700;}
+.hamburger{display:none;}
+.hamburger span{display:block;width:100%;height:2px;background:#fff;margin:5px 0;transition:.3s;}
 
-        html, body {
-            min-height: 100vh;
-            background: url("/images/fondo_intro_2.png") center/cover no-repeat fixed;
-            color: #fff;
-            font-family: "Area Normal",sans-serif;
-        }
+/* ---------- 4. GALERÍA ---------- */
+.gallery{max-width:1400px;margin:9rem auto 4rem;padding:0 1rem;display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;}
+.project{aspect-ratio:9/7;border-radius:6px;overflow:hidden;transition:filter .3s;}
+.project img{width:100%;height:100%;object-fit:cover;}
 
-        /* ---------- 3. MENÚ ---------- */
-        nav {
-            position: absolute;
-            top: 2rem;
-            left: 5%;
-            display: flex;
-            align-items: center;
-            gap: 1.5rem;
-            font-family: "Sweet Sans Pro";
-            font-size: .8rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            z-index: 100;
-        }
+/* efecto destacado */
+.gallery:hover .project{filter:brightness(55%);}
+.gallery .project:hover{filter:brightness(100%);}
 
-        .nav-logo {
-            height: 1.4rem;
-            cursor: pointer;
-        }
+/* ---------- 5. RESPONSIVE ---------- */
+@media(max-width:1024px){.gallery{grid-template-columns:repeat(2,1fr);} }
+@media(max-width:768px){
+    nav{left:0;right:0;width:100%;justify-content:center;}
+    .nav-logo{margin:auto;}
+    .nav-separator{display:none;}
+    .hamburger{display:block;position:absolute;left:50%;top:2.5rem;width:26px;height:20px;transform:translateX(-50%);cursor:pointer;z-index:101;}
+    .nav-links{display:none;}
+    .nav-links.active{position:fixed;inset:0;background:rgba(0,0,0,.9);display:flex;flex-direction:column;gap:2rem;justify-content:center;align-items:center;font-family:"Moglan Demo","Area Normal",sans-serif;}
 
-        .nav-separator {
-            width: 1px;
-            height: 1.2rem;
-            background: #ffffff80;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 1.5rem;
-        }
-
-        nav a {
-            color: #fff;
-            text-decoration: none;
-            transition: font-weight .25s;
-        }
-
-            nav a:hover {
-                font-weight: 700;
-            }
-
-        .hamburger {
-            display: none;
-        }
-
-            .hamburger span {
-                display: block;
-                width: 100%;
-                height: 2px;
-                background: #fff;
-                margin: 5px 0;
-                transition: .3s;
-            }
-
-        /* ---------- 4. GALERÍA ---------- */
-        .gallery {
-            max-width: 1400px;
-            margin: 9rem auto 4rem;
-            padding: 0 1rem;
-            display: grid;
-            grid-template-columns: repeat(3,1fr);
-            gap: 1rem;
-        }
-
-        .project {
-            aspect-ratio: 9/7;
-            border-radius: 6px;
-            overflow: hidden;
-            transition: filter .3s;
-        }
-
-            .project img {
-                width: 100%;
-                height: 100%;
-                object-fit: cover;
-            }
-
-        /* === EFECTO DESTACADO === */
-        .gallery:hover .project {
-            filter: brightness(55%);
-        }
-
-        .gallery .project:hover {
-            filter: brightness(100%);
-        }
-
-        /* ---------- 5. RESPONSIVE ---------- */
-        @media(max-width:1024px) {
-            .gallery {
-                grid-template-columns: repeat(2,1fr);
-            }
-        }
-
-        @media(max-width:768px) {
-            nav {
-                left: 0;
-                right: 0;
-                width: 100%;
-                justify-content: center;
-            }
-
-            .nav-logo {
-                margin: auto;
-            }
-
-            .nav-separator {
-                display: none;
-            }
-
-            .hamburger {
-                display: block;
-                position: absolute;
-                left: 50%;
-                top: 2.5rem;
-                width: 26px;
-                height: 20px;
-                transform: translateX(-50%);
-                cursor: pointer;
-                z-index: 101;
-            }
-
-            .nav-links {
-                display: none;
-            }
-
-                .nav-links.active {
-                    position: fixed;
-                    inset: 0;
-                    background: rgba(0,0,0,.9);
-                    display: flex;
-                    flex-direction: column;
-                    gap: 2rem;
-                    justify-content: center;
-                    align-items: center;
-                    font-family: "Moglan Demo","Area Normal",sans-serif;
-                }
-
-            .gallery {
-                grid-template-columns: 1fr;
-                gap: 1.5rem;
-                margin: 8rem auto 3rem;
-            }
-        }
-    </style>
+    .gallery{grid-template-columns:1fr;gap:1.5rem;margin:8rem auto 3rem;}
+}
+</style>
 </head>
 
 <body>
 
-    <!-- ======= MENÚ ======= -->
-    <nav>
-        <a href="index.html"><img src="images/BLANCA_NAME.png" class="nav-logo" alt="Home"></a>
-        <span class="nav-separator"></span>
-        <div class="nav-links" id="navLinks">
-            <a href="projects.html">Projects</a>
-            <a href="skills.html">Skills</a>
-            <a href="about.html">About</a>
-            <a href="contact.html">Contact</a>
-            <a href="inquiry.html">Inquiry</a>
-        </div>
-        <span class="hamburger" id="hamburger"><span></span><span></span><span></span></span>
-    </nav>
+<!-- ======= MENÚ ======= -->
+<nav>
+    <a href="index.html"><img src="images/BLANCA_NAME.png" class="nav-logo" alt="Home"></a>
+    <span class="nav-separator"></span>
+    <div class="nav-links" id="navLinks">
+        <a href="projects.html">Projects</a>
+        <a href="skills.html">Skills</a>
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
+        <a href="inquiry.html">Inquiry</a>
+    </div>
+    <span class="hamburger" id="hamburger"><span></span><span></span><span></span></span>
+</nav>
 
-    <!-- ======= GALERÍA ======= -->
-    <section class="gallery">
-        <a class="project" href="alphabook.html"><img src="images/ALPHABOOK_2.png" alt="Project 1"></a>
-        <a class="project" href="espacio_br44.html"><img src="images/ESPACIOBR_2.png" alt="Project 2"></a>
-        <a class="project" href="fernandodecarcer.html"><img src="images/FERNANDO DE CARCER_2.png" alt="Project 3"></a>
-        <a class="project" href="filtroo.html"><img src="images/filtroo.png" alt="Project 4"></a>
+<!-- ======= GALERÍA ======= -->
+<section class="gallery">
+    <a class="project" href="alphabook.html"><img src="images/ALPHABOOK_2.png"    alt="Project 1"></a>
+    <a class="project" href="espacio_br44.html"><img src="images/ESPACIOBR_2.png" alt="Project 2"></a>
+    <a class="project" href="fernandodecarcer.html"><img src="images/FERNANDO DE CARCER_2.png" alt="Project 3"></a>
+    <a class="project" href="filtroo.html"><img src="images/filtroo.png"           alt="Project 4"></a>
+    <a class="project" href="lepistanuda.html"><img src="images/lepista_nuda.png"  alt="Project 5"></a>
+    <a class="project" href="longevitas.html"><img src="images/longevitas.png"     alt="Project 6"></a>
+    <a class="project" href="mindtheseas.html"><img src="images/MIND_seas.png"     alt="Project 7"></a>
+    <a class="project" href="montenegrobrokers.html"><img src="images/montenegro.png" alt="Project 8"></a>
+    <a class="project" href="selavysuperfoods.html"><img src="images/selavy.png"   alt="Project 9"></a>
+    <a class="project" href="taylorvest.html"><img src="images/taylorvest.png"     alt="Project 10"></a>
+    <a class="project" href="thetag.html"><img src="images/the_tag.png"            alt="Project 11"></a>
+    <a class="project" href="proposals.html"><img src="images/PROPOSALS.png"       alt="Project 12"></a>
+</section>
 
-        <a class="project" href="lepistanuda.html"><img src="images/lepista_nuda.png" alt="Project 5"></a>
-        <a class="project" href="longevitas.html"><img src="images/longevitas.png" alt="Project 6"></a>
-        <a class="project" href="mindtheseas.html"><img src="images/MIND_seas.png" alt="Project 7"></a>
-        <a class="project" href="montenegrobrokers.html"><img src="images/montenegro.png" alt="Project 8"></a>
-        <a class="project" href="selavysuperfoods.html"><img src="images/selavy.png" alt="Project 9"></a>
-        <a class="project" href="taylorvest.html"><img src="images/taylorvest.png" alt="Project 10"></a>
-        <a class="project" href="thetag.html"><img src="images/the_tag.png" alt="Project 11"></a>
-        <a class="project" href="proposals.html"><img src="images/PROPOSALS.png" alt="Project 12"></a>
-    </section>
-
-
-    <!-- ======= JS: hamburguesa ======= -->
-    <script>
-        document.getElementById("hamburger").addEventListener("click", () => {
-            document.getElementById("navLinks").classList.toggle("active");
-        });
-    </script>
+<!-- ======= JS: hamburguesa ======= -->
+<script>
+document.getElementById("hamburger")
+        .addEventListener("click",()=>document.getElementById("navLinks").classList.toggle("active"));
+</script>
 
 </body>
 </html>
