@@ -1,6 +1,6 @@
 <!-- =========================================================
-     skills.html – 4×2 cuadrada, menos espacio horizontal
-     (único cambio: fondo inmóvil mediante ::before)
+     skills.html – Galería 4×2 con estructura unificada “alphabook”
+     (menú común · fondo inmóvil · grid compacto)
 ========================================================= -->
 <!DOCTYPE html>
 <html lang="es">
@@ -15,28 +15,23 @@
 @font-face{font-family:"Sweet Sans Pro";src:url("/fonts/SWEETSANSPROREGULAR.OTF") format("opentype");}
 @font-face{font-family:"Moglan Demo";src:url("/fonts/MOGLAN_DEMO.TTF") format("truetype");}
 
-/* ---------- 2. RESET & FONDO INMÓVIL ---------- */
+/* ---------- 2. RESET ---------- */
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 
+/* ---------- 3. FONDO INMÓVIL ---------- */
 html,body{height:100%;}
 body{
-    position:relative;                      /* stacking-context */
-    color:#fff;
-    font-family:"Area Normal",sans-serif;
+    background:url("/images/fondo_intro_2.png") center/cover no-repeat fixed;
+    color:#fff;font-family:"Area Normal",sans-serif;
 }
-/* capa fija que funciona también en móvil */
 body::before{
-    content:"";
-    position:fixed;
-    inset:0;
+    content:"";position:fixed;inset:0;
     background:url("/images/fondo_intro_2.png") center/cover no-repeat;
-    z-index:-1;
-    pointer-events:none;
-    transform:translateZ(0);
+    z-index:-1;pointer-events:none;transform:translateZ(0);
 }
 
-/* ---------- 3. MENÚ ---------- */
-nav{position:absolute;top:2rem;left:5%;display:flex;align-items:center;gap:1.5rem;font-family:"Sweet Sans Pro";font-size:.8rem;text-transform:uppercase;letter-spacing:1px;z-index:100;}
+/* ---------- 4. MENÚ ---------- */
+nav{position:absolute;top:2rem;left:5%;display:flex;align-items:center;gap:1.5rem;font-family:"Sweet Sans Pro";font-size:.8rem;letter-spacing:1px;text-transform:uppercase;z-index:100;}
 .nav-logo{height:1.4rem;cursor:pointer;}
 .nav-separator{width:1px;height:1.2rem;background:#ffffff80;}
 .nav-links{display:flex;gap:1.5rem;}
@@ -45,7 +40,7 @@ nav a:hover{font-weight:700;}
 .hamburger{display:none;}
 .hamburger span{display:block;width:100%;height:2px;background:#fff;margin:5px 0;}
 
-/* ---------- 4. SKILLS GRID ---------- */
+/* ---------- 5. SKILLS GRID ---------- */
 :root{--size:150px;}
 
 .skills-wrapper{max-width:1000px;margin:14rem auto 4rem;padding:0 1rem;}
@@ -53,7 +48,7 @@ nav a:hover{font-weight:700;}
 .skill{width:var(--size);aspect-ratio:1/1;border-radius:6px;overflow:hidden;}
 .skill img{width:100%;height:100%;object-fit:cover;}
 
-/* ---------- 5. RESPONSIVE ---------- */
+/* ---------- 6. RESPONSIVE ---------- */
 @media(max-width:1024px){.skills-grid{grid-template-columns:repeat(3,1fr);} }
 @media(max-width:768px){
     nav{left:0;right:0;width:100%;justify-content:center;}
@@ -74,7 +69,7 @@ nav a:hover{font-weight:700;}
 
 <!-- ======= MENÚ ======= -->
 <nav>
-    <a href="index.html#skipIntro"><img src="images/BLANCA_NAME.png" class="nav-logo" alt="Home"></a>
+    <a href="index.html#skipIntro"><img src="/images/BLANCA_NAME.png" class="nav-logo" alt="Home"></a>
     <span class="nav-separator"></span>
     <div class="nav-links" id="navLinks">
         <a href="projects.html">Projects</a>
@@ -89,21 +84,21 @@ nav a:hover{font-weight:700;}
 <!-- ======= SKILLS GRID ======= -->
 <section class="skills-wrapper">
     <div class="skills-grid">
-        <div class="skill"><img src="images/3d.png"             alt="Skill 1"></div>
-        <div class="skill"><img src="images/motion.png"         alt="Skill 2"></div>
-        <div class="skill"><img src="images/graphic.png"        alt="Skill 3"></div>
-        <div class="skill"><img src="images/branding.png"       alt="Skill 4"></div>
-        <div class="skill"><img src="images/logo.png"           alt="Skill 5"></div>
-        <div class="skill"><img src="images/illustration_2.png" alt="Skill 6"></div>
-        <div class="skill"><img src="images/web.png"            alt="Skill 7"></div>
-        <div class="skill"><img src="images/web_3.png"          alt="Skill 8"></div>
+        <div class="skill"><img src="images/3d.png"             alt="Skill 3D"></div>
+        <div class="skill"><img src="images/motion.png"         alt="Motion Graphics"></div>
+        <div class="skill"><img src="images/graphic.png"        alt="Graphic Design"></div>
+        <div class="skill"><img src="images/branding.png"       alt="Branding"></div>
+        <div class="skill"><img src="images/logo.png"           alt="Logo Design"></div>
+        <div class="skill"><img src="images/illustration_2.png" alt="Illustration"></div>
+        <div class="skill"><img src="images/web.png"            alt="Web Design"></div>
+        <div class="skill"><img src="images/web_3.png"          alt="Web Dev"></div>
     </div>
 </section>
 
-<!-- ======= JS: hamburger ======= -->
+<!-- ======= JS: hamburguesa ======= -->
 <script>
-document.getElementById("hamburger")
-        .addEventListener("click",()=>document.getElementById("navLinks").classList.toggle("active"));
+document.getElementById('hamburger')
+        .addEventListener('click',()=>document.getElementById('navLinks').classList.toggle('active'));
 </script>
 
 </body>
