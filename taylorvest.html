@@ -1,6 +1,6 @@
 <!-- =========================================================
      taylorvest.html – Misma estructura “alphabook”
-     (menú unificado, fondo inmóvil, filtros y branding grid)
+     (menú unificado · fondo inmóvil · filtros · visor centrado)
 ========================================================= -->
 <!DOCTYPE html>
 <html lang="es">
@@ -9,8 +9,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>TAYLORVEST – Project</title>
 
-<!-- ---------- 1. FUENTES ---------- -->
 <style>
+/* ---------- 1. FUENTES ---------- */
 @font-face{font-family:"Area Normal";src:url("/fonts/AreaNormal.woff2") format("woff2"),url("/fonts/AreaNormal.woff") format("woff");}
 @font-face{font-family:"Sweet Sans Pro";src:url("/fonts/SWEETSANSPROREGULAR.OTF") format("opentype");}
 @font-face{font-family:"Moglan Demo";src:url("/fonts/MOGLAN_DEMO.TTF") format("truetype");}
@@ -40,7 +40,7 @@ nav a:hover{font-weight:700;}
 .hamburger{display:none;}
 .hamburger span{display:block;width:100%;height:2px;background:#fff;margin:5px 0;}
 
-/* ---------- 5. WRAPPER ---------- */
+/* ---------- 5. CONTENEDOR PRINCIPAL ---------- */
 .wrapper{max-width:90rem;margin:11rem auto 6rem;padding:0 1rem;display:flex;flex-direction:column;gap:4rem;}
 
 /* ---------- 6. CABECERA ---------- */
@@ -51,27 +51,37 @@ h2{font-family:"Sweet Sans Pro";font-weight:300;font-size:.9rem;letter-spacing:.
 .filter-btn::after{content:"";position:absolute;left:0;bottom:-.2rem;width:0;height:1px;background:#fff;transition:.3s;}
 .filter-btn.active::after{width:100%;}
 
-/* ---------- 7. SECCIONES ---------- */
-.section{display:block;}
-.section[data-cat]{transition:opacity .25s;}
+/* ---------- 7. GALERÍA / GRID ---------- */
+.gallery-section{display:flex;flex-direction:column;gap:.6rem;}
+.media-row{display:grid;gap:.6rem;}
+.media-row.cols-1{grid-template-columns:1fr;}
+.media-row.cols-2{grid-template-columns:repeat(2,1fr);}
+.media-row.cols-3{grid-template-columns:repeat(3,1fr);}
+.media-row.cols-4{grid-template-columns:repeat(4,1fr);}
+.media-row.cols-5{grid-template-columns:repeat(5,1fr);}           /* extra para 5 columnas */
+.gallery-section.tight .media-row{gap:.3rem;}
 
-/* LOGO */
-.logo-box{margin:0 auto;text-align:center;}
-.logo-box img{max-width:420px;width:80%;height:auto;}
+.thumb{position:relative;cursor:pointer;border-radius:6px;overflow:visible;}
+.thumb video,.thumb img{width:100%;height:100%;object-fit:cover;border-radius:6px;transition:transform .3s;}
+.thumb:hover video,.thumb:hover img{transform:scale(1.05);}
 
-/* PALETA COLORES */
+/* ---------- 8. PALETA DE COLORES ---------- */
 .palette{display:flex;justify-content:center;gap:2.4rem;margin-top:3rem;flex-wrap:wrap;}
 .swatch{display:flex;flex-direction:column;align-items:center;gap:.6rem;font-family:"Sweet Sans Pro";font-size:.65rem;letter-spacing:.05rem;}
 .block{width:120px;height:120px;border-radius:6px;}
 
-/* GRID IMÁGENES BRANDING */
-.row-grid{display:grid;gap:.6rem;margin-top:3rem;}
-.row-5{grid-template-columns:repeat(5,1fr);}
-.row-4{grid-template-columns:repeat(4,1fr);}
-.row-grid img{width:100%;height:100%;object-fit:cover;border-radius:6px;}
+/* ---------- 9. VISOR ---------- */
+.viewer{position:fixed;inset:0;background:rgba(0,0,0,.9);display:none;justify-content:center;align-items:center;z-index:200;padding:1rem;}
+.viewer.open{display:flex;}
+.viewer-content{position:relative;display:flex;justify-content:center;align-items:center;}
+.viewer-content video,.viewer-content img{width:auto;height:auto;max-width:90vw;max-height:90vh;object-fit:contain;border-radius:6px;}
+.viewer-close{position:absolute;top:-2rem;right:0;font-size:2rem;background:none;border:none;color:#fff;cursor:pointer;}
 
-/* ---------- 8. RESPONSIVE ---------- */
-@media(max-width:1024px){.row-5{grid-template-columns:repeat(4,1fr);} }
+/* ---------- 10. RESPONSIVE ---------- */
+@media(max-width:1024px){
+    .media-row.cols-5{grid-template-columns:repeat(4,1fr);}
+    .media-row.cols-4{grid-template-columns:repeat(3,1fr);}
+}
 @media(max-width:768px){
     nav{left:0;right:0;width:100%;justify-content:center;}
     .nav-logo{margin:auto;}
@@ -82,8 +92,8 @@ h2{font-family:"Sweet Sans Pro";font-weight:300;font-size:.9rem;letter-spacing:.
 
     .palette{gap:1.2rem;}
     .block{width:90px;height:90px;}
-    .row-5{grid-template-columns:repeat(2,1fr);}
-    .row-4{grid-template-columns:repeat(2,1fr);}
+    .media-row.cols-5,.media-row.cols-4{grid-template-columns:repeat(2,1fr);}
+    .viewer-content video,.viewer-content img{max-width:95vw;max-height:85vh;}
 }
 </style>
 </head>
@@ -118,15 +128,15 @@ h2{font-family:"Sweet Sans Pro";font-weight:300;font-size:.9rem;letter-spacing:.
         </div>
     </header>
 
-    <!-- ---------- SECCIÓN LOGO ---------- -->
-    <section class="section" data-cat="logo">
-        <div class="logo-box">
-            <img src="TAYLORVEST/LOGO_PNG_white.png" alt="Taylorvest logo blanco">
+    <!-- ===== SECCIÓN LOGO (1) ===== -->
+    <section class="gallery-section cat-logo" data-cat="logo">
+        <div class="media-row cols-1">
+            <div class="thumb"><img src="TAYLORVEST/LOGO_PNG_white.png" alt="Taylorvest logo blanco"></div>
         </div>
     </section>
 
-    <!-- ---------- SECCIÓN PALETA COLORES ---------- -->
-    <section class="section" data-cat="branding">
+    <!-- ===== SECCIÓN PALETA DE COLORES ===== -->
+    <section class="gallery-section cat-branding" data-cat="branding">
         <div class="palette">
             <div class="swatch"><div class="block" style="background:#002a54"></div><span>#002a54</span></div>
             <div class="swatch"><div class="block" style="background:#f7f6f6"></div><span>#f7f6f6</span></div>
@@ -135,49 +145,85 @@ h2{font-family:"Sweet Sans Pro";font-weight:300;font-size:.9rem;letter-spacing:.
         </div>
     </section>
 
-    <!-- ---------- SECCIÓN IMÁGENES BRANDING ---------- -->
-    <section class="section" data-cat="branding">
-        <div class="row-grid row-5">
-            <img src="TAYLORVEST/1.jpg" alt="">
-            <img src="TAYLORVEST/2.jpg" alt="">
-            <img src="TAYLORVEST/3.jpg" alt="">
-            <img src="TAYLORVEST/4.jpg" alt="">
-            <img src="TAYLORVEST/9.jpg" alt="">
+    <!-- ===== SECCIÓN IMÁGENES BRANDING ===== -->
+    <section class="gallery-section cat-branding tight" data-cat="branding">
+        <!-- Fila de 5 -->
+        <div class="media-row cols-5">
+            <div class="thumb"><img src="TAYLORVEST/1.jpg" alt=""></div>
+            <div class="thumb"><img src="TAYLORVEST/2.jpg" alt=""></div>
+            <div class="thumb"><img src="TAYLORVEST/3.jpg" alt=""></div>
+            <div class="thumb"><img src="TAYLORVEST/4.jpg" alt=""></div>
+            <div class="thumb"><img src="TAYLORVEST/9.jpg" alt=""></div>
         </div>
 
-        <div class="row-grid row-4" style="margin-top:.6rem">
-            <img src="TAYLORVEST/5.jpg" alt="">
-            <img src="TAYLORVEST/6.jpg" alt="">
-            <img src="TAYLORVEST/7.jpg" alt="">
-            <img src="TAYLORVEST/8.jpg" alt="">
+        <!-- Fila de 4 -->
+        <div class="media-row cols-4">
+            <div class="thumb"><img src="TAYLORVEST/5.jpg" alt=""></div>
+            <div class="thumb"><img src="TAYLORVEST/6.jpg" alt=""></div>
+            <div class="thumb"><img src="TAYLORVEST/7.jpg" alt=""></div>
+            <div class="thumb"><img src="TAYLORVEST/8.jpg" alt=""></div>
         </div>
     </section>
 
 </main>
 
+<!-- ========== VISOR ========== -->
+<div class="viewer" id="viewer">
+    <div class="viewer-content" id="viewerContent"></div>
+    <button class="viewer-close" id="viewerClose" aria-label="Close">✕</button>
+</div>
+
 <script>
+/* ---------- FORZAR AUTOPLAY EN iOS / ANDROID ---------- */
+document.addEventListener('DOMContentLoaded',()=>{
+  document.querySelectorAll('.thumb video').forEach(v=>{
+      v.muted=true;
+      v.setAttribute('playsinline','');
+      v.setAttribute('preload','auto');
+      v.play().catch(()=>{});   // silencio si falla en primer intento
+  });
+});
+
 /* ---------- menú hamburguesa ---------- */
 document.getElementById('hamburger')
         .addEventListener('click',()=>document.getElementById('navLinks').classList.toggle('active'));
 
+/* ---------- visor ---------- */
+const viewer      = document.getElementById('viewer');
+const viewerCont  = document.getElementById('viewerContent');
+const viewerClose = document.getElementById('viewerClose');
+
+document.querySelectorAll('.thumb').forEach(t=>t.addEventListener('click',()=>openViewer(t)));
+function openViewer(thumb){
+    viewer.classList.add('open');
+    viewerCont.innerHTML='';
+    const node = thumb.firstElementChild.cloneNode(true);
+    if(node.tagName==='VIDEO'){
+        node.muted=false;
+        node.loop=true;
+        node.controls=true;
+        node.currentTime=0;
+        node.play();
+    }
+    viewerCont.appendChild(node);
+}
+function closeViewer(){viewer.classList.remove('open');viewerCont.innerHTML='';}
+viewerClose.addEventListener('click',closeViewer);
+viewer.addEventListener('click',e=>{if(e.target===viewer)closeViewer();});
+
 /* ---------- filtros ---------- */
-const buttons=document.querySelectorAll('.filter-btn');
-const sections=document.querySelectorAll('.section');
+const buttons  = document.querySelectorAll('.filter-btn');
+const sections = document.querySelectorAll('.gallery-section');
 
 buttons.forEach(btn=>{
-  btn.addEventListener('click',()=>{
-    buttons.forEach(b=>b.classList.remove('active'));
-    btn.classList.add('active');
-    const filter=btn.dataset.filter;
-    sections.forEach(sec=>{
-        if(filter==='all'){
-            sec.style.display='';
-        }else{
-            const cats=sec.dataset.cat.split(' ');
-            sec.style.display=cats.includes(filter)?'':'none';
-        }
+    btn.addEventListener('click',()=>{
+        buttons.forEach(b=>b.classList.remove('active'));
+        btn.classList.add('active');
+        const filter=btn.dataset.filter;
+        sections.forEach(sec=>{
+            sec.style.display=(filter==='all'||sec.dataset.cat===filter)?'':'none';
+        });
     });
-  });
 });
 </script>
 
