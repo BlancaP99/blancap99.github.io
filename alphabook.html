@@ -1,6 +1,6 @@
 <!-- =========================================================
-     alphabook.html  –  Galería con filtros y visor centrado
-     (misma estructura original · fondo inmóvil · vídeos SIEMPRE en loop)
+     alphabook.html – Galería con filtros y visor centrado
+     (fondo inmóvil · vídeos SIEMPRE en loop · menú idéntico)
 ========================================================= -->
 <!DOCTYPE html>
 <html lang="es">
@@ -198,9 +198,9 @@ function openViewer(thumb){
     viewerCont.innerHTML='';
     const node = thumb.firstElementChild.cloneNode(true);
     if(node.tagName==='VIDEO'){
-        node.muted=false;
+        node.muted=false;          // ▶️ sonido al abrir
         node.controls=true;
-        node.loop=true;              /* 🔁 asegura loop en visor */
+        node.loop=true;            // 🔁 garantiza loop
         node.currentTime=0;
         node.play();
     }
