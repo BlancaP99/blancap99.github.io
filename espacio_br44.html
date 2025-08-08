@@ -1,5 +1,6 @@
-﻿<!-- =========================================================
+<!-- =========================================================
      espaciobr44.html  –  Live preview + logo
+     (fondo inmóvil en desktop y móvil)
      Filtros: All / Web Design / Web Development / Logo Design
 ========================================================= -->
 <!DOCTYPE html>
@@ -10,377 +11,214 @@
     <title>ESPACIO BR·44 – Project</title>
 
     <style>
-        /* ---------- 1. FUENTES ---------- */
-        @font-face {
-            font-family: "Area Normal";
-            src: url("/fonts/AreaNormal.woff2") format("woff2"),url("/fonts/AreaNormal.woff") format("woff");
-        }
+/* ---------- 1. FUENTES ---------- */
+@font-face{font-family:"Area Normal";src:url("/fonts/AreaNormal.woff2") format("woff2"),url("/fonts/AreaNormal.woff") format("woff");}
+@font-face{font-family:"Sweet Sans Pro";src:url("/fonts/SWEETSANSPROREGULAR.OTF") format("opentype");}
+@font-face{font-family:"Moglan Demo";src:url("/fonts/MOGLAN_DEMO.TTF") format("truetype");}
 
-        @font-face {
-            font-family: "Sweet Sans Pro";
-            src: url("/fonts/SWEETSANSPROREGULAR.OTF") format("opentype");
-        }
+/* ---------- 2. RESET & FONDO (inmóvil) ---------- */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 
-        @font-face {
-            font-family: "Moglan Demo";
-            src: url("/fonts/MOGLAN_DEMO.TTF") format("truetype");
-        }
+html,body{height:100%;}
+body{
+    min-height:100vh;
+    color:#fff;
+    font-family:"Area Normal",sans-serif;
+}
+/* capa de fondo fija que nunca se desplaza */
+body::before{
+    content:"";
+    position:fixed;
+    inset:0;
+    background:url("/images/fondo_intro_2.png") center/cover no-repeat;
+    z-index:-1;
+    pointer-events:none;
+    transform:translateZ(0);        /* mejora suavidad en iOS */
+}
 
-        /* ---------- 2. RESET & FONDO ---------- */
-        *, *::before, *::after {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+/* ---------- 3. MENÚ ---------- */
+nav{
+    position:absolute;top:2rem;left:5%;
+    display:flex;align-items:center;gap:1.5rem;
+    font-family:"Sweet Sans Pro";font-size:.8rem;
+    text-transform:uppercase;letter-spacing:1px;
+    z-index:100;
+}
+.nav-logo{height:1.4rem;cursor:pointer;}
+.nav-separator{width:1px;height:1.2rem;background:#ffffff80;}
+.nav-links{display:flex;gap:1.5rem;}
+nav a{color:#fff;text-decoration:none;transition:font-weight .25s;}
+nav a:hover{font-weight:700;}
 
-        body {
-            min-height: 100vh;
-            background: url("/images/fondo_intro_2.png") center/cover no-repeat fixed;
-            color: #fff;
-            font-family: "Area Normal",sans-serif;
-        }
+.hamburger{display:none;}
+.hamburger span{display:block;width:100%;height:2px;background:#fff;margin:5px 0;}
 
-        /* ---------- 3. MENÚ ---------- */
-        nav {
-            position: absolute;
-            top: 2rem;
-            left: 5%;
-            display: flex;
-            align-items: center;
-            gap: 1.5rem;
-            font-family: "Sweet Sans Pro";
-            font-size: .8rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            z-index: 100;
-        }
+/* ---------- 4. WRAPPER ---------- */
+.wrapper{
+    max-width:90rem;
+    margin:11rem auto 6rem;
+    padding:0 1rem;
+    display:flex;flex-direction:column;gap:4rem;
+}
 
-        .nav-logo {
-            height: 1.4rem;
-            cursor: pointer;
-        }
+/* ---------- 5. CABECERA ---------- */
+h1{
+    font-family:"Moglan Demo";
+    font-size:1.4rem;font-weight:200;letter-spacing:.1rem;
+    text-align:center;margin-bottom:.3rem;
+}
+h2{
+    font-family:"Sweet Sans Pro";
+    font-weight:300;font-size:.9rem;letter-spacing:.2rem;
+    text-align:center;
+}
+.filter-bar{
+    margin:2rem auto 0;display:flex;gap:1.2rem;justify-content:center;flex-wrap:wrap;
+}
+.filter-btn{
+    background:none;border:none;color:#fff;cursor:pointer;
+    font-family:"Sweet Sans Pro";font-size:.75rem;letter-spacing:.1rem;
+    text-transform:uppercase;position:relative;
+}
+.filter-btn.active::after{
+    content:"";position:absolute;left:0;bottom:-.2rem;width:100%;height:1px;background:#fff;
+}
 
-        .nav-separator {
-            width: 1px;
-            height: 1.2rem;
-            background: #ffffff80;
-        }
+/* ---------- 6. SECCIONES ---------- */
+.section{display:block;transition:opacity .25s;}
+.web-box{
+    position:relative;margin:3.2rem auto 0;width:100%;max-width:1200px;
+    border-radius:12px;overflow:hidden;
+}
+.full-link{
+    position:absolute;top:.6rem;right:.9rem;z-index:10;
+    display:inline-flex;align-items:center;gap:.3rem;
+    font-family:"Sweet Sans Pro";font-size:.75rem;letter-spacing:.05rem;
+    text-transform:uppercase;color:#fff;text-decoration:none;
+    background:rgba(0,0,0,.65);padding:.25rem .6rem;border-radius:6px;
+}
+.full-link svg{width:.65rem;height:.65rem;fill:#fff;transform:rotate(30deg);}
 
-        .nav-links {
-            display: flex;
-            gap: 1.5rem;
-        }
+.scale-wrapper{
+    transform:scale(.85);transform-origin:top left;
+    width:117.647%;height:117.647%;
+}
+.web-box iframe{
+    width:100%;height:90vh;max-height:1000px;border:0;border-radius:12px;
+}
 
-        nav a {
-            color: #fff;
-            text-decoration: none;
-            transition: font-weight .25s;
-        }
+.logo-box{margin:2.5rem auto 0;text-align:center;}
+.logo-box img{max-width:460px;width:80%;height:auto;border-radius:8px;}
 
-            nav a:hover {
-                font-weight: 700;
-            }
+/* ---------- 7. RESPONSIVE ---------- */
+@media(max-width:768px){
+    nav{left:0;right:0;width:100%;justify-content:center;}
+    .nav-logo{margin:auto;}
+    .nav-separator{display:none;}
 
-        .hamburger {
-            display: none;
-        }
+    .hamburger{
+        display:block;position:absolute;left:50%;top:2.5rem;
+        width:26px;height:20px;transform:translateX(-50%);
+        cursor:pointer;z-index:101;
+    }
+    .nav-links{display:none;}
+    .nav-links.active{
+        position:fixed;inset:0;background:rgba(0,0,0,.9);
+        display:flex;flex-direction:column;gap:2rem;justify-content:center;align-items:center;
+        font-family:"Moglan Demo","Area Normal",sans-serif;
+    }
 
-            .hamburger span {
-                display: block;
-                width: 100%;
-                height: 2px;
-                background: #fff;
-                margin: 5px 0;
-            }
-
-        /* ---------- 4. WRAPPER ---------- */
-        .wrapper {
-            max-width: 90rem;
-            margin: 11rem auto 6rem;
-            padding: 0 1rem;
-            display: flex;
-            flex-direction: column;
-            gap: 4rem;
-        }
-
-        /* ---------- 5. CABECERA ---------- */
-        h1 {
-            font-family: "Moglan Demo";
-            font-size: 1.4rem;
-            font-weight: 200;
-            letter-spacing: .1rem;
-            text-align: center;
-            margin-bottom: .3rem;
-        }
-
-        h2 {
-            font-family: "Sweet Sans Pro";
-            font-weight: 300;
-            font-size: .9rem;
-            letter-spacing: .2rem;
-            text-align: center;
-        }
-
-        .filter-bar {
-            margin: 2rem auto 0;
-            display: flex;
-            gap: 1.2rem;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
-        .filter-btn {
-            background: none;
-            border: none;
-            color: #fff;
-            font-family: "Sweet Sans Pro";
-            font-size: .75rem;
-            letter-spacing: .1rem;
-            text-transform: uppercase;
-            cursor: pointer;
-            position: relative;
-        }
-
-            .filter-btn.active::after {
-                content: "";
-                position: absolute;
-                left: 0;
-                bottom: -.2rem;
-                width: 100%;
-                height: 1px;
-                background: #fff;
-            }
-
-        /* ---------- 6. SECCIONES ---------- */
-        .section {
-            display: block;
-        }
-
-            .section[data-cat] {
-                transition: opacity .25s;
-            }
-
-        .web-box {
-            position: relative;
-            margin: 3.2rem auto 0;
-            width: 100%;
-            max-width: 1200px;
-            border-radius: 12px;
-            overflow: hidden;
-        }
-
-        .full-link {
-            position: absolute;
-            top: .6rem;
-            right: .9rem;
-            z-index: 10;
-            display: inline-flex;
-            align-items: center;
-            gap: .3rem;
-            font-family: "Sweet Sans Pro";
-            font-size: .75rem;
-            letter-spacing: .05rem;
-            text-transform: uppercase;
-            color: #fff;
-            text-decoration: none;
-            background: rgba(0,0,0,.65);
-            padding: .25rem .6rem;
-            border-radius: 6px;
-        }
-
-            .full-link svg {
-                width: .65rem;
-                height: .65rem;
-                fill: #fff;
-                transform: rotate(30deg);
-            }
-
-        .scale-wrapper {
-            transform: scale(.85);
-            transform-origin: top left;
-            width: 117.647%;
-            height: 117.647%;
-        }
-
-        .web-box iframe {
-            width: 100%;
-            height: 90vh;
-            max-height: 1000px;
-            border: 0;
-            border-radius: 12px;
-        }
-
-        .logo-box {
-            margin: 2.5rem auto 0;
-            text-align: center;
-        }
-
-            .logo-box img {
-                max-width: 460px;
-                width: 80%;
-                height: auto;
-                border-radius: 8px;
-            }
-
-        /* ---------- 7. RESPONSIVE (≤768 px) ---------- */
-        @media(max-width:768px) {
-            nav {
-                left: 0;
-                right: 0;
-                width: 100%;
-                justify-content: center;
-            }
-
-            .nav-logo {
-                margin: auto;
-            }
-
-            .nav-separator {
-                display: none;
-            }
-
-            .hamburger {
-                display: block;
-                position: absolute;
-                left: 50%;
-                top: 2.5rem;
-                width: 26px;
-                height: 20px;
-                transform: translateX(-50%);
-                cursor: pointer;
-                z-index: 101;
-            }
-
-            .nav-links {
-                display: none;
-            }
-
-                .nav-links.active {
-                    position: fixed;
-                    inset: 0;
-                    background: rgba(0,0,0,.9);
-                    display: flex;
-                    flex-direction: column;
-                    gap: 2rem;
-                    justify-content: center;
-                    align-items: center;
-                    font-family: "Moglan Demo","Area Normal",sans-serif;
-                }
-
-            .web-box {
-                max-width: 380px;
-                border-radius: 22px;
-                margin: 3rem auto 0;
-            }
-
-            .scale-wrapper {
-                transform: none;
-                width: 100%;
-                height: 100%;
-            }
-
-            .web-box iframe {
-                height: 700px;
-                border-radius: 22px;
-            }
-
-            .full-link {
-                top: .8rem;
-                right: .8rem;
-                background: rgba(0,0,0,.7);
-            }
-
-            .logo-box img {
-                max-width: 300px;
-            }
-        }
+    .web-box{max-width:380px;border-radius:22px;margin:3rem auto 0;}
+    .scale-wrapper{transform:none;width:100%;height:100%;}
+    .web-box iframe{height:700px;border-radius:22px;}
+    .full-link{top:.8rem;right:.8rem;background:rgba(0,0,0,.7);}
+    .logo-box img{max-width:300px;}
+}
     </style>
 </head>
-
 <body>
 
-    <!-- ---------- MENÚ ---------- -->
-    <nav>
-        <a href="index.html#skipIntro"><img src="/images/BLANCA_NAME.png" class="nav-logo" alt="Home"></a>
-        <span class="nav-separator"></span>
+<!-- ---------- MENÚ ---------- -->
+<nav>
+    <a href="index.html#skipIntro"><img src="/images/BLANCA_NAME.png" class="nav-logo" alt="Home"></a>
+    <span class="nav-separator"></span>
 
-        <div class="nav-links" id="navLinks">
-            <a href="projects.html">Projects</a>
-            <a href="skills.html">Skills</a>
-            <a href="about.html">About</a>
-            <a href="contact.html">Contact</a>
-            <a href="inquiry.html">Inquiry</a>
+    <div class="nav-links" id="navLinks">
+        <a href="projects.html">Projects</a>
+        <a href="skills.html">Skills</a>
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
+        <a href="inquiry.html">Inquiry</a>
+    </div>
+
+    <span class="hamburger" id="hamburger"><span></span><span></span><span></span></span>
+</nav>
+
+<main class="wrapper">
+
+    <!-- ---------- CABECERA ---------- -->
+    <header>
+        <h1>ESPACIO&nbsp;BR·44</h1>
+        <h2>CO-WORKING&nbsp;DEPORTIVO</h2>
+
+        <div class="filter-bar">
+            <button class="filter-btn active" data-filter="all">All</button>
+            <button class="filter-btn" data-filter="web">Web&nbsp;Design</button>
+            <button class="filter-btn" data-filter="dev">Web&nbsp;Development</button>
+            <button class="filter-btn" data-filter="logo">Logo&nbsp;Design</button>
+        </div>
+    </header>
+
+    <!-- ---------- SECCIÓN WEB ---------- -->
+    <section class="section" data-cat="web dev">
+
+        <div class="web-box">
+            <a href="https://www.espaciobr44.com/" target="_blank" class="full-link">
+                View full site
+                <svg viewBox="0 0 24 24"><path d="M5 12h14M13 5l6 7-6 7" /></svg>
+            </a>
+
+            <div class="scale-wrapper">
+                <iframe src="https://www.espaciobr44.com/" loading="lazy"></iframe>
+            </div>
         </div>
 
-        <span class="hamburger" id="hamburger"><span></span><span></span><span></span></span>
-    </nav>
+    </section>
 
-    <main class="wrapper">
+    <!-- ---------- SECCIÓN LOGO ---------- -->
+    <section class="section" data-cat="logo">
+        <div class="logo-box">
+            <img src="ESPACIOBR/BLANCO.png" alt="ESPACIO BR·44 logo blanco">
+        </div>
+    </section>
 
-        <!-- ---------- CABECERA ---------- -->
-        <header>
-            <h1>ESPACIO&nbsp;BR·44</h1>
-            <h2>CO-WORKING&nbsp;DEPORTIVO</h2>
+</main>
 
-            <div class="filter-bar">
-                <button class="filter-btn active" data-filter="all">All</button>
-                <button class="filter-btn" data-filter="web">Web&nbsp;Design</button>
-                <button class="filter-btn" data-filter="dev">Web&nbsp;Development</button>
-                <button class="filter-btn" data-filter="logo">Logo&nbsp;Design</button>
-            </div>
-        </header>
+<script>
+/* hamburguesa */
+document.getElementById('hamburger')
+        .addEventListener('click',()=>document.getElementById('navLinks').classList.toggle('active'));
 
-        <!-- ---------- SECCIÓN ­WEB ---------- -->
-        <section class="section" data-cat="web dev">
+/* filtros */
+const buttons  = document.querySelectorAll('.filter-btn');
+const sections = document.querySelectorAll('.section');
 
-            <div class="web-box">
-
-                <a href="https://www.espaciobr44.com/" target="_blank" class="full-link">
-                    View full site
-                    <svg viewBox="0 0 24 24"><path d="M5 12h14M13 5l6 7-6 7" /></svg>
-                </a>
-
-                <div class="scale-wrapper">
-                    <iframe src="https://www.espaciobr44.com/" loading="lazy"></iframe>
-                </div>
-            </div>
-
-        </section>
-
-        <!-- ---------- SECCIÓN ­LOGO ---------- -->
-        <section class="section" data-cat="logo">
-            <div class="logo-box">
-                <img src="ESPACIOBR/BLANCO.png" alt="ESPACIO BR·44 logo blanco">
-            </div>
-        </section>
-
-    </main>
-
-    <script>
-        /* hamburguesa */
-        document.getElementById('hamburger')
-            .addEventListener('click', () => document.getElementById('navLinks').classList.toggle('active'));
-
-        /* filtros */
-        const buttons = document.querySelectorAll('.filter-btn');
-        const sections = document.querySelectorAll('.section');
-
-        buttons.forEach(btn => {
-            btn.addEventListener('click', () => {
-                buttons.forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-                const filter = btn.dataset.filter;
-                sections.forEach(sec => {
-                    if (filter === 'all') {
-                        sec.style.display = '';
-                    } else {
-                        const cats = sec.dataset.cat.split(' ');
-                        sec.style.display = cats.includes(filter) ? '' : 'none';
-                    }
-                });
-            });
+buttons.forEach(btn=>{
+    btn.addEventListener('click',()=>{
+        buttons.forEach(b=>b.classList.remove('active'));
+        btn.classList.add('active');
+        const filter = btn.dataset.filter;
+        sections.forEach(sec=>{
+            if(filter==='all'){
+                sec.style.display='';
+            }else{
+                const cats = sec.dataset.cat.split(' ');
+                sec.style.display = cats.includes(filter)?'':'none';
+            }
         });
-    </script>
+    });
+});
+</script>
 
 </body>
 </html>
