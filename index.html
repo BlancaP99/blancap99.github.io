@@ -1,5 +1,7 @@
 <!-- =============================
-     index.html — intro solo 1ª vez + fondo inmóvil (desktop + móvil)
+     index.html — intro solo 1ª vez + fondo inmóvil (desktop y móvil)
+     ▶  Video intro vuelve a ocupar TODA la pantalla en móvil
+     ▶  Sigue reproduciéndose en loop/autoplay
 ============================= -->
 <!DOCTYPE html>
 <html lang="es">
@@ -18,7 +20,7 @@
 /* ---------- 2. RESET ---------- */
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 
-/* ---------- 3. FONDO INMÓVIL (desktop + móvil) ---------- */
+/* ---------- 3. FONDO INMÓVIL ---------- */
 html,body{height:100%;}
 body{
     position:relative;
@@ -29,9 +31,8 @@ body::before{
     content:"";
     position:fixed;inset:0;
     background:url("images/fondo_intro_2.png") center/cover no-repeat;
-    z-index:-1;
-    pointer-events:none;
-    transform:translateZ(0);          /* evita “parpadeo” al hacer scroll en iOS */
+    z-index:-1;pointer-events:none;
+    transform:translateZ(0);
 }
 
 /* ---------- 4. INTRO ---------- */
@@ -43,15 +44,11 @@ body::before{
 .intro video{
     position:absolute;inset:0;
     width:100%;height:100%;
-    object-fit:cover;
-    transition:.3s;
+    object-fit:cover;            /* vuelve a cubrir todo en todas las vistas */
 }
 .enter-label{
-    position:absolute;bottom:5%;
-    left:0;right:0;                  /* centrado horizontal */
-    text-align:center;
-    font-size:.8rem;letter-spacing:1px;
-    color:#7d745a;
+    position:absolute;bottom:5%;left:0;right:0;
+    text-align:center;font-size:.8rem;letter-spacing:1px;color:#7d745a;
 }
 .intro.hide{opacity:0;pointer-events:none;}
 
@@ -72,36 +69,26 @@ nav a{color:#fff;text-decoration:none;transition:font-weight .25s;}
 nav a:hover{font-weight:700;}
 .hamburger{display:none;}
 
-/* ---------- 7. FEATURED WORKS ---------- */
+/* ---------- 7. FEATURED WORKS (sin cambios) ---------- */
 .featured-works{position:absolute;top:47%;left:5%;right:5%;transform:translateY(-50%);}
 .section-title{font-family:"Sweet Sans Pro";font-size:.85rem;font-weight:300;margin-bottom:1rem;}
 .projects-carousel{
-    display:flex;gap:2rem;overflow-x:auto;
-    scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;
+    display:flex;gap:2rem;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;
     padding-bottom:.5rem;cursor:grab;user-select:none;
 }
 .projects-carousel.dragging{cursor:grabbing;}
 .projects-carousel::-webkit-scrollbar{display:none;}
 
-.project-card{
-    flex:0 0 28%;max-width:28%;
-    aspect-ratio:9/7;scroll-snap-align:start;
-    transition:transform .3s,filter .3s;
-}
-.project-card img{
-    width:100%;height:100%;border-radius:6px;object-fit:cover;
-    transition:inherit;
-}
+.project-card{flex:0 0 28%;max-width:28%;aspect-ratio:9/7;scroll-snap-align:start;transition:transform .3s,filter .3s;}
+.project-card img{width:100%;height:100%;border-radius:6px;object-fit:cover;transition:inherit;}
 .project-card.active{transform:none;}
 .project-card:hover{transform:scale(1.08);}
 .project-card:not(.active) img{filter:brightness(55%);}
 
 .carousel-arrow{
     position:absolute;top:50%;transform:translateY(-50%);
-    width:2.5rem;height:2.5rem;border-radius:50%;
-    background:rgba(0,0,0,.45);
-    display:flex;align-items:center;justify-content:center;
-    cursor:pointer;transition:.3s;z-index:6;
+    width:2.5rem;height:2.5rem;border-radius:50%;background:rgba(0,0,0,.45);
+    display:flex;align-items:center;justify-content:center;cursor:pointer;transition:.3s;z-index:6;
 }
 .carousel-arrow svg{width:1rem;height:1rem;fill:#fff;}
 .carousel-arrow.left{left:-1.25rem;}
@@ -110,15 +97,12 @@ nav a:hover{font-weight:700;}
 
 .see-all-works{
     display:inline-block;margin-top:1rem;
-    font-family:"Sweet Sans Pro";font-size:.75rem;letter-spacing:1px;
-    text-transform:uppercase;color:#fff;border-bottom:1px solid #fff;text-decoration:none;
+    font-family:"Sweet Sans Pro";font-size:.75rem;letter-spacing:1px;text-transform:uppercase;
+    color:#fff;border-bottom:1px solid #fff;text-decoration:none;
 }
 
-/* ---------- 8. CTA CONTACT ---------- */
-.contact-cta{
-    margin-top:-3rem;padding:4rem 1rem 5rem;
-    text-align:center;border-top:1px solid #fff;border-bottom:1px solid #fff;
-}
+/* ---------- 8. CTA CONTACT (sin cambios) ---------- */
+.contact-cta{margin-top:-3rem;padding:4rem 1rem 5rem;text-align:center;border-top:1px solid #fff;border-bottom:1px solid #fff;}
 .contact-cta h2{font-family:"Sweet Sans Pro";font-size:1.6rem;font-weight:300;letter-spacing:1px;margin-bottom:2rem;}
 .contact-mail{position:relative;width:140px;height:140px;margin:auto;border-radius:50%;overflow:hidden;display:block;}
 .contact-mail img{width:100%;height:100%;object-fit:cover;border-radius:50%;transition:transform .4s;}
@@ -132,9 +116,7 @@ nav a:hover{font-weight:700;}
   .project-card{flex:0 0 45%;max-width:45%;}
 }
 @media(max-width:768px){
-  /* Intro: vídeo más pequeño */
-  .intro video{object-fit:contain;}
-
+  /* Intro ya ocupa toda la pantalla: object-fit cover */
   nav{left:0;width:100%;justify-content:center;}
   .nav-logo{margin:auto;}
   .nav-separator{display:none;}
@@ -149,8 +131,7 @@ nav a:hover{font-weight:700;}
   .nav-links{display:none;}
   .nav-links.active{
       position:fixed;inset:0;background:rgba(0,0,0,.9);
-      display:flex;flex-direction:column;gap:2rem;
-      justify-content:center;align-items:center;
+      display:flex;flex-direction:column;gap:2rem;justify-content:center;align-items:center;
       font-family:"Moglan Demo","Area Normal",sans-serif;
   }
 
@@ -173,7 +154,6 @@ nav a:hover{font-weight:700;}
 
 <!-- ===== HERO ===== -->
 <header class="hero">
-
   <!-- MENÚ -->
   <nav>
     <img src="images/BLANCA_NAME.png" class="nav-logo" alt="Blanca Name logo">
@@ -219,9 +199,9 @@ nav a:hover{font-weight:700;}
   </a>
 </section>
 
-<!-- ================= JS ================= -->
+<!-- ------------- JS ------------- -->
 <script>
-/* Intro sólo 1ª vez */
+/* Intro solo 1ª vez */
 const intro=document.getElementById('intro');
 if(sessionStorage.getItem('introShown')){
   intro.remove();
@@ -257,7 +237,7 @@ carousel.addEventListener('pointerdown',e=>{
   startX=e.clientX;startScroll=carousel.scrollLeft;
 });
 const stop=()=>{isDown=false;carousel.classList.remove('dragging');};
-carousel.addEventListener('pointerup',stop);
+carousel.addEventListener('pointerup'   ,stop);
 carousel.addEventListener('pointerleave',stop);
 carousel.addEventListener('pointermove',e=>{
   if(!isDown)return;
@@ -268,7 +248,7 @@ carousel.addEventListener('pointermove',e=>{
 leftArrow .addEventListener('click',()=>carousel.scrollBy({left:-getStep(),behavior:'smooth'}));
 rightArrow.addEventListener('click',()=>carousel.scrollBy({left: getStep(),behavior:'smooth'}));
 
-/* tarjeta activa */
+/* Tarjeta activa */
 const obs=new IntersectionObserver(
   entries=>entries.forEach(e=>e.target.classList.toggle('active',e.intersectionRatio>.9)),
   {root:carousel,threshold:.9}
@@ -277,9 +257,8 @@ document.querySelectorAll('.project-card').forEach(c=>obs.observe(c));
 carousel.addEventListener('scroll',updateArrows);
 
 /* Menú móvil */
-const burger  =document.getElementById('hamburger');
-const navLinks=document.getElementById('navLinks');
-burger.addEventListener('click',()=>navLinks.classList.toggle('active'));
+document.getElementById('hamburger')
+        .addEventListener('click',()=>document.getElementById('navLinks').classList.toggle('active'));
 </script>
 </body>
 </html>
