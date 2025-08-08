@@ -1,5 +1,5 @@
-﻿<!-- =========================================================
-     contact.html  –  3 botones circulares (columna en móvil)
+<!-- =========================================================
+     contact.html  – Tres botones circulares + fondo SIEMPRE estático
 ========================================================= -->
 <!DOCTYPE html>
 <html lang="es">
@@ -9,241 +9,144 @@
     <title>Contact</title>
 
     <style>
-        /* ---------- 1. FUENTES ---------- */
-        @font-face {
-            font-family: "Area Normal";
-            src: url("/fonts/AreaNormal.woff2") format("woff2"),url("/fonts/AreaNormal.woff") format("woff");
-        }
+/* ---------- 1. FUENTES ---------- */
+@font-face{
+    font-family:"Area Normal";
+    src:url("/fonts/AreaNormal.woff2") format("woff2"),
+        url("/fonts/AreaNormal.woff")  format("woff");
+}
+@font-face{
+    font-family:"Sweet Sans Pro";
+    src:url("/fonts/SWEETSANSPROREGULAR.OTF") format("opentype");
+}
+@font-face{
+    font-family:"Moglan Demo";
+    src:url("/fonts/MOGLAN_DEMO.TTF") format("truetype");
+}
 
-        @font-face {
-            font-family: "Sweet Sans Pro";
-            src: url("/fonts/SWEETSANSPROREGULAR.OTF") format("opentype");
-        }
+/* ---------- 2. RESET & FONDO ---------- */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 
-        @font-face {
-            font-family: "Moglan Demo";
-            src: url("/fonts/MOGLAN_DEMO.TTF") format("truetype");
-        }
+html,body{height:100%;}
+body{
+    min-height:100vh;
+    background:url("/images/fondo_intro_2.png") center/cover no-repeat fixed;
+    background-attachment:fixed;           /* ← fijo en desktop */
+    color:#fff;
+    font-family:"Area Normal",sans-serif;
+}
 
-        /* ---------- 2. RESET & FONDO ---------- */
-        *, *::before, *::after {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+/* ---------- 3. MENÚ ---------- */
+nav{
+    position:absolute;top:2rem;left:5%;
+    display:flex;align-items:center;gap:1.5rem;
+    font-family:"Sweet Sans Pro";font-size:.8rem;
+    text-transform:uppercase;letter-spacing:1px;
+    z-index:100;
+}
+.nav-logo{height:1.4rem;cursor:pointer;}
+.nav-separator{width:1px;height:1.2rem;background:#ffffff80;}
+.nav-links{display:flex;gap:1.5rem;}
+nav a{color:#fff;text-decoration:none;transition:font-weight .25s;}
+nav a:hover{font-weight:700;}
 
-        html, body {
-            min-height: 100vh;
-            background: url("/images/fondo_intro_2.png") center/cover no-repeat fixed;
-            color: #fff;
-            font-family: "Area Normal",sans-serif;
-        }
+.hamburger{display:none;}
+.hamburger span{
+    display:block;width:100%;height:2px;background:#fff;margin:5px 0;
+}
 
-        /* ---------- 3. MENÚ ---------- */
-        nav {
-            position: absolute;
-            top: 2rem;
-            left: 5%;
-            display: flex;
-            align-items: center;
-            gap: 1.5rem;
-            font-family: "Sweet Sans Pro";
-            font-size: .8rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            z-index: 100;
-        }
+/* ---------- 4. BOTONES CIRCULARES ---------- */
+.contacts-wrapper{
+    display:flex;justify-content:center;align-items:center;
+    height:100vh;
+}
+.contacts-grid{
+    display:flex;gap:3rem;justify-content:center;align-items:center;
+}
+.contact-btn{
+    position:relative;width:140px;height:140px;border-radius:50%;
+    overflow:hidden;display:block;
+}
+.contact-btn img{
+    width:100%;height:100%;object-fit:cover;border-radius:50%;transition:transform .4s;
+}
+.contact-btn::before{
+    content:"";position:absolute;inset:0;border:2px solid #fff;border-radius:50%;
+}
+.contact-btn::after{
+    content:"";position:absolute;inset:-8px;border:2px solid #fff;border-radius:50%;
+    opacity:0;transform:scale(.85);transition:.4s;
+}
+.contact-btn:hover img{transform:scale(1.08);}
+.contact-btn:hover::after{opacity:1;transform:scale(1);}
 
-        .nav-logo {
-            height: 1.4rem;
-            cursor: pointer;
-        }
+/* ---------- 5. RESPONSIVE ---------- */
+@media(max-width:768px){
 
-        .nav-separator {
-            width: 1px;
-            height: 1.2rem;
-            background: #ffffff80;
-        }
+    /* fondo fijo también en móvil */
+    body{background-attachment:fixed;}
 
-        .nav-links {
-            display: flex;
-            gap: 1.5rem;
-        }
+    /* menú */
+    nav{left:0;right:0;width:100%;justify-content:center;}
+    .nav-logo{margin:auto;}
+    .nav-separator{display:none;}
 
-        nav a {
-            color: #fff;
-            text-decoration: none;
-            transition: font-weight .25s;
-        }
+    .hamburger{
+        display:block;position:absolute;left:50%;top:2.5rem;
+        width:26px;height:20px;transform:translateX(-50%);
+        cursor:pointer;z-index:101;
+    }
+    .nav-links{display:none;}
+    .nav-links.active{
+        position:fixed;inset:0;background:rgba(0,0,0,.9);
+        display:flex;flex-direction:column;gap:2rem;
+        justify-content:center;align-items:center;
+        font-family:"Moglan Demo","Area Normal",sans-serif;
+    }
 
-            nav a:hover {
-                font-weight: 700;
-            }
-
-        .hamburger {
-            display: none;
-        }
-
-            .hamburger span {
-                display: block;
-                width: 100%;
-                height: 2px;
-                background: #fff;
-                margin: 5px 0;
-            }
-
-        /* ---------- 4. BOTONES CIRCULARES ---------- */
-        .contacts-wrapper {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
-
-        .contacts-grid {
-            display: flex;
-            gap: 3rem;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .contact-btn {
-            position: relative;
-            width: 140px;
-            height: 140px;
-            border-radius: 50%;
-            overflow: hidden;
-            display: block;
-        }
-
-            .contact-btn img {
-                width: 100%;
-                height: 100%;
-                object-fit: cover;
-                border-radius: 50%;
-                transition: transform .4s;
-            }
-
-            .contact-btn::before {
-                content: "";
-                position: absolute;
-                inset: 0;
-                border: 2px solid #fff;
-                border-radius: 50%;
-            }
-
-            .contact-btn::after {
-                content: "";
-                position: absolute;
-                inset: -8px;
-                border: 2px solid #fff;
-                border-radius: 50%;
-                opacity: 0;
-                transform: scale(.85);
-                transition: .4s;
-            }
-
-            .contact-btn:hover img {
-                transform: scale(1.08);
-            }
-
-            .contact-btn:hover::after {
-                opacity: 1;
-                transform: scale(1);
-            }
-
-        /* ---------- 5. RESPONSIVE ---------- */
-        @media(max-width:768px) {
-            /* menú */
-            nav {
-                left: 0;
-                right: 0;
-                width: 100%;
-                justify-content: center;
-            }
-
-            .nav-logo {
-                margin: auto;
-            }
-
-            .nav-separator {
-                display: none;
-            }
-
-            .hamburger {
-                display: block;
-                position: absolute;
-                left: 50%;
-                top: 2.5rem;
-                width: 26px;
-                height: 20px;
-                transform: translateX(-50%);
-                cursor: pointer;
-                z-index: 101;
-            }
-
-            .nav-links {
-                display: none;
-            }
-
-                .nav-links.active {
-                    position: fixed;
-                    inset: 0;
-                    background: rgba(0,0,0,.9);
-                    display: flex;
-                    flex-direction: column;
-                    gap: 2rem;
-                    justify-content: center;
-                    align-items: center;
-                    font-family: "Moglan Demo","Area Normal",sans-serif;
-                }
-
-            /* contactos: una columna */
-            .contacts-grid {
-                flex-direction: column; /* ← apila los tres círculos */
-                gap: 2rem;
-            }
-        }
+    /* contactos en columna */
+    .contacts-grid{flex-direction:column;gap:2rem;}
+}
     </style>
 </head>
-
 <body>
 
-    <!-- ======= MENÚ ======= -->
-    <nav>
-        <a href="index.html#skipIntro"><img src="images/BLANCA_NAME.png" class="nav-logo" alt="Home"></a>
-        <span class="nav-separator"></span>
-        <div class="nav-links" id="navLinks">
-            <a href="projects.html">Projects</a>
-            <a href="skills.html">Skills</a>
-            <a href="about.html">About</a>
-            <a href="contact.html">Contact</a>
-            <a href="inquiry.html">Inquiry</a>
-        </div>
-        <span class="hamburger" id="hamburger"><span></span><span></span><span></span></span>
-    </nav>
+<!-- ======= MENÚ ======= -->
+<nav>
+    <a href="index.html#skipIntro"><img src="images/BLANCA_NAME.png" class="nav-logo" alt="Home"></a>
+    <span class="nav-separator"></span>
 
-    <!-- ======= BOTONES ======= -->
-    <section class="contacts-wrapper">
-        <div class="contacts-grid">
-            <a href="https://wa.me/34671512365" class="contact-btn" target="_blank" aria-label="WhatsApp">
-                <img src="images/whatsapp.png" alt="WhatsApp">
-            </a>
-            <a href="mailto:blancapalazueloguijarro@gmail.com" class="contact-btn" aria-label="Mail">
-                <img src="images/mail.png" alt="Mail">
-            </a>
-            <a href="https://instagram.com/blancapalazuelo" class="contact-btn" target="_blank" aria-label="Instagram">
-                <img src="images/instagram.png" alt="Instagram">
-            </a>
-        </div>
-    </section>
+    <div class="nav-links" id="navLinks">
+        <a href="projects.html">Projects</a>
+        <a href="skills.html">Skills</a>
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
+        <a href="inquiry.html">Inquiry</a>
+    </div>
 
-    <!-- ======= JS: hamburguesa ======= -->
-    <script>
-        document.getElementById("hamburger").addEventListener("click", () => {
-            document.getElementById("navLinks").classList.toggle("active");
-        });
-    </script>
+    <span class="hamburger" id="hamburger"><span></span><span></span><span></span></span>
+</nav>
+
+<!-- ======= BOTONES ======= -->
+<section class="contacts-wrapper">
+    <div class="contacts-grid">
+        <a href="https://wa.me/34671512365"           class="contact-btn" target="_blank" aria-label="WhatsApp">
+            <img src="images/whatsapp.png"  alt="WhatsApp">
+        </a>
+        <a href="mailto:blancapalazueloguijarro@gmail.com" class="contact-btn"              aria-label="Mail">
+            <img src="images/mail.png"      alt="Mail">
+        </a>
+        <a href="https://instagram.com/blancapalazuelo"    class="contact-btn" target="_blank" aria-label="Instagram">
+            <img src="images/instagram.png" alt="Instagram">
+        </a>
+    </div>
+</section>
+
+<!-- ======= JS: hamburguesa ======= -->
+<script>
+document.getElementById('hamburger')
+        .addEventListener('click',()=>document.getElementById('navLinks').classList.toggle('active'));
+</script>
 
 </body>
 </html>
