@@ -1,6 +1,6 @@
 <!-- =========================================================
-     fernandodecarcer.html – Galería con filtros y visor
-     (fondo inmóvil · vídeos en loop · menú idéntico a ALPHABOOK)
+     fernandodecarcer.html – Galería con filtros y visor centrado
+     (fondo inmóvil · vídeos SIEMPRE en loop · menú idéntico)
 ========================================================= -->
 <!DOCTYPE html>
 <html lang="es">
@@ -21,7 +21,7 @@
 /* ---------- 3. FONDO INMÓVIL ---------- */
 html,body{height:100%;}
 body{
-    position:relative;min-height:100vh;
+    background:url("/images/fondo_intro_2.png") center/cover no-repeat fixed;
     color:#fff;font-family:"Area Normal",sans-serif;
 }
 body::before{
@@ -30,7 +30,7 @@ body::before{
     z-index:-1;pointer-events:none;transform:translateZ(0);
 }
 
-/* ---------- 4. MENÚ (calcado de alphabook) ---------- */
+/* ---------- 4. MENÚ ---------- */
 nav{position:absolute;top:2rem;left:5%;display:flex;align-items:center;gap:1.5rem;font-family:"Sweet Sans Pro";font-size:.8rem;letter-spacing:1px;text-transform:uppercase;z-index:100;}
 .nav-logo{height:1.4rem;cursor:pointer;}
 .nav-separator{width:1px;height:1.2rem;background:#ffffff80;}
@@ -41,8 +41,7 @@ nav a:hover{font-weight:700;}
 .hamburger span{display:block;width:100%;height:2px;background:#fff;margin:5px 0;}
 
 /* ---------- 5. WRAPPER ---------- */
-.wrapper{max-width:70rem;margin:12rem auto 6rem;  /* 12 rem como alphabook, despeja el menú */
-         padding:0 1rem;display:flex;flex-direction:column;gap:4rem;}
+.wrapper{max-width:70rem;margin:11rem auto 6rem;padding:0 1rem;display:flex;flex-direction:column;gap:4rem;}
 
 /* ---------- 6. CABECERA ---------- */
 h1{font-family:"Moglan Demo";font-size:1.4rem;font-weight:200;letter-spacing:.1rem;text-align:center;margin-bottom:.3rem;}
@@ -74,23 +73,14 @@ h2{font-family:"Sweet Sans Pro";font-weight:300;font-size:.9rem;letter-spacing:.
 
 /* ---------- 9. RESPONSIVE ---------- */
 @media(max-width:1024px){.media-row.cols-4{grid-template-columns:repeat(3,1fr);}}
-
-/* ===== MÓVIL ===== */
 @media(max-width:768px){
     nav{left:0;right:0;width:100%;justify-content:center;}
     .nav-logo{margin:auto;}
     .nav-separator{display:none;}
-
-    .hamburger{
-        display:block;position:absolute;left:50%;top:2.5rem;
-        width:26px;height:20px;transform:translateX(-50%);
-        cursor:pointer;z-index:101;
-    }
+    .hamburger{display:block;position:absolute;left:50%;top:2.5rem;width:26px;height:20px;transform:translateX(-50%);cursor:pointer;z-index:101;}
     .nav-links{display:none;}
     .nav-links.active{position:fixed;inset:0;background:rgba(0,0,0,.9);display:flex;flex-direction:column;gap:2rem;justify-content:center;align-items:center;font-family:"Moglan Demo","Area Normal",sans-serif;}
-
-    .wrapper{margin:12rem auto 4rem;}   /* mismo margen que alphabook */
-    .media-row.cols-4{grid-template-columns:repeat(2,1fr);}
+    .media-row.cols-3,.media-row.cols-4{grid-template-columns:repeat(2,1fr);}
     .viewer-content video,.viewer-content img{max-width:95vw;max-height:85vh;}
 }
 </style>
@@ -113,103 +103,116 @@ h2{font-family:"Sweet Sans Pro";font-weight:300;font-size:.9rem;letter-spacing:.
 
 <main class="wrapper">
 
-<header>
-    <h1>FERNANDO&nbsp;DE&nbsp;CÁRCER</h1>
-    <h2>RETAIL&nbsp;STORE</h2>
+    <!-- ---------- CABECERA ---------- -->
+    <header>
+        <h1>FERNANDO&nbsp;DE&nbsp;CÁRCER</h1>
+        <h2>RETAIL&nbsp;STORE</h2>
 
-    <div class="filter-bar">
-        <button class="filter-btn active" data-filter="all">All</button>
-        <button class="filter-btn" data-filter="motion">Motion&nbsp;Graphics</button>
-        <button class="filter-btn" data-filter="graphic">Graphic&nbsp;Design</button>
-    </div>
-</header>
+        <div class="filter-bar">
+            <button class="filter-btn active" data-filter="all">All</button>
+            <button class="filter-btn" data-filter="motion">Motion&nbsp;Graphics</button>
+            <button class="filter-btn" data-filter="graphic">Graphic&nbsp;Design</button>
+        </div>
+    </header>
 
-<!-- ===== SECCIÓN 1 — Motion (8 vídeos) ===== -->
-<section class="gallery-section cat-motion" data-cat="motion">
-  <div class="media-row cols-4">
-    <div class="thumb"><video src="FERNANDODECARCER/video_1.mp4" autoplay muted loop playsinline preload="auto"></video></div>
-    <div class="thumb"><video src="FERNANDODECARCER/video_2.mp4" autoplay muted loop playsinline preload="auto"></video></div>
-    <div class="thumb"><video src="FERNANDODECARCER/video_3.mp4" autoplay muted loop playsinline preload="auto"></video></div>
-    <div class="thumb"><video src="FERNANDODECARCER/video_4.mp4" autoplay muted loop playsinline preload="auto"></video></div>
-  </div>
-  <div class="media-row cols-4">
-    <div class="thumb"><video src="FERNANDODECARCER/video_5.mp4" autoplay muted loop playsinline preload="auto"></video></div>
-    <div class="thumb"><video src="FERNANDODECARCER/video_6.mp4" autoplay muted loop playsinline preload="auto"></video></div>
-    <div class="thumb"><video src="FERNANDODECARCER/video_7.mp4" autoplay muted loop playsinline preload="auto"></video></div>
-    <div class="thumb"><video src="FERNANDODECARCER/video_8.mp4" autoplay muted loop playsinline preload="auto"></video></div>
-  </div>
-</section>
+    <!-- ===== SECCIÓN 1 — Motion (8 vídeos) ===== -->
+    <section class="gallery-section cat-motion" data-cat="motion">
+        <div class="media-row cols-4">
+            <div class="thumb"><video src="FERNANDODECARCER/video_1.mp4" autoplay muted loop playsinline preload="auto"></video></div>
+            <div class="thumb"><video src="FERNANDODECARCER/video_2.mp4" autoplay muted loop playsinline preload="auto"></video></div>
+            <div class="thumb"><video src="FERNANDODECARCER/video_3.mp4" autoplay muted loop playsinline preload="auto"></video></div>
+            <div class="thumb"><video src="FERNANDODECARCER/video_4.mp4" autoplay muted loop playsinline preload="auto"></video></div>
+        </div>
+        <div class="media-row cols-4">
+            <div class="thumb"><video src="FERNANDODECARCER/video_5.mp4" autoplay muted loop playsinline preload="auto"></video></div>
+            <div class="thumb"><video src="FERNANDODECARCER/video_6.mp4" autoplay muted loop playsinline preload="auto"></video></div>
+            <div class="thumb"><video src="FERNANDODECARCER/video_7.mp4" autoplay muted loop playsinline preload="auto"></video></div>
+            <div class="thumb"><video src="FERNANDODECARCER/video_8.mp4" autoplay muted loop playsinline preload="auto"></video></div>
+        </div>
+    </section>
 
-<!-- ===== SECCIÓN 2 — Posts ===== -->
-<section class="gallery-section cat-graphic tight" data-cat="graphic">
-  <div class="media-row cols-4">
-    <div class="thumb"><img src="FERNANDODECARCER/post_1.png"  alt=""></div>
-    <div class="thumb"><img src="FERNANDODECARCER/post_2.png"  alt=""></div>
-    <div class="thumb"><img src="FERNANDODECARCER/post_3.png"  alt=""></div>
-    <div class="thumb"><img src="FERNANDODECARCER/post_4.png"  alt=""></div>
-  </div>
-</section>
+    <!-- ===== SECCIÓN 2 — Posts ===== -->
+    <section class="gallery-section cat-graphic tight" data-cat="graphic">
+        <div class="media-row cols-4">
+            <div class="thumb"><img src="FERNANDODECARCER/post_1.png" alt=""></div>
+            <div class="thumb"><img src="FERNANDODECARCER/post_2.png" alt=""></div>
+            <div class="thumb"><img src="FERNANDODECARCER/post_3.png" alt=""></div>
+            <div class="thumb"><img src="FERNANDODECARCER/post_4.png" alt=""></div>
+        </div>
+    </section>
 
-<!-- ===== SECCIÓN 3 — Stories ===== -->
-<section class="gallery-section cat-graphic tight" data-cat="graphic">
-  <div class="media-row cols-4">
-    <div class="thumb"><img src="FERNANDODECARCER/story_1.png" alt=""></div>
-    <div class="thumb"><img src="FERNANDODECARCER/story_2.png" alt=""></div>
-    <div class="thumb"><img src="FERNANDODECARCER/story_3.png" alt=""></div>
-    <div class="thumb"><img src="FERNANDODECARCER/story_4.png" alt=""></div>
-  </div>
-</section>
+    <!-- ===== SECCIÓN 3 — Stories ===== -->
+    <section class="gallery-section cat-graphic tight" data-cat="graphic">
+        <div class="media-row cols-4">
+            <div class="thumb"><img src="FERNANDODECARCER/story_1.png" alt=""></div>
+            <div class="thumb"><img src="FERNANDODECARCER/story_2.png" alt=""></div>
+            <div class="thumb"><img src="FERNANDODECARCER/story_3.png" alt=""></div>
+            <div class="thumb"><img src="FERNANDODECARCER/story_4.png" alt=""></div>
+        </div>
+    </section>
 
 </main>
 
 <!-- ========== VISOR ========== -->
 <div class="viewer" id="viewer">
     <div class="viewer-content" id="viewerContent"></div>
-    <button class="viewer-close" id="viewerClose" aria-label="Cerrar">✕</button>
+    <button class="viewer-close" id="viewerClose" aria-label="Close">✕</button>
 </div>
 
 <script>
 /* ---------- FORZAR AUTOPLAY EN iOS / ANDROID ---------- */
 document.addEventListener('DOMContentLoaded',()=>{
-  document.querySelectorAll('.thumb video').forEach(v=>{
-      v.muted=true;
-      v.setAttribute('playsinline','');
-      v.setAttribute('preload','auto');
-      v.play().catch(()=>{});
-  });
+    document.querySelectorAll('.thumb video').forEach(v=>{
+        v.muted=true;
+        v.setAttribute('playsinline','');
+        v.setAttribute('preload','auto');
+        v.play().catch(()=>{}); // silencio si falla
+    });
 });
 
-/* ---------- menú móvil ---------- */
-document.getElementById('hamburger')
-        .addEventListener('click',()=>document.getElementById('navLinks').classList.toggle('active'));
+/* ---------- menú hamburguesa ---------- */
+document.getElementById('hamburger').addEventListener('click',()=>{
+    document.getElementById('navLinks').classList.toggle('active');
+});
 
 /* ---------- visor ---------- */
-const viewer=document.getElementById('viewer');
-const viewerCont=document.getElementById('viewerContent');
-const viewerClose=document.getElementById('viewerClose');
+const viewer      = document.getElementById('viewer');
+const viewerCont  = document.getElementById('viewerContent');
+const viewerClose = document.getElementById('viewerClose');
 
 document.querySelectorAll('.thumb').forEach(t=>t.addEventListener('click',()=>openViewer(t)));
 
 function openViewer(thumb){
-    viewer.classList.add('open');viewerCont.innerHTML='';
-    const node=thumb.firstElementChild.cloneNode(true);
-    if(node.tagName==='VIDEO'){node.muted=false;node.loop=true;node.controls=true;node.currentTime=0;node.play();}
+    viewer.classList.add('open');
+    viewerCont.innerHTML='';
+    const node = thumb.firstElementChild.cloneNode(true);
+    if(node.tagName==='VIDEO'){
+        node.muted=false;
+        node.loop=true;
+        node.controls=true;
+        node.currentTime=0;
+        node.play();
+    }
     viewerCont.appendChild(node);
 }
-function closeViewer(){viewer.classList.remove('open');viewerCont.innerHTML='';}
+function closeViewer(){
+    viewer.classList.remove('open');
+    viewerCont.innerHTML='';
+}
 viewerClose.addEventListener('click',closeViewer);
 viewer.addEventListener('click',e=>{if(e.target===viewer)closeViewer();});
 
 /* ---------- filtros ---------- */
-const btns=document.querySelectorAll('.filter-btn');
-const secs=document.querySelectorAll('.gallery-section');
-btns.forEach(btn=>{
+const buttons  = document.querySelectorAll('.filter-btn');
+const sections = document.querySelectorAll('.gallery-section');
+
+buttons.forEach(btn=>{
     btn.addEventListener('click',()=>{
-        btns.forEach(b=>b.classList.remove('active'));
+        buttons.forEach(b=>b.classList.remove('active'));
         btn.classList.add('active');
-        const filter=btn.dataset.filter;
-        secs.forEach(sec=>{
-            sec.style.display=(filter==='all'||sec.dataset.cat.includes(filter))?'':'none';
+        const filter = btn.dataset.filter;
+        sections.forEach(sec=>{
+            sec.style.display = (filter==='all' || sec.dataset.cat===filter) ? '' : 'none';
         });
     });
 });
