@@ -1,0 +1,458 @@
+﻿<!-- =========================================================
+     inquiry.html  –  versión completa (CSS + JS incluidos)
+     - Menú igual que index (hamburguesa móvil)
+     - Multi-select con tags (campo obligatorio)
+     - “Your message” opcional
+     - Envío AJAX a Formspree sin redirección
+========================================================= -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inquiry – Contact</title>
+
+    <style>
+        /* ---------- 1. FUENTES ---------- */
+        @font-face {
+            font-family: "Area Normal";
+            src: url("/fonts/AreaNormal.woff2") format("woff2"),url("/fonts/AreaNormal.woff") format("woff");
+        }
+
+        @font-face {
+            font-family: "Sweet Sans Pro";
+            src: url("/fonts/SWEETSANSPROREGULAR.OTF") format("opentype");
+        }
+
+        @font-face {
+            font-family: "Sweet Sans Pro Bold";
+            src: url("/fonts/SWEETSANSPROBOLD.OTF") format("opentype");
+        }
+
+        @font-face {
+            font-family: "Moglan Demo";
+            src: url("/fonts/MOGLAN_DEMO.TTF") format("truetype");
+        }
+
+        /* ---------- 2. RESET & FONDO ---------- */
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html, body {
+            min-height: 100vh;
+            background: url("/images/fondo_intro_2.png") center/cover no-repeat fixed;
+            color: #fff;
+            font-family: "Area Normal",sans-serif;
+        }
+
+        /* ---------- 3. MENÚ (idéntico a index.html) ---------- */
+        nav {
+            position: absolute;
+            top: 2rem;
+            left: 5%;
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            font-family: "Sweet Sans Pro",sans-serif;
+            font-size: .8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            z-index: 100;
+        }
+
+        .nav-logo {
+            height: 1.4rem;
+            cursor: pointer;
+        }
+
+        .nav-separator {
+            width: 1px;
+            height: 1.2rem;
+            background: #ffffff80;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            transition: font-weight .25s;
+        }
+
+            nav a:hover {
+                font-weight: 700;
+            }
+
+        /* hamburguesa */
+        .hamburger {
+            display: none;
+        }
+
+            .hamburger span {
+                display: block;
+                width: 100%;
+                height: 2px;
+                background: #fff;
+                margin: 5px 0;
+                transition: .3s;
+            }
+
+        /* ---------- 4. FORMULARIO ---------- */
+        .wrapper {
+            max-width: 640px;
+            margin: 9rem auto 4rem; /* deja hueco para menú */
+            padding: 0 1rem;
+        }
+
+        h1 {
+            font-family: "Moglan Demo";
+            font-size: 1.8rem;
+            font-weight: 200;
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+
+        label.field {
+            display: block;
+            text-align: center;
+            font-size: .9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin: .6rem 0 .25rem;
+        }
+
+        input[type=text],
+        input[type=email],
+        textarea {
+            width: 100%;
+            padding: .7rem 1rem;
+            margin-bottom: 1.2rem;
+            font-family: "Sweet Sans Pro",sans-serif;
+            font-size: 1rem;
+            color: #000;
+            background: #fff;
+            border: 2px solid #a2825c;
+            border-radius: 4px;
+        }
+
+        textarea {
+            min-height: 140px;
+            resize: vertical;
+        }
+
+            input:focus,
+            textarea:focus {
+                outline: none;
+                border-color: #7c6343;
+            }
+
+        /* ---------- 4a. MULTI-SELECT CON TAGS ---------- */
+        .multi-select {
+            position: relative;
+            margin-bottom: 1.2rem;
+        }
+
+        .tag-box {
+            display: flex;
+            flex-wrap: wrap;
+            gap: .5rem;
+            min-height: 48px;
+            padding: .65rem 1rem;
+            border: 2px solid #a2825c;
+            border-radius: 4px;
+            background: #fff;
+            cursor: pointer;
+        }
+
+            .tag-box.empty::before {
+                content: "Click to select services";
+                color: #666;
+                font-size: .9rem;
+                pointer-events: none;
+            }
+
+        .tag {
+            background: #a2825c;
+            color: #fff;
+            font-size: .8rem;
+            padding: .25rem .6rem;
+            border-radius: 3px;
+            display: flex;
+            align-items: center;
+            gap: .4rem;
+        }
+
+            .tag .remove {
+                cursor: pointer;
+                font-weight: bold;
+                line-height: 1;
+            }
+
+        .options-dropdown {
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 100%;
+            max-height: 220px;
+            background: #fff;
+            border: 2px solid #a2825c;
+            border-top: none;
+            overflow-y: auto;
+            z-index: 50;
+            display: none;
+        }
+
+            .options-dropdown li {
+                padding: .55rem 1rem;
+                color: #000;
+                cursor: pointer;
+            }
+
+                .options-dropdown li:hover {
+                    background: #a2825c33;
+                }
+
+                .options-dropdown li.selected {
+                    background: #a2825c55;
+                }
+
+        /* ---------- BOTÓN ---------- */
+        button {
+            display: block;
+            margin: 1.5rem auto 0;
+            padding: .8rem 3.2rem;
+            font-family: "Sweet Sans Pro";
+            font-size: .9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            background: #a2825c;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background .25s;
+        }
+
+            button:hover {
+                background: #7c6343;
+                color: #fff;
+            }
+
+        /* ---------- MENSAJE DE ESTADO ---------- */
+        #status {
+            margin-top: 1rem;
+            text-align: center;
+            font-family: "Sweet Sans Pro";
+            font-size: .9rem;
+        }
+
+            #status.ok {
+                color: #a6e3a1;
+            }
+
+            #status.err {
+                color: #ffa6a6;
+            }
+
+        /* ---------- 5. RESPONSIVE (≤768 px) ---------- */
+        @media(max-width:768px) {
+            /* menú */
+            nav {
+                left: 0;
+                right: 0;
+                width: 100%;
+                justify-content: center;
+            }
+
+            .nav-logo {
+                margin: auto;
+            }
+
+            .nav-separator {
+                display: none;
+            }
+
+            .hamburger {
+                display: block;
+                position: absolute;
+                left: 50%;
+                top: 2.5rem;
+                width: 26px;
+                height: 20px;
+                transform: translateX(-50%);
+                cursor: pointer;
+                z-index: 101;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+                .nav-links.active {
+                    position: fixed;
+                    inset: 0;
+                    background: rgba(0,0,0,.9);
+                    display: flex;
+                    flex-direction: column;
+                    gap: 2rem;
+                    justify-content: center;
+                    align-items: center;
+                    font-family: "Moglan Demo","Area Normal",sans-serif;
+                }
+
+            /* formulario */
+            h1 {
+                font-size: 1.45rem;
+            }
+
+            .wrapper {
+                margin: 8rem auto 3rem;
+            }
+
+            input, textarea {
+                font-size: .95rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ======= MENÚ ======= -->
+    <nav>
+        <a href="index.html"><img src="images/BLANCA_NAME.png" class="nav-logo" alt="Home"></a>
+        <span class="nav-separator"></span>
+        <div class="nav-links" id="navLinks">
+            <a href="projects.html">Projects</a>
+            <a href="skills.html">Skills</a>
+            <a href="about.html">About</a>
+            <a href="contact.html">Contact</a>
+            <a href="inquiry.html">Inquiry</a>
+
+        </div>
+        <span class="hamburger" id="hamburger"><span></span><span></span><span></span></span>
+    </nav>
+
+    <!-- ======= FORMULARIO ======= -->
+    <main class="wrapper">
+        <h1>CONTACT FORM</h1>
+
+        <form id="contactForm">
+            <!-- campos obligatorios -->
+            <label class="field" for="name">Name</label>
+            <input type="text" id="name" name="name" required>
+
+            <label class="field" for="email">Email</label>
+            <input type="email" id="email" name="_replyto" required>
+
+            <!-- Multi-select obligatorio -->
+            <label class="field">What are you looking for?</label>
+            <div class="multi-select" id="serviceSelect">
+                <div class="tag-box empty" id="tagBox"></div>
+
+                <ul class="options-dropdown" id="optionsList">
+                    <li data-val="3D">3D</li>
+                    <li data-val="Branding">Branding</li>
+                    <li data-val="Logo Design">Logo Design</li>
+                    <li data-val="Web Design">Web Design</li>
+                    <li data-val="Web Development">Web Development</li>
+                    <li data-val="Motion Graphics">Motion Graphics</li>
+                    <li data-val="RRSS">RRSS</li>
+                    <li data-val="Illustration">Illustration</li>
+                    <li data-val="Graphic Design">Graphic Design</li>
+                </ul>
+
+                <!-- hidden input REQUIRED -->
+                <input type="hidden" name="services" id="servicesHidden" required>
+            </div>
+
+            <!-- mensaje opcional -->
+            <label class="field" for="msg">Your message</label>
+            <textarea id="msg" name="message"></textarea>
+
+            <button type="submit">Submit</button>
+            <p id="status"></p>
+        </form>
+    </main>
+
+    <!-- ======= JS (hamburguesa, multi-select, AJAX Formspree) ======= -->
+    <script>
+        /* --- hamburguesa --- */
+        document.getElementById("hamburger").addEventListener("click", () => {
+            document.getElementById("navLinks").classList.toggle("active");
+        });
+
+        /* --- multi-select --- */
+        const select = document.getElementById('serviceSelect');
+        const tagBox = document.getElementById('tagBox');
+        const optionsList = document.getElementById('optionsList');
+        const hiddenInput = document.getElementById('servicesHidden');
+        let selected = [];
+
+        function updateTags() {
+            tagBox.innerHTML = '';
+            tagBox.classList.toggle('empty', selected.length === 0);
+            selected.forEach(val => {
+                const tag = document.createElement('span'); tag.className = 'tag'; tag.textContent = val;
+                const x = document.createElement('span'); x.className = 'remove'; x.textContent = '×';
+                x.onclick = () => { selected = selected.filter(v => v !== val); updateTags(); }
+                tag.appendChild(x); tagBox.appendChild(tag);
+            });
+            hiddenInput.value = selected.join(',');
+            [...optionsList.children].forEach(li => li.classList.toggle('selected', selected.includes(li.dataset.val)));
+        }
+
+        select.addEventListener('click', e => {
+            if (e.target.closest('.tag-box'))
+                optionsList.style.display = optionsList.style.display === 'block' ? 'none' : 'block';
+        });
+        optionsList.addEventListener('click', e => {
+            if (e.target.tagName !== 'LI') return;
+            const v = e.target.dataset.val;
+            selected.includes(v) ? selected.splice(selected.indexOf(v), 1) : selected.push(v);
+            updateTags();
+        });
+        document.addEventListener('click', e => {
+            if (!select.contains(e.target)) optionsList.style.display = 'none';
+        });
+
+        /* --- Formspree AJAX --- */
+        const form = document.getElementById('contactForm');
+        const status = document.getElementById('status');
+
+        form.addEventListener('submit', async e => {
+            e.preventDefault();
+
+            /* validación extra services */
+            if (selected.length === 0) {
+                status.textContent = 'Selecciona al menos un servicio.'; status.className = 'err'; return;
+            }
+            status.textContent = 'Sending...'; status.className = '';
+            const data = Object.fromEntries(new FormData(form).entries());
+
+            try {
+                const res = await fetch('https://formspree.io/f/xdkdlrde', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+                if (res.ok) {
+                    status.textContent = 'Formulario enviado con éxito ✔'; status.className = 'ok';
+                    form.reset(); selected = []; updateTags();
+                } else {
+                    status.textContent = 'Error al enviar. Inténtalo de nuevo.'; status.className = 'err';
+                }
+            } catch {
+                status.textContent = 'Error de conexión.'; status.className = 'err';
+            }
+        });
+    </script>
+
+</body>
+</html>

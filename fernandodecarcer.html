@@ -1,0 +1,430 @@
+﻿<!-- =========================================================
+     fernandodecarcer.html  –  Galería con filtros y visor
+     Basado en la plantilla “alphabook”
+     Filtros: All / Motion Graphics / Graphic Design
+========================================================= -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FERNANDO DE CÁRCER – Project</title>
+
+    <style>
+        /* ---------- 1. FUENTES ---------- */
+        @font-face {
+            font-family: "Area Normal";
+            src: url("/fonts/AreaNormal.woff2") format("woff2"),url("/fonts/AreaNormal.woff") format("woff");
+        }
+
+        @font-face {
+            font-family: "Sweet Sans Pro";
+            src: url("/fonts/SWEETSANSPROREGULAR.OTF") format("opentype");
+        }
+
+        @font-face {
+            font-family: "Moglan Demo";
+            src: url("/fonts/MOGLAN_DEMO.TTF") format("truetype");
+        }
+
+        /* ---------- 2. RESET ---------- */
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* ---------- 3. FONDO GLOBAL ---------- */
+        body {
+            min-height: 100vh;
+            background: url("/images/fondo_intro_2.png") center/cover no-repeat fixed;
+            color: #fff;
+            font-family: "Area Normal",sans-serif;
+        }
+
+        /* ---------- 4. MENÚ ---------- */
+        nav {
+            position: absolute;
+            top: 2rem;
+            left: 5%;
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            font-family: "Sweet Sans Pro";
+            font-size: .8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            z-index: 100;
+        }
+
+        .nav-logo {
+            height: 1.4rem;
+            cursor: pointer;
+        }
+
+        .nav-separator {
+            width: 1px;
+            height: 1.2rem;
+            background: #ffffff80;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            transition: font-weight .25s;
+        }
+
+            nav a:hover {
+                font-weight: 700;
+            }
+
+        .hamburger {
+            display: none;
+        }
+
+            .hamburger span {
+                display: block;
+                width: 100%;
+                height: 2px;
+                background: #fff;
+                margin: 5px 0;
+            }
+
+        /* ---------- 5. WRAPPER PRINCIPAL ---------- */
+        .wrapper {
+            max-width: 70rem; /* ≈1120 px */
+            margin: 11rem auto 6rem;
+            padding: 0 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 4rem;
+        }
+
+        /* ---------- 6. CABECERA ---------- */
+        h1 {
+            font-family: "Moglan Demo";
+            font-size: 1.4rem;
+            font-weight: 200;
+            letter-spacing: .1rem;
+            text-align: center;
+            margin-bottom: .3rem;
+        }
+
+        h2 {
+            font-family: "Sweet Sans Pro";
+            font-weight: 300;
+            font-size: .9rem;
+            letter-spacing: .2rem;
+            text-align: center;
+        }
+
+        .filter-bar {
+            margin: 2rem auto 0;
+            display: flex;
+            gap: 1.2rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .filter-btn {
+            background: none;
+            border: none;
+            color: #fff;
+            font-family: "Sweet Sans Pro";
+            font-size: .75rem;
+            letter-spacing: .1rem;
+            text-transform: uppercase;
+            cursor: pointer;
+            position: relative;
+        }
+
+            .filter-btn::after {
+                content: "";
+                position: absolute;
+                left: 0;
+                bottom: -.2rem;
+                width: 0;
+                height: 1px;
+                background: #fff;
+                transition: .3s;
+            }
+
+            .filter-btn.active::after {
+                width: 100%;
+            }
+
+        /* ---------- 7. SECCIONES ---------- */
+        .gallery-section {
+            display: flex;
+            flex-direction: column;
+            gap: .6rem;
+        }
+
+        .media-row {
+            display: grid;
+            gap: .6rem;
+        }
+
+            .media-row.cols-1 {
+                grid-template-columns: 1fr;
+            }
+
+            .media-row.cols-2 {
+                grid-template-columns: repeat(2,1fr);
+            }
+
+            .media-row.cols-3 {
+                grid-template-columns: repeat(3,1fr);
+            }
+
+            .media-row.cols-4 {
+                grid-template-columns: repeat(4,1fr);
+            }
+
+        .gallery-section.tight .media-row {
+            gap: .3rem;
+        }
+
+        .thumb {
+            position: relative;
+            cursor: pointer;
+            border-radius: 6px;
+            overflow: visible;
+        }
+
+            .thumb video, .thumb img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                border-radius: 6px;
+                transition: transform .3s;
+            }
+
+            .thumb:hover video, .thumb:hover img {
+                transform: scale(1.05);
+            }
+
+        /* ---------- 8. VISOR ---------- */
+        .viewer {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,.9);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 200;
+            padding: 1rem;
+        }
+
+            .viewer.open {
+                display: flex;
+            }
+
+        .viewer-content {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+            .viewer-content video, .viewer-content img {
+                width: auto;
+                height: auto;
+                max-width: 90vw;
+                max-height: 90vh;
+                object-fit: contain;
+                border-radius: 6px;
+            }
+
+        .viewer-close {
+            position: absolute;
+            top: -2rem;
+            right: 0;
+            font-size: 2rem;
+            background: none;
+            border: none;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        /* ---------- 9. RESPONSIVE ---------- */
+        @media(max-width:1024px) {
+            .media-row.cols-4 {
+                grid-template-columns: repeat(3,1fr);
+            }
+        }
+
+        @media(max-width:768px) {
+            nav {
+                left: 0;
+                right: 0;
+                width: 100%;
+                justify-content: center;
+            }
+
+            .nav-logo {
+                margin: auto;
+            }
+
+            .nav-separator {
+                display: none;
+            }
+
+            .hamburger {
+                display: block;
+                position: absolute;
+                left: 50%;
+                top: 2.5rem;
+                width: 26px;
+                height: 20px;
+                transform: translateX(-50%);
+                cursor: pointer;
+                z-index: 101;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+                .nav-links.active {
+                    position: fixed;
+                    inset: 0;
+                    background: rgba(0,0,0,.9);
+                    display: flex;
+                    flex-direction: column;
+                    gap: 2rem;
+                    justify-content: center;
+                    align-items: center;
+                    font-family: "Moglan Demo","Area Normal",sans-serif;
+                }
+
+            .media-row.cols-4 {
+                grid-template-columns: repeat(2,1fr);
+            }
+
+            .viewer-content video, .viewer-content img {
+                max-width: 95vw;
+                max-height: 85vh;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ======= MENÚ ======= -->
+    <nav>
+        <a href="index.html#skipIntro"><img src="/images/BLANCA_NAME.png" class="nav-logo" alt="Home"></a>
+        <span class="nav-separator"></span>
+        <div class="nav-links" id="navLinks">
+            <a href="projects.html">Projects</a>
+            <a href="skills.html">Skills</a>
+            <a href="about.html">About</a>
+            <a href="contact.html">Contact</a>
+            <a href="inquiry.html">Inquiry</a>
+        </div>
+        <span class="hamburger" id="hamburger"><span></span><span></span><span></span></span>
+    </nav>
+
+    <main class="wrapper">
+
+        <!-- ---------- CABECERA ---------- -->
+        <header>
+            <h1>FERNANDO&nbsp;DE&nbsp;CÁRCER</h1>
+            <h2>RETAIL&nbsp;STORE</h2>
+
+            <div class="filter-bar">
+                <button class="filter-btn active" data-filter="all">All</button>
+                <button class="filter-btn" data-filter="motion">Motion&nbsp;Graphics</button>
+                <button class="filter-btn" data-filter="graphic">Graphic&nbsp;Design</button>
+            </div>
+        </header>
+
+        <!-- ===== SECCIÓN 1 — Motion (8 vídeos) ===== -->
+        <section class="gallery-section cat-motion" data-cat="motion">
+            <div class="media-row cols-4">
+                <div class="thumb"><video src="FERNANDODECARCER/video_1.mp4" autoplay muted loop playsinline></video></div>
+                <div class="thumb"><video src="FERNANDODECARCER/video_2.mp4" autoplay muted loop playsinline></video></div>
+                <div class="thumb"><video src="FERNANDODECARCER/video_3.mp4" autoplay muted loop playsinline></video></div>
+                <div class="thumb"><video src="FERNANDODECARCER/video_4.mp4" autoplay muted loop playsinline></video></div>
+            </div>
+            <div class="media-row cols-4">
+                <div class="thumb"><video src="FERNANDODECARCER/video_5.mp4" autoplay muted loop playsinline></video></div>
+                <div class="thumb"><video src="FERNANDODECARCER/video_6.mp4" autoplay muted loop playsinline></video></div>
+                <div class="thumb"><video src="FERNANDODECARCER/video_7.mp4" autoplay muted loop playsinline></video></div>
+                <div class="thumb"><video src="FERNANDODECARCER/video_8.mp4" autoplay muted loop playsinline></video></div>
+            </div>
+        </section>
+
+        <!-- ===== SECCIÓN 2 — Posts (4) ===== -->
+        <section class="gallery-section cat-graphic tight" data-cat="graphic">
+            <div class="media-row cols-4">
+                <div class="thumb"><img src="FERNANDODECARCER/post_1.png" alt=""></div>
+                <div class="thumb"><img src="FERNANDODECARCER/post_2.png" alt=""></div>
+                <div class="thumb"><img src="FERNANDODECARCER/post_3.png" alt=""></div>
+                <div class="thumb"><img src="FERNANDODECARCER/post_4.png" alt=""></div>
+            </div>
+        </section>
+
+        <!-- ===== SECCIÓN 3 — Stories (4) ===== -->
+        <section class="gallery-section cat-graphic tight" data-cat="graphic">
+            <div class="media-row cols-4">
+                <div class="thumb"><img src="FERNANDODECARCER/story_1.png" alt=""></div>
+                <div class="thumb"><img src="FERNANDODECARCER/story_2.png" alt=""></div>
+                <div class="thumb"><img src="FERNANDODECARCER/story_3.png" alt=""></div>
+                <div class="thumb"><img src="FERNANDODECARCER/story_4.png" alt=""></div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ========== VISOR ========== -->
+    <div class="viewer" id="viewer">
+        <div class="viewer-content" id="viewerContent"></div>
+        <button class="viewer-close" id="viewerClose" aria-label="Cerrar">✕</button>
+    </div>
+
+    <script>
+        /* -------- menú hamburguesa -------- */
+        document.getElementById("hamburger")
+            .addEventListener("click", () => document.getElementById("navLinks").classList.toggle("active"));
+
+        /* -------- visor -------- */
+        const viewer = document.getElementById('viewer');
+        const viewerCont = document.getElementById('viewerContent');
+        const viewerClose = document.getElementById('viewerClose');
+
+        document.querySelectorAll('.thumb').forEach(t => t.addEventListener('click', () => openViewer(t)));
+
+        function openViewer(t) {
+            viewer.classList.add('open'); viewerCont.innerHTML = '';
+            const node = t.firstElementChild.cloneNode(true);
+            if (node.tagName === 'VIDEO') { node.muted = false; node.controls = true; node.currentTime = 0; node.play(); }
+            viewerCont.appendChild(node);
+        }
+        function closeViewer() { viewer.classList.remove('open'); viewerCont.innerHTML = ''; }
+        viewerClose.addEventListener('click', closeViewer);
+        viewer.addEventListener('click', e => { if (e.target === viewer) closeViewer(); });
+
+        /* -------- filtros -------- */
+        const btns = document.querySelectorAll('.filter-btn');
+        const secs = document.querySelectorAll('.gallery-section');
+        btns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                btns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                const filter = btn.dataset.filter;
+                secs.forEach(sec => {
+                    const show = (filter === 'all' || sec.dataset.cat.includes(filter));
+                    sec.style.display = show ? '' : 'none';
+                });
+            });
+        });
+    </script>
+</body>
+</html>

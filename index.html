@@ -1,0 +1,138 @@
+﻿<!-- =============================
+     index.html  –  intro sólo la 1.ª vez por sesión
+============================= -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Portfolio – Landing</title>
+    <link rel="stylesheet" href="css/style.css" />
+</head>
+
+<body>
+    <!-- ========= INTRO (sólo 1-vez / sesión) ========= -->
+    <div id="intro" class="intro">
+        <video autoplay muted loop playsinline>
+            <source src="videos/INTRO.mp4" type="video/mp4" />
+        </video>
+        <span class="enter-label">CLICK ANYWHERE TO ENTER</span>
+    </div>
+
+    <!-- ========= HERO ========= -->
+    <header class="hero">
+        <!-- ===== MENÚ ===== -->
+        <nav>
+            <img src="images/BLANCA_NAME.png" class="nav-logo" alt="Blanca Name logo">
+
+            <span class="hamburger" id="hamburger"><span></span><span></span><span></span></span>
+
+            <span class="nav-separator"></span>
+
+            <div class="nav-links" id="navLinks">
+                <a href="projects.html">Projects</a>
+                <a href="skills.html">Skills</a>
+                <a href="about.html">About</a>
+                <a href="#contact">Contact</a>
+                <a href="inquiry.html">Inquiry</a>
+            </div>
+        </nav>
+
+        <!-- ===== CARRUSEL destacado ===== -->
+        <div class="featured-works" id="featured">
+            <h2 class="section-title">FEATURED WORKS</h2>
+
+            <button id="arrowLeft" class="carousel-arrow left hidden" aria-label="Prev">
+                <svg viewBox="0 0 24 24"><path d="M15.41 7.41 14 6l-6 6 6 6 1.41-1.41L10.83 12z" /></svg>
+            </button>
+            <button id="arrowRight" class="carousel-arrow right hidden" aria-label="Next">
+                <svg viewBox="0 0 24 24"><path d="m9 6 1.41 1.41L6.83 12l3.58 3.59L9 17l-6-6z" transform="scale(-1,1) translate(-24,0)" /></svg>
+            </button>
+
+            <div class="projects-carousel">
+                <a class="project-card" href="longevitas.html"><img src="images/longevitas.png" alt="Longevitas"></a>
+                <a class="project-card" href="fernandodecarcer.html"><img src="images/FERNANDO DE CARCER_2.png" alt="Fernando de Cárcer"></a>
+                <a class="project-card" href="mindtheseas.html"><img src="images/MIND_seas.png" alt="Mind the Seas"></a>
+                <a class="project-card" href="montenegrobrokers.html"><img src="images/montenegro.png" alt="Montenegro Brokers"></a>
+                <a class="project-card" href="thetag.html"><img src="images/the_tag.png" alt="The Tag"></a>
+            </div>
+
+            <a href="projects.html" class="see-all-works">See all works</a>
+        </div>
+    </header>
+
+    <!-- ========= CTA CONTACT ========= -->
+    <section class="contact-cta" id="contact">
+        <h2>GOT A PROJECT IN MIND?</h2>
+        <a href="mailto:blancapalazueloguijarro@gmail.com" class="contact-mail">
+            <img src="images/MAIL.png" alt="Send mail">
+        </a>
+    </section>
+
+    <!-- ========= JS ========= -->
+    <script>
+        /* ---------- INTRO: mostrar sólo la primera vez en la sesión ---------- */
+        const intro = document.getElementById('intro');
+
+        if (sessionStorage.getItem('introShown')) {
+            /* Ya se vio: quitar del DOM inmediatamente */
+            intro.remove();
+        } else {
+            /* Primera visita: al hacer clic se oculta y se marca como vista */
+            intro.addEventListener('click', () => {
+                intro.classList.add('hide');
+                intro.querySelector('video').pause();
+                intro.addEventListener('transitionend', () => intro.remove(), { once: true });
+                sessionStorage.setItem('introShown', 'yes');
+            });
+        }
+
+        /* ---------- Carrusel ---------- */
+        const carousel = document.querySelector('.projects-carousel');
+        const leftArrow = document.getElementById('arrowLeft');
+        const rightArrow = document.getElementById('arrowRight');
+
+        const getStep = () => {
+            const card = carousel.querySelector('.project-card');
+            const gap = parseFloat(getComputedStyle(carousel).gap) || 24;
+            return card.offsetWidth + gap;
+        };
+        const updateArrows = () => {
+            const max = carousel.scrollWidth - carousel.clientWidth - 5;
+            leftArrow.classList.toggle('hidden', carousel.scrollLeft <= 5);
+            rightArrow.classList.toggle('hidden', carousel.scrollLeft >= max);
+        };
+        updateArrows();
+
+        let isDown = false, startX = 0, startScroll = 0;
+        carousel.addEventListener('pointerdown', e => {
+            isDown = true; carousel.classList.add('dragging');
+            startX = e.clientX; startScroll = carousel.scrollLeft;
+        });
+        const stopDrag = () => { isDown = false; carousel.classList.remove('dragging'); };
+        carousel.addEventListener('pointerup', stopDrag);
+        carousel.addEventListener('pointerleave', stopDrag);
+        carousel.addEventListener('pointermove', e => {
+            if (!isDown) return;
+            e.preventDefault();
+            carousel.scrollLeft = startScroll - (e.clientX - startX) * 1.4;
+            updateArrows();
+        });
+        leftArrow.addEventListener('click', () => carousel.scrollBy({ left: -getStep(), behavior: 'smooth' }));
+        rightArrow.addEventListener('click', () => carousel.scrollBy({ left: getStep(), behavior: 'smooth' }));
+
+        /* brillo tarjeta activa */
+        const obs = new IntersectionObserver(
+            entries => entries.forEach(e => e.target.classList.toggle('active', e.intersectionRatio > .9)),
+            { root: carousel, threshold: .9 }
+        );
+        document.querySelectorAll('.project-card').forEach(c => obs.observe(c));
+        carousel.addEventListener('scroll', updateArrows);
+
+        /* ---------- Menú móvil ---------- */
+        const burger = document.getElementById('hamburger');
+        const navLinks = document.getElementById('navLinks');
+        burger.addEventListener('click', () => navLinks.classList.toggle('active'));
+    </script>
+</body>
+</html>

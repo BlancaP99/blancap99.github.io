@@ -1,0 +1,402 @@
+﻿<!-- =========================================================
+     taylorvest.html  –  Branding showcase
+     Filtros: All / Logo Design / Branding
+========================================================= -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TAYLORVEST – Project</title>
+
+    <style>
+        /* ---------- 1. FUENTES ---------- */
+        @font-face {
+            font-family: "Area Normal";
+            src: url("/fonts/AreaNormal.woff2") format("woff2"),url("/fonts/AreaNormal.woff") format("woff");
+        }
+
+        @font-face {
+            font-family: "Sweet Sans Pro";
+            src: url("/fonts/SWEETSANSPROREGULAR.OTF") format("opentype");
+        }
+
+        @font-face {
+            font-family: "Moglan Demo";
+            src: url("/fonts/MOGLAN_DEMO.TTF") format("truetype");
+        }
+
+        /* ---------- 2. RESET & FONDO ---------- */
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            min-height: 100vh;
+            background: url("/images/fondo_intro_2.png") center/cover no-repeat fixed;
+            color: #fff;
+            font-family: "Area Normal",sans-serif;
+        }
+
+        /* ---------- 3. MENÚ ---------- */
+        nav {
+            position: absolute;
+            top: 2rem;
+            left: 5%;
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            font-family: "Sweet Sans Pro";
+            font-size: .8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            z-index: 100;
+        }
+
+        .nav-logo {
+            height: 1.4rem;
+            cursor: pointer;
+        }
+
+        .nav-separator {
+            width: 1px;
+            height: 1.2rem;
+            background: #ffffff80;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            transition: font-weight .25s;
+        }
+
+            nav a:hover {
+                font-weight: 700;
+            }
+
+        .hamburger {
+            display: none;
+        }
+
+            .hamburger span {
+                display: block;
+                width: 100%;
+                height: 2px;
+                background: #fff;
+                margin: 5px 0;
+            }
+
+        /* ---------- 4. WRAPPER ---------- */
+        .wrapper {
+            max-width: 90rem;
+            margin: 11rem auto 6rem;
+            padding: 0 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 4rem;
+        }
+
+        /* ---------- 5. CABECERA ---------- */
+        h1 {
+            font-family: "Moglan Demo";
+            font-size: 1.4rem;
+            font-weight: 200;
+            letter-spacing: .1rem;
+            text-align: center;
+            margin-bottom: .3rem;
+        }
+
+        h2 {
+            font-family: "Sweet Sans Pro";
+            font-weight: 300;
+            font-size: .9rem;
+            letter-spacing: .2rem;
+            text-align: center;
+        }
+
+        .filter-bar {
+            margin: 2rem auto 0;
+            display: flex;
+            gap: 1.2rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            background: none;
+            border: none;
+            color: #fff;
+            font-family: "Sweet Sans Pro";
+            font-size: .75rem;
+            letter-spacing: .1rem;
+            text-transform: uppercase;
+            cursor: pointer;
+            position: relative;
+        }
+
+            .filter-btn.active::after {
+                content: "";
+                position: absolute;
+                left: 0;
+                bottom: -.2rem;
+                width: 100%;
+                height: 1px;
+                background: #fff;
+            }
+
+        /* ---------- 6. SECCIONES ---------- */
+        .section {
+            display: block;
+        }
+
+            .section[data-cat] {
+                transition: opacity .25s;
+            }
+
+        /* LOGO */
+        .logo-box {
+            margin: 0 auto;
+            text-align: center;
+        }
+
+            .logo-box img {
+                max-width: 420px;
+                width: 80%;
+                height: auto;
+            }
+
+        /* PALETA COLORES */
+        .palette {
+            display: flex;
+            justify-content: center;
+            gap: 2.4rem;
+            margin-top: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .swatch {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: .6rem;
+            font-family: "Sweet Sans Pro";
+            font-size: .65rem;
+            letter-spacing: .05rem;
+        }
+
+        .block {
+            width: 120px;
+            height: 120px;
+            border-radius: 6px;
+        }
+
+        /* GRID IMÁGENES BRANDING */
+        .row-grid {
+            display: grid;
+            gap: .6rem;
+            margin-top: 3rem;
+        }
+
+        .row-5 {
+            grid-template-columns: repeat(5,1fr);
+        }
+
+        .row-4 {
+            grid-template-columns: repeat(4,1fr);
+        }
+
+        .row-grid img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 6px;
+        }
+
+        /* ---------- 7. RESPONSIVE ---------- */
+        @media(max-width:1024px) {
+            .row-5 {
+                grid-template-columns: repeat(4,1fr);
+            }
+        }
+
+        @media(max-width:768px) {
+            /* menú */
+            nav {
+                left: 0;
+                right: 0;
+                width: 100%;
+                justify-content: center;
+            }
+
+            .nav-logo {
+                margin: auto;
+            }
+
+            .nav-separator {
+                display: none;
+            }
+
+            .hamburger {
+                display: block;
+                position: absolute;
+                left: 50%;
+                top: 2.5rem;
+                width: 26px;
+                height: 20px;
+                transform: translateX(-50%);
+                cursor: pointer;
+                z-index: 101;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+                .nav-links.active {
+                    position: fixed;
+                    inset: 0;
+                    background: rgba(0,0,0,.9);
+                    display: flex;
+                    flex-direction: column;
+                    gap: 2rem;
+                    justify-content: center;
+                    align-items: center;
+                    font-family: "Moglan Demo","Area Normal",sans-serif;
+                }
+
+            .palette {
+                gap: 1.2rem;
+            }
+
+            .block {
+                width: 90px;
+                height: 90px;
+            }
+
+            .row-5 {
+                grid-template-columns: repeat(2,1fr);
+            }
+
+            .row-4 {
+                grid-template-columns: repeat(2,1fr);
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ---------- MENÚ ---------- -->
+    <nav>
+        <a href="index.html#skipIntro"><img src="/images/BLANCA_NAME.png" class="nav-logo" alt="Home"></a>
+        <span class="nav-separator"></span>
+
+        <div class="nav-links" id="navLinks">
+            <a href="projects.html">Projects</a>
+            <a href="skills.html">Skills</a>
+            <a href="about.html">About</a>
+            <a href="contact.html">Contact</a>
+            <a href="inquiry.html">Inquiry</a>
+        </div>
+
+        <span class="hamburger" id="hamburger"><span></span><span></span><span></span></span>
+    </nav>
+
+    <main class="wrapper">
+
+        <!-- ---------- CABECERA ---------- -->
+        <header>
+            <h1>TAYLORVEST</h1>
+            <h2>CAPITAL&nbsp;INVESTMENT</h2>
+
+            <div class="filter-bar">
+                <button class="filter-btn active" data-filter="all">All</button>
+                <button class="filter-btn" data-filter="logo">Logo&nbsp;Design</button>
+                <button class="filter-btn" data-filter="branding">Branding</button>
+            </div>
+        </header>
+
+        <!-- ---------- SECCIÓN ­LOGO ---------- -->
+        <section class="section" data-cat="logo">
+            <div class="logo-box">
+                <img src="TAYLORVEST/LOGO_PNG_white.png" alt="Taylorvest logo blanco">
+            </div>
+        </section>
+
+        <!-- ---------- SECCIÓN ­PALETA COLORES (Branding) ---------- -->
+        <section class="section" data-cat="branding">
+            <div class="palette">
+                <div class="swatch">
+                    <div class="block" style="background:#002a54"></div><span>#002a54</span>
+                </div>
+                <div class="swatch">
+                    <div class="block" style="background:#f7f6f6"></div><span>#f7f6f6</span>
+                </div>
+                <div class="swatch">
+                    <div class="block" style="background:#045307"></div><span>#045307</span>
+                </div>
+                <div class="swatch">
+                    <div class="block" style="background:#ffe02f"></div><span>#ffe02f</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- ---------- SECCIÓN ­IMÁGENES BRANDING ---------- -->
+        <section class="section" data-cat="branding">
+
+            <!-- fila 1 (5 imgs) -->
+            <div class="row-grid row-5">
+                <img src="TAYLORVEST/1.jpg" alt="">
+                <img src="TAYLORVEST/2.jpg" alt="">
+                <img src="TAYLORVEST/3.jpg" alt="">
+                <img src="TAYLORVEST/4.jpg" alt="">
+                <img src="TAYLORVEST/9.jpg" alt="">
+            </div>
+
+            <!-- fila 2 (4 imgs) -->
+            <div class="row-grid row-4" style="margin-top:.6rem">
+                <img src="TAYLORVEST/5.jpg" alt="">
+                <img src="TAYLORVEST/6.jpg" alt="">
+                <img src="TAYLORVEST/7.jpg" alt="">
+                <img src="TAYLORVEST/8.jpg" alt="">
+            </div>
+
+        </section>
+
+    </main>
+
+    <script>
+/* hamburguesa */
+document.getElementById('hamburger')
+        .addEventListener('click',()=>document.getElementById('navLinks').classList.toggle('active'));
+
+/* filtros */
+const buttons=document.querySelectorAll('.filter-btn');
+const sections=document.querySelectorAll('.section');
+
+buttons.forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    buttons.forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    const filter=btn.dataset.filter;
+    sections.forEach(sec=>{
+        if(filter==='all'){
+           sec.style.display='';
+        }else{
+           const cats=sec.dataset.cat.split(' ');
+           sec.style.display=cats.includes(filter)?'':'none';
+        }
+    });
+  });
+});
+    </script>
+
+</body>
+</html>

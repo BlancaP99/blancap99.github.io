@@ -1,0 +1,376 @@
+﻿<!-- =========================================================
+     longevitas.html  –  Galería con filtros y visor
+     Filtros: All / Graphic Design
+========================================================= -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LONGEVITAS – Project</title>
+
+    <style>
+        /* ---------- 1. FUENTES ---------- */
+        @font-face {
+            font-family: "Area Normal";
+            src: url("/fonts/AreaNormal.woff2") format("woff2"),url("/fonts/AreaNormal.woff") format("woff");
+        }
+
+        @font-face {
+            font-family: "Sweet Sans Pro";
+            src: url("/fonts/SWEETSANSPROREGULAR.OTF") format("opentype");
+        }
+
+        @font-face {
+            font-family: "Moglan Demo";
+            src: url("/fonts/MOGLAN_DEMO.TTF") format("truetype");
+        }
+
+        /* ---------- 2. RESET ---------- */
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* ---------- 3. FONDO GLOBAL ---------- */
+        body {
+            min-height: 100vh;
+            background: url("/images/fondo_intro_2.png") center/cover no-repeat fixed;
+            color: #fff;
+            font-family: "Area Normal",sans-serif;
+        }
+
+        /* ---------- 4. MENÚ ---------- */
+        nav {
+            position: absolute;
+            top: 2rem;
+            left: 5%;
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            font-family: "Sweet Sans Pro";
+            font-size: .8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            z-index: 100;
+        }
+
+        .nav-logo {
+            height: 1.4rem;
+            cursor: pointer;
+        }
+
+        .nav-separator {
+            width: 1px;
+            height: 1.2rem;
+            background: #ffffff80;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            transition: font-weight .25s;
+        }
+
+            nav a:hover {
+                font-weight: 700;
+            }
+
+        .hamburger {
+            display: none;
+        }
+
+            .hamburger span {
+                display: block;
+                width: 100%;
+                height: 2px;
+                background: #fff;
+                margin: 5px 0;
+            }
+
+        /* ---------- 5. WRAPPER PRINCIPAL ---------- */
+        .wrapper {
+            max-width: 70rem;
+            margin: 11rem auto 6rem;
+            padding: 0 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 4rem;
+        }
+
+        /* ---------- 6. CABECERA ---------- */
+        h1 {
+            font-family: "Moglan Demo";
+            font-size: 1.4rem;
+            font-weight: 200;
+            letter-spacing: .1rem;
+            text-align: center;
+            margin-bottom: .3rem;
+        }
+
+        h2 {
+            font-family: "Sweet Sans Pro";
+            font-weight: 300;
+            font-size: .9rem;
+            letter-spacing: .2rem;
+            text-align: center;
+        }
+
+        .filter-bar {
+            margin: 2rem auto 0;
+            display: flex;
+            gap: 1.2rem;
+            justify-content: center;
+        }
+
+        .filter-btn {
+            background: none;
+            border: none;
+            color: #fff;
+            font-family: "Sweet Sans Pro";
+            font-size: .75rem;
+            letter-spacing: .1rem;
+            text-transform: uppercase;
+            cursor: pointer;
+            position: relative;
+        }
+
+            .filter-btn.active::after {
+                content: "";
+                position: absolute;
+                left: 0;
+                bottom: -.2rem;
+                width: 100%;
+                height: 1px;
+                background: #fff;
+            }
+
+        /* ---------- 7. GALERÍA ---------- */
+        .gallery-section {
+            display: flex;
+            flex-direction: column;
+            gap: .6rem;
+        }
+
+        .media-row {
+            display: grid;
+            gap: .6rem;
+        }
+
+            .media-row.cols-4 {
+                grid-template-columns: repeat(4,1fr);
+            }
+
+        .thumb {
+            cursor: pointer;
+            border-radius: 6px;
+            overflow: visible;
+        }
+
+            .thumb img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                border-radius: 6px;
+                transition: transform .3s;
+            }
+
+            .thumb:hover img {
+                transform: scale(1.05);
+            }
+
+        /* ---------- 8. VISOR ---------- */
+        .viewer {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,.9);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 200;
+            padding: 1rem;
+        }
+
+            .viewer.open {
+                display: flex;
+            }
+
+        .viewer-content {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+            .viewer-content img {
+                width: auto;
+                height: auto;
+                max-width: 90vw;
+                max-height: 90vh;
+                object-fit: contain;
+                border-radius: 6px;
+            }
+
+        .viewer-close {
+            position: absolute;
+            top: -2rem;
+            right: 0;
+            font-size: 2rem;
+            background: none;
+            border: none;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        /* ---------- 9. RESPONSIVE ---------- */
+        @media(max-width:1024px) {
+            .media-row.cols-4 {
+                grid-template-columns: repeat(3,1fr);
+            }
+        }
+
+        @media(max-width:768px) {
+            nav {
+                left: 0;
+                right: 0;
+                width: 100%;
+                justify-content: center;
+            }
+
+            .nav-logo {
+                margin: auto;
+            }
+
+            .nav-separator {
+                display: none;
+            }
+
+            .hamburger {
+                display: block;
+                position: absolute;
+                left: 50%;
+                top: 2.5rem;
+                width: 26px;
+                height: 20px;
+                transform: translateX(-50%);
+                cursor: pointer;
+                z-index: 101;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+                .nav-links.active {
+                    position: fixed;
+                    inset: 0;
+                    background: rgba(0,0,0,.9);
+                    display: flex;
+                    flex-direction: column;
+                    gap: 2rem;
+                    justify-content: center;
+                    align-items: center;
+                    font-family: "Moglan Demo","Area Normal",sans-serif;
+                }
+
+            .media-row.cols-4 {
+                grid-template-columns: repeat(2,1fr);
+            }
+
+            .viewer-content img {
+                max-width: 95vw;
+                max-height: 85vh;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ======= MENÚ ======= -->
+    <nav>
+        <a href="index.html#skipIntro"><img src="/images/BLANCA_NAME.png" class="nav-logo" alt="Home"></a>
+        <span class="nav-separator"></span>
+        <div class="nav-links" id="navLinks">
+            <a href="projects.html">Projects</a>
+            <a href="skills.html">Skills</a>
+            <a href="about.html">About</a>
+            <a href="contact.html">Contact</a>
+            <a href="inquiry.html">Inquiry</a>
+        </div>
+        <span class="hamburger" id="hamburger"><span></span><span></span><span></span></span>
+    </nav>
+
+    <main class="wrapper">
+
+        <!-- ---------- CABECERA ---------- -->
+        <header>
+            <h1>LONGEVITAS</h1>
+            <h2>HIGH&nbsp;QUALITY&nbsp;SUPPLEMENTS</h2>
+
+            <div class="filter-bar">
+                <button class="filter-btn active" data-filter="all">All</button>
+                <button class="filter-btn" data-filter="graphic">Graphic&nbsp;Design</button>
+            </div>
+        </header>
+
+        <!-- ===== SECCIÓN ÚNICA — Posts (8) ===== -->
+        <section class="gallery-section cat-graphic" data-cat="graphic">
+            <div class="media-row cols-4">
+                <div class="thumb"><img src="LONGEVITAS/post_1.jpg" alt=""></div>
+                <div class="thumb"><img src="LONGEVITAS/post_2.jpg" alt=""></div>
+                <div class="thumb"><img src="LONGEVITAS/post_3.jpg" alt=""></div>
+                <div class="thumb"><img src="LONGEVITAS/post_4.jpg" alt=""></div>
+            </div>
+            <div class="media-row cols-4">
+                <div class="thumb"><img src="LONGEVITAS/post_5.jpg" alt=""></div>
+                <div class="thumb"><img src="LONGEVITAS/post_6.jpg" alt=""></div>
+                <div class="thumb"><img src="LONGEVITAS/post_7.jpg" alt=""></div>
+                <div class="thumb"><img src="LONGEVITAS/post_8.jpg" alt=""></div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ========== VISOR ========== -->
+    <div class="viewer" id="viewer">
+        <div class="viewer-content" id="viewerContent"></div>
+        <button class="viewer-close" id="viewerClose" aria-label="Cerrar">✕</button>
+    </div>
+
+    <script>
+/* -------- menú hamburguesa -------- */
+document.getElementById('hamburger')
+        .addEventListener('click',()=>document.getElementById('navLinks').classList.toggle('active'));
+
+/* -------- visor -------- */
+const viewer  = document.getElementById('viewer');
+const vCont   = document.getElementById('viewerContent');
+const vClose  = document.getElementById('viewerClose');
+
+document.querySelectorAll('.thumb').forEach(t=>t.addEventListener('click',()=>{
+    viewer.classList.add('open');vCont.innerHTML='';
+    const node=t.firstElementChild.cloneNode(true);
+    vCont.appendChild(node);
+}));
+function closeViewer(){viewer.classList.remove('open');vCont.innerHTML='';}
+vClose.addEventListener('click',closeViewer);
+viewer.addEventListener('click',e=>{if(e.target===viewer)closeViewer();});
+
+/* -------- filtros (solo 1 categoría adicional) -------- */
+document.querySelectorAll('.filter-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+     document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+     btn.classList.add('active');
+  });
+});
+    </script>
+
+</body>
+</html>
