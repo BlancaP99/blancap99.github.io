@@ -1,6 +1,6 @@
 <!-- =========================================================
-     mindtheseas.html – Live preview con filtros y visor centrado
-     (fondo inmóvil · menú unificado · filtros All / Web Design / Web Development)
+     mindtheseas.html – Live preview (PC & móvil)
+     (único cambio: fondo inmóvil mediante ::before)
 ========================================================= -->
 <!DOCTYPE html>
 <html lang="es">
@@ -15,23 +15,28 @@
 @font-face{font-family:"Sweet Sans Pro";src:url("/fonts/SWEETSANSPROREGULAR.OTF") format("opentype");}
 @font-face{font-family:"Moglan Demo";src:url("/fonts/MOGLAN_DEMO.TTF") format("truetype");}
 
-/* ---------- 2. RESET ---------- */
+/* ---------- 2. RESET & FONDO INMÓVIL ---------- */
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 
-/* ---------- 3. FONDO INMÓVIL ---------- */
 html,body{height:100%;}
 body{
-    background:url("/images/fondo_intro_2.png") center/cover no-repeat fixed;
-    color:#fff;font-family:"Area Normal",sans-serif;
+    position:relative;                      /* stacking-context */
+    color:#fff;
+    font-family:"Area Normal",sans-serif;
 }
+/* pseudo-elemento fijo → compatible con móvil */
 body::before{
-    content:"";position:fixed;inset:0;
+    content:"";
+    position:fixed;
+    inset:0;
     background:url("/images/fondo_intro_2.png") center/cover no-repeat;
-    z-index:-1;pointer-events:none;transform:translateZ(0);
+    z-index:-1;
+    pointer-events:none;
+    transform:translateZ(0);
 }
 
-/* ---------- 4. MENÚ ---------- */
-nav{position:absolute;top:2rem;left:5%;display:flex;align-items:center;gap:1.5rem;font-family:"Sweet Sans Pro";font-size:.8rem;letter-spacing:1px;text-transform:uppercase;z-index:100;}
+/* ---------- 3. MENÚ PRINCIPAL ---------- */
+nav{position:absolute;top:2rem;left:5%;display:flex;align-items:center;gap:1.5rem;font-family:"Sweet Sans Pro";font-size:.8rem;text-transform:uppercase;letter-spacing:1px;z-index:100;}
 .nav-logo{height:1.4rem;cursor:pointer;}
 .nav-separator{width:1px;height:1.2rem;background:#ffffff80;}
 .nav-links{display:flex;gap:1.5rem;}
@@ -40,26 +45,24 @@ nav a:hover{font-weight:700;}
 .hamburger{display:none;}
 .hamburger span{display:block;width:100%;height:2px;background:#fff;margin:5px 0;}
 
-/* ---------- 5. WRAPPER ---------- */
+/* ---------- 4. CONTENEDOR ---------- */
 .wrapper{max-width:90rem;margin:11rem auto 6rem;padding:0 1rem;display:flex;flex-direction:column;gap:4rem;}
 
-/* ---------- 6. CABECERA ---------- */
+/* ---------- 5. CABECERA ---------- */
 h1{font-family:"Moglan Demo";font-size:1.4rem;font-weight:200;letter-spacing:.1rem;text-align:center;margin-bottom:.3rem;}
 h2{font-family:"Sweet Sans Pro";font-weight:300;font-size:.9rem;letter-spacing:.2rem;text-align:center;}
-.filter-bar{margin:2rem auto 0;display:flex;gap:1.2rem;flex-wrap:wrap;justify-content:center;}
-.filter-btn{background:none;border:none;color:#fff;cursor:pointer;font-family:"Sweet Sans Pro";font-size:.75rem;letter-spacing:.1rem;text-transform:uppercase;position:relative;}
-.filter-btn::after{content:"";position:absolute;left:0;bottom:-.2rem;width:0;height:1px;background:#fff;transition:.3s;}
-.filter-btn.active::after{width:100%;}
+.filter-bar{margin:2rem auto 0;display:flex;gap:1.2rem;justify-content:center;}
+.filter-btn{background:none;border:none;color:#fff;font-family:"Sweet Sans Pro";font-size:.75rem;letter-spacing:.1rem;text-transform:uppercase;cursor:pointer;position:relative;}
+.filter-btn.active::after{content:"";position:absolute;left:0;bottom:-.2rem;width:100%;height:1px;background:#fff;}
 
-/* ---------- 7. CAJA PREVIEW ---------- */
+/* ---------- 6. CAJA PREVIEW ---------- */
 .web-box{position:relative;margin:3.2rem auto 0;width:100%;max-width:1200px;border-radius:12px;overflow:hidden;}
 .full-link{position:absolute;top:.6rem;right:.9rem;z-index:10;display:inline-flex;align-items:center;gap:.3rem;font-family:"Sweet Sans Pro";font-size:.75rem;letter-spacing:.05rem;text-transform:uppercase;color:#fff;text-decoration:none;background:rgba(0,0,0,.65);padding:.25rem .6rem;border-radius:6px;}
 .full-link svg{width:.65rem;height:.65rem;fill:#fff;transform:rotate(30deg);}
 .scale-wrapper{transform:scale(.85);transform-origin:top left;width:117.647%;height:117.647%;}
 .web-box iframe{width:100%;height:90vh;max-height:1000px;border:0;border-radius:12px;}
 
-/* ---------- 8. RESPONSIVE ---------- */
-@media(max-width:1024px){.scale-wrapper{transform:scale(.9);width:111.111%;height:111.111%;}}
+/* ---------- 7. RESPONSIVE ---------- */
 @media(max-width:768px){
     nav{left:0;right:0;width:100%;justify-content:center;}
     .nav-logo{margin:auto;}
@@ -67,6 +70,7 @@ h2{font-family:"Sweet Sans Pro";font-weight:300;font-size:.9rem;letter-spacing:.
     .hamburger{display:block;position:absolute;left:50%;top:2.5rem;width:26px;height:20px;transform:translateX(-50%);cursor:pointer;z-index:101;}
     .nav-links{display:none;}
     .nav-links.active{position:fixed;inset:0;background:rgba(0,0,0,.9);display:flex;flex-direction:column;gap:2rem;justify-content:center;align-items:center;font-family:"Moglan Demo","Area Normal",sans-serif;}
+
     .web-box{max-width:380px;border-radius:22px;margin:3rem auto 0;}
     .scale-wrapper{transform:none;width:100%;height:100%;}
     .web-box iframe{height:700px;border-radius:22px;}
@@ -77,7 +81,7 @@ h2{font-family:"Sweet Sans Pro";font-weight:300;font-size:.9rem;letter-spacing:.
 
 <body>
 
-<!-- ======= MENÚ ======= -->
+<!-- ---------- MENÚ ---------- -->
 <nav>
     <a href="index.html#skipIntro"><img src="/images/BLANCA_NAME.png" class="nav-logo" alt="Home"></a>
     <span class="nav-separator"></span>
@@ -119,12 +123,11 @@ h2{font-family:"Sweet Sans Pro";font-weight:300;font-size:.9rem;letter-spacing:.
 </main>
 
 <script>
-/* ---------- menú hamburguesa ---------- */
-document.getElementById('hamburger').addEventListener('click',()=>{
-    document.getElementById('navLinks').classList.toggle('active');
-});
+/* hamburguesa */
+document.getElementById('hamburger')
+        .addEventListener('click',()=>document.getElementById('navLinks').classList.toggle('active'));
 
-/* ---------- filtros (solo visual) ---------- */
+/* filtros – solo visual */
 document.querySelectorAll('.filter-btn').forEach(btn=>{
     btn.addEventListener('click',()=>{
         document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
