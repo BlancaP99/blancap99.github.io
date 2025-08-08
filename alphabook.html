@@ -5,11 +5,11 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ALPHABOOK – Project</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ALPHABOOK – Project</title>
 
-    <style>
+<style>
 /* ---------- 1. FUENTES ---------- */
 @font-face{font-family:"Area Normal";src:url("/fonts/AreaNormal.woff2") format("woff2"),url("/fonts/AreaNormal.woff") format("woff");}
 @font-face{font-family:"Sweet Sans Pro";src:url("/fonts/SWEETSANSPROREGULAR.OTF") format("opentype");}
@@ -83,7 +83,7 @@ h2{font-family:"Sweet Sans Pro";font-weight:300;font-size:.9rem;letter-spacing:.
     .media-row.cols-3,.media-row.cols-4{grid-template-columns:repeat(2,1fr);}
     .viewer-content video,.viewer-content img{max-width:95vw;max-height:85vh;}
 }
-    </style>
+</style>
 </head>
 <body>
 
@@ -102,77 +102,77 @@ h2{font-family:"Sweet Sans Pro";font-weight:300;font-size:.9rem;letter-spacing:.
 </nav>
 
 <main class="wrapper">
-    <!-- ---------- CABECERA ---------- -->
-    <header>
-        <h1>ALPHABOOK</h1>
-        <h2>CASINO&nbsp;&amp;&nbsp;SPORTS</h2>
+  <!-- ---------- CABECERA ---------- -->
+  <header>
+      <h1>ALPHABOOK</h1>
+      <h2>CASINO&nbsp;&amp;&nbsp;SPORTS</h2>
 
-        <div class="filter-bar">
-            <button class="filter-btn active" data-filter="all">All</button>
-            <button class="filter-btn" data-filter="3d">3D Animation</button>
-            <button class="filter-btn" data-filter="motion">Motion Graphics</button>
-            <button class="filter-btn" data-filter="graphic">Graphic Design</button>
-        </div>
-    </header>
+      <div class="filter-bar">
+          <button class="filter-btn active" data-filter="all">All</button>
+          <button class="filter-btn" data-filter="3d">3D Animation</button>
+          <button class="filter-btn" data-filter="motion">Motion Graphics</button>
+          <button class="filter-btn" data-filter="graphic">Graphic Design</button>
+      </div>
+  </header>
 
-    <!-- ===== SECCIÓN 1 — MOTION (4 vídeos) ===== -->
-    <section class="gallery-section cat-motion" data-cat="motion">
-        <div class="media-row cols-4">
-            <div class="thumb"><video src="ALPHABOOK/video_1.mp4" autoplay muted loop playsinline></video></div>
-            <div class="thumb"><video src="ALPHABOOK/video_2.mp4" autoplay muted loop playsinline></video></div>
-            <div class="thumb"><video src="ALPHABOOK/video_3.mp4" autoplay muted loop playsinline></video></div>
-            <div class="thumb"><video src="ALPHABOOK/video_4.mp4" autoplay muted loop playsinline></video></div>
-        </div>
-    </section>
+  <!-- ===== SECCIÓN 1 — MOTION (4 vídeos) ===== -->
+  <section class="gallery-section cat-motion" data-cat="motion">
+      <div class="media-row cols-4">
+          <div class="thumb"><video src="ALPHABOOK/video_1.mp4" autoplay muted loop playsinline preload="auto"></video></div>
+          <div class="thumb"><video src="ALPHABOOK/video_2.mp4" autoplay muted loop playsinline preload="auto"></video></div>
+          <div class="thumb"><video src="ALPHABOOK/video_3.mp4" autoplay muted loop playsinline preload="auto"></video></div>
+          <div class="thumb"><video src="ALPHABOOK/video_4.mp4" autoplay muted loop playsinline preload="auto"></video></div>
+      </div>
+  </section>
 
-    <!-- ===== SECCIÓN 2 — FOTOS (8) ===== -->
-    <section class="gallery-section cat-graphic tight" data-cat="graphic">
-        <div class="media-row cols-4">
-            <div class="thumb"><img src="ALPHABOOK/1.jpg" alt=""></div>
-            <div class="thumb"><img src="ALPHABOOK/2.jpg" alt=""></div>
-            <div class="thumb"><img src="ALPHABOOK/3.jpg" alt=""></div>
-            <div class="thumb"><img src="ALPHABOOK/4.jpg" alt=""></div>
-        </div>
-        <div class="media-row cols-4">
-            <div class="thumb"><img src="ALPHABOOK/5.jpg" alt=""></div>
-            <div class="thumb"><img src="ALPHABOOK/6.jpg" alt=""></div>
-            <div class="thumb"><img src="ALPHABOOK/7.jpg" alt=""></div>
-            <div class="thumb"><img src="ALPHABOOK/8.jpg" alt=""></div>
-        </div>
-    </section>
+  <!-- ===== SECCIÓN 2 — FOTOS (8) ===== -->
+  <section class="gallery-section cat-graphic tight" data-cat="graphic">
+      <div class="media-row cols-4">
+          <div class="thumb"><img src="ALPHABOOK/1.jpg" alt=""></div>
+          <div class="thumb"><img src="ALPHABOOK/2.jpg" alt=""></div>
+          <div class="thumb"><img src="ALPHABOOK/3.jpg" alt=""></div>
+          <div class="thumb"><img src="ALPHABOOK/4.jpg" alt=""></div>
+      </div>
+      <div class="media-row cols-4">
+          <div class="thumb"><img src="ALPHABOOK/5.jpg" alt=""></div>
+          <div class="thumb"><img src="ALPHABOOK/6.jpg" alt=""></div>
+          <div class="thumb"><img src="ALPHABOOK/7.jpg" alt=""></div>
+          <div class="thumb"><img src="ALPHABOOK/8.jpg" alt=""></div>
+      </div>
+  </section>
 
-    <!-- ===== SECCIÓN 3 — BANNERS ===== -->
-    <section class="gallery-section cat-graphic tight" data-cat="graphic">
-        <div class="media-row cols-2">
-            <div class="thumb"><img src="ALPHABOOK/banner_1.jpg" alt=""></div>
-            <div class="thumb"><img src="ALPHABOOK/banner_2.jpg" alt=""></div>
-        </div>
-        <div class="media-row cols-2">
-            <div class="thumb"><img src="ALPHABOOK/banner_3.jpg" alt=""></div>
-            <div class="thumb"><img src="ALPHABOOK/banner_4.jpg" alt=""></div>
-        </div>
-        <div class="media-row cols-3">
-            <div class="thumb"><img src="ALPHABOOK/banner_5.jpg" alt=""></div>
-            <div class="thumb"><img src="ALPHABOOK/banner_6.jpg" alt=""></div>
-            <div class="thumb"><img src="ALPHABOOK/banner_7.jpg" alt=""></div>
-        </div>
-    </section>
+  <!-- ===== SECCIÓN 3 — BANNERS ===== -->
+  <section class="gallery-section cat-graphic tight" data-cat="graphic">
+      <div class="media-row cols-2">
+          <div class="thumb"><img src="ALPHABOOK/banner_1.jpg" alt=""></div>
+          <div class="thumb"><img src="ALPHABOOK/banner_2.jpg" alt=""></div>
+      </div>
+      <div class="media-row cols-2">
+          <div class="thumb"><img src="ALPHABOOK/banner_3.jpg" alt=""></div>
+          <div class="thumb"><img src="ALPHABOOK/banner_4.jpg" alt=""></div>
+      </div>
+      <div class="media-row cols-3">
+          <div class="thumb"><img src="ALPHABOOK/banner_5.jpg" alt=""></div>
+          <div class="thumb"><img src="ALPHABOOK/banner_6.jpg" alt=""></div>
+          <div class="thumb"><img src="ALPHABOOK/banner_7.jpg" alt=""></div>
+      </div>
+  </section>
 
-    <!-- ===== SECCIÓN 4 — VIDEO GRANDE ===== -->
-    <section class="gallery-section cat-3d" data-cat="3d">
-        <div class="media-row cols-1">
-            <div class="thumb"><video src="ALPHABOOK/tienda.mp4" autoplay muted loop playsinline></video></div>
-        </div>
-    </section>
+  <!-- ===== SECCIÓN 4 — VIDEO GRANDE ===== -->
+  <section class="gallery-section cat-3d" data-cat="3d">
+      <div class="media-row cols-1">
+          <div class="thumb"><video src="ALPHABOOK/tienda.mp4" autoplay muted loop playsinline preload="auto"></video></div>
+      </div>
+  </section>
 
-    <!-- ===== SECCIÓN 5 — 3 VÍDEOS ===== -->
-    <section class="gallery-section cat-3d" data-cat="3d">
-        <div class="media-row cols-3">
-            <div class="thumb"><video src="ALPHABOOK/WHITE_HOODIE_VID.mp4" autoplay muted loop playsinline></video></div>
-            <div class="thumb"><video src="ALPHABOOK/GORRA_VID.mp4"          autoplay muted loop playsinline></video></div>
-            <div class="thumb"><video src="ALPHABOOK/WHITE_PANTS_vid2.mp4"  autoplay muted loop playsinline></video></div>
-        </div>
-    </section>
+  <!-- ===== SECCIÓN 5 — 3 VÍDEOS ===== -->
+  <section class="gallery-section cat-3d" data-cat="3d">
+      <div class="media-row cols-3">
+          <div class="thumb"><video src="ALPHABOOK/WHITE_HOODIE_VID.mp4" autoplay muted loop playsinline preload="auto"></video></div>
+          <div class="thumb"><video src="ALPHABOOK/GORRA_VID.mp4"          autoplay muted loop playsinline preload="auto"></video></div>
+          <div class="thumb"><video src="ALPHABOOK/WHITE_PANTS_vid2.mp4"  autoplay muted loop playsinline preload="auto"></video></div>
+      </div>
+  </section>
 </main>
 
 <!-- ========== VISOR ========== -->
@@ -182,6 +182,16 @@ h2{font-family:"Sweet Sans Pro";font-weight:300;font-size:.9rem;letter-spacing:.
 </div>
 
 <script>
+/* ---------- FORZAR AUTOPLAY EN iOS / ANDROID ---------- */
+document.addEventListener('DOMContentLoaded',()=>{
+  document.querySelectorAll('.thumb video').forEach(v=>{
+      v.muted=true;
+      v.setAttribute('playsinline','');
+      v.setAttribute('preload','auto');
+      v.play().catch(()=>{});   // silencio si falla en primer intento
+  });
+});
+
 /* ---------- menú hamburguesa ---------- */
 document.getElementById('hamburger')
         .addEventListener('click',()=>document.getElementById('navLinks').classList.toggle('active'));
@@ -192,15 +202,14 @@ const viewerCont  = document.getElementById('viewerContent');
 const viewerClose = document.getElementById('viewerClose');
 
 document.querySelectorAll('.thumb').forEach(t=>t.addEventListener('click',()=>openViewer(t)));
-
 function openViewer(thumb){
     viewer.classList.add('open');
     viewerCont.innerHTML='';
     const node = thumb.firstElementChild.cloneNode(true);
     if(node.tagName==='VIDEO'){
-        node.muted=false;          // ▶️ sonido al abrir
+        node.muted=false;
+        node.loop=true;
         node.controls=true;
-        node.loop=true;            // 🔁 garantiza loop
         node.currentTime=0;
         node.play();
     }
@@ -220,7 +229,7 @@ buttons.forEach(btn=>{
         btn.classList.add('active');
         const filter=btn.dataset.filter;
         sections.forEach(sec=>{
-            sec.style.display = (filter==='all'||sec.dataset.cat===filter)?'':'none';
+            sec.style.display=(filter==='all'||sec.dataset.cat===filter)?'':'none';
         });
     });
 });
