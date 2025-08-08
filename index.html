@@ -1,5 +1,5 @@
-﻿<!-- =============================
-     index.html  –  intro sólo la 1.ª vez por sesión
+<!-- =============================
+     index.html — intro solo 1ª vez + fondo inmóvil (desktop + móvil)
 ============================= -->
 <!DOCTYPE html>
 <html lang="es">
@@ -7,494 +7,279 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Portfolio – Landing</title>
+
   <style>
-    /* ========== CSS embebido desde style.css ========== */
+/* ---------- 1. FUENTES ---------- */
+@font-face{font-family:"Area Normal";src:url("fonts/AreaNormal.woff2") format("woff2"),url("fonts/AreaNormal.woff") format("woff");}
+@font-face{font-family:"Sweet Sans Pro";src:url("fonts/SWEETSANSPROREGULAR.OTF") format("opentype");}
+@font-face{font-family:"Sweet Sans Pro Bold";src:url("fonts/SWEETSANSPROBOLD.OTF") format("opentype");}
+@font-face{font-family:"Moglan Demo";src:url("fonts/MOGLAN_DEMO.TTF") format("truetype");}
 
-    /* ---------- 1. FUENTES ---------- */
-    @font-face {
-      font-family: "Area Normal";
-      src: url("fonts/AreaNormal.woff2") format("woff2"),
-           url("fonts/AreaNormal.woff") format("woff");
-    }
+/* ---------- 2. RESET ---------- */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 
-    @font-face {
-      font-family: "Sweet Sans Pro";
-      src: url("fonts/SWEETSANSPROREGULAR.OTF") format("opentype");
-    }
+/* ---------- 3. FONDO INMÓVIL (desktop + móvil) ---------- */
+html,body{height:100%;}
+body{
+    position:relative;
+    color:#fff;
+    font-family:"Area Normal",sans-serif;
+}
+body::before{
+    content:"";
+    position:fixed;inset:0;
+    background:url("images/fondo_intro_2.png") center/cover no-repeat;
+    z-index:-1;
+    pointer-events:none;
+    transform:translateZ(0);          /* evita “parpadeo” al hacer scroll en iOS */
+}
 
-    @font-face {
-      font-family: "Sweet Sans Pro Bold";
-      src: url("fonts/SWEETSANSPROBOLD.OTF") format("opentype");
-    }
+/* ---------- 4. INTRO ---------- */
+.intro{
+    position:fixed;inset:0;z-index:9999;
+    cursor:pointer;overflow:hidden;
+    transition:opacity .8s;
+}
+.intro video{
+    position:absolute;inset:0;
+    width:100%;height:100%;
+    object-fit:cover;
+    transition:.3s;
+}
+.enter-label{
+    position:absolute;bottom:5%;
+    left:0;right:0;                  /* centrado horizontal */
+    text-align:center;
+    font-size:.8rem;letter-spacing:1px;
+    color:#7d745a;
+}
+.intro.hide{opacity:0;pointer-events:none;}
 
-    @font-face {
-      font-family: "Moglan Demo";
-      src: url("fonts/MOGLAN_DEMO.TTF") format("truetype");
-    }
+/* ---------- 5. HERO ---------- */
+.hero{min-height:85vh;display:flex;flex-direction:column;justify-content:center;align-items:center;position:relative;}
 
-    /* ---------- 2. RESET ---------- */
-    *, *::before, *::after {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+/* ---------- 6. MENÚ ---------- */
+nav{
+    position:absolute;top:2rem;left:5%;
+    display:flex;align-items:center;column-gap:1.5rem;
+    font-family:"Sweet Sans Pro";font-size:.8rem;letter-spacing:1px;text-transform:uppercase;
+    z-index:10;
+}
+.nav-logo{height:1.4rem;width:auto;}
+.nav-separator{width:1px;height:1.2rem;background:#ffffff80;}
+.nav-links{display:flex;gap:1.5rem;}
+nav a{color:#fff;text-decoration:none;transition:font-weight .25s;}
+nav a:hover{font-weight:700;}
+.hamburger{display:none;}
 
-    /* ---------- 3. FONDO + OVERLAY GLOBAL ---------- */
-    html, body {
-      height: 100%;
-      color: #fff;
-      font-family: "Area Normal", sans-serif;
-      background: url("images/fondo_intro_2.png") center/cover no-repeat fixed;
-    }
+/* ---------- 7. FEATURED WORKS ---------- */
+.featured-works{position:absolute;top:47%;left:5%;right:5%;transform:translateY(-50%);}
+.section-title{font-family:"Sweet Sans Pro";font-size:.85rem;font-weight:300;margin-bottom:1rem;}
+.projects-carousel{
+    display:flex;gap:2rem;overflow-x:auto;
+    scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;
+    padding-bottom:.5rem;cursor:grab;user-select:none;
+}
+.projects-carousel.dragging{cursor:grabbing;}
+.projects-carousel::-webkit-scrollbar{display:none;}
 
-    /* ---------- 4. INTRO ---------- */
-    .intro {
-      position: fixed;
-      inset: 0;
-      z-index: 9999;
-      cursor: pointer;
-      overflow: hidden;
-      transition: opacity 0.8s;
-    }
+.project-card{
+    flex:0 0 28%;max-width:28%;
+    aspect-ratio:9/7;scroll-snap-align:start;
+    transition:transform .3s,filter .3s;
+}
+.project-card img{
+    width:100%;height:100%;border-radius:6px;object-fit:cover;
+    transition:inherit;
+}
+.project-card.active{transform:none;}
+.project-card:hover{transform:scale(1.08);}
+.project-card:not(.active) img{filter:brightness(55%);}
 
-    .intro video {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
+.carousel-arrow{
+    position:absolute;top:50%;transform:translateY(-50%);
+    width:2.5rem;height:2.5rem;border-radius:50%;
+    background:rgba(0,0,0,.45);
+    display:flex;align-items:center;justify-content:center;
+    cursor:pointer;transition:.3s;z-index:6;
+}
+.carousel-arrow svg{width:1rem;height:1rem;fill:#fff;}
+.carousel-arrow.left{left:-1.25rem;}
+.carousel-arrow.right{right:-1.25rem;}
+.carousel-arrow.hidden{opacity:0;pointer-events:none;}
 
-    .enter-label {
-      position: absolute;
-      bottom: 5%;
-      left: 50%;
-      transform: translateX(-50%);
-      font-size: 0.8rem;
-      letter-spacing: 1px;
-      color: #7d745a;
-    }
+.see-all-works{
+    display:inline-block;margin-top:1rem;
+    font-family:"Sweet Sans Pro";font-size:.75rem;letter-spacing:1px;
+    text-transform:uppercase;color:#fff;border-bottom:1px solid #fff;text-decoration:none;
+}
 
-    .intro.hide {
-      opacity: 0;
-      pointer-events: none;
-    }
+/* ---------- 8. CTA CONTACT ---------- */
+.contact-cta{
+    margin-top:-3rem;padding:4rem 1rem 5rem;
+    text-align:center;border-top:1px solid #fff;border-bottom:1px solid #fff;
+}
+.contact-cta h2{font-family:"Sweet Sans Pro";font-size:1.6rem;font-weight:300;letter-spacing:1px;margin-bottom:2rem;}
+.contact-mail{position:relative;width:140px;height:140px;margin:auto;border-radius:50%;overflow:hidden;display:block;}
+.contact-mail img{width:100%;height:100%;object-fit:cover;border-radius:50%;transition:transform .4s;}
+.contact-mail::before{content:"";position:absolute;inset:0;border:2px solid #fff;border-radius:50%;}
+.contact-mail::after{content:"";position:absolute;inset:-8px;border:2px solid #fff;border-radius:50%;opacity:0;transform:scale(.85);transition:.4s;}
+.contact-mail:hover img{transform:scale(1.08);}
+.contact-mail:hover::after{opacity:1;transform:scale(1);}
 
-    /* ---------- 5. HERO ---------- */
-    .hero {
-      min-height: 85vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      position: relative;
-    }
+/* ---------- 9. RESPONSIVE ---------- */
+@media(max-width:1024px){
+  .project-card{flex:0 0 45%;max-width:45%;}
+}
+@media(max-width:768px){
+  /* Intro: vídeo más pequeño */
+  .intro video{object-fit:contain;}
 
-    /* ---------- 6. MENÚ ---------- */
-    nav {
-      position: absolute;
-      top: 2rem;
-      left: 5%;
-      display: flex;
-      align-items: center;
-      column-gap: 1.5rem;
-      font-family: "Sweet Sans Pro", sans-serif;
-      font-size: 0.8rem;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      z-index: 10;
-    }
+  nav{left:0;width:100%;justify-content:center;}
+  .nav-logo{margin:auto;}
+  .nav-separator{display:none;}
 
-    .nav-logo {
-      height: 1.4rem;
-      width: auto;
-    }
+  .hamburger{
+      display:block;position:absolute;left:50%;top:2.5rem;
+      width:26px;height:20px;transform:translateX(-50%);
+      cursor:pointer;z-index:11;
+  }
+  .hamburger span{display:block;width:100%;height:2px;background:#fff;margin:5px 0;transition:.3s;}
 
-    .nav-separator {
-      width: 1px;
-      height: 1.2rem;
-      background: #ffffff80;
-    }
+  .nav-links{display:none;}
+  .nav-links.active{
+      position:fixed;inset:0;background:rgba(0,0,0,.9);
+      display:flex;flex-direction:column;gap:2rem;
+      justify-content:center;align-items:center;
+      font-family:"Moglan Demo","Area Normal",sans-serif;
+  }
 
-    .nav-links {
-      display: flex;
-      gap: 1.5rem;
-    }
-
-    nav a {
-      color: #fff;
-      text-decoration: none;
-      transition: font-weight 0.25s;
-    }
-
-    nav a:hover {
-      font-weight: 700;
-    }
-
-    .hamburger {
-      display: none;
-    }
-
-    /* ---------- 7. FEATURED WORKS ---------- */
-    .featured-works {
-      position: absolute;
-      top: 47%;
-      left: 5%;
-      right: 5%;
-      transform: translateY(-50%);
-    }
-
-    .section-title {
-      font-family: "Sweet Sans Pro";
-      font-size: 0.85rem;
-      font-weight: 300;
-      margin-bottom: 1rem;
-    }
-
-    .projects-carousel {
-      display: flex;
-      gap: 2rem;
-      overflow-x: auto;
-      scroll-snap-type: x mandatory;
-      -webkit-overflow-scrolling: touch;
-      padding-bottom: 0.5rem;
-      cursor: grab;
-      user-select: none;
-    }
-
-    .projects-carousel.dragging {
-      cursor: grabbing;
-    }
-
-    .projects-carousel::-webkit-scrollbar {
-      display: none;
-    }
-
-    .project-card {
-      flex: 0 0 28%;
-      max-width: 28%;
-      aspect-ratio: 9/7;
-      scroll-snap-align: start;
-      transition: transform 0.3s, filter 0.3s;
-    }
-
-    .project-card img {
-      width: 100%;
-      height: 100%;
-      border-radius: 6px;
-      object-fit: cover;
-      transition: inherit;
-    }
-
-    .project-card.active {
-      transform: none;
-    }
-
-    .project-card:hover {
-      transform: scale(1.08);
-    }
-
-    .project-card:not(.active) img {
-      filter: brightness(55%);
-    }
-
-    .carousel-arrow {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 2.5rem;
-      height: 2.5rem;
-      border-radius: 50%;
-      background: rgba(0, 0, 0, 0.45);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      transition: 0.3s;
-      z-index: 6;
-    }
-
-    .carousel-arrow svg {
-      width: 1rem;
-      height: 1rem;
-      fill: #fff;
-    }
-
-    .carousel-arrow.left {
-      left: -1.25rem;
-    }
-
-    .carousel-arrow.right {
-      right: -1.25rem;
-    }
-
-    .carousel-arrow.hidden {
-      opacity: 0;
-      pointer-events: none;
-    }
-
-    .see-all-works {
-      display: inline-block;
-      margin-top: 1rem;
-      font-family: "Sweet Sans Pro";
-      font-size: 0.75rem;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      color: #fff;
-      border-bottom: 1px solid #fff;
-      text-decoration: none;
-    }
-
-    /* ---------- 8. CTA CONTACT ---------- */
-    .contact-cta {
-      margin-top: -3rem;
-      padding: 4rem 1rem 5rem;
-      text-align: center;
-      border-top: 1px solid #fff;
-      border-bottom: 1px solid #fff;
-    }
-
-    .contact-cta h2 {
-      font-family: "Sweet Sans Pro";
-      font-size: 1.6rem;
-      font-weight: 300;
-      letter-spacing: 1px;
-      margin-bottom: 2rem;
-    }
-
-    .contact-mail {
-      position: relative;
-      width: 140px;
-      height: 140px;
-      margin: auto;
-      border-radius: 50%;
-      overflow: hidden;
-      display: block;
-    }
-
-    .contact-mail img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      border-radius: 50%;
-      transition: transform 0.4s;
-    }
-
-    .contact-mail::before,
-    .contact-mail::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      border: 2px solid #fff;
-      border-radius: 50%;
-    }
-
-    .contact-mail::after {
-      inset: -8px;
-      opacity: 0;
-      transform: scale(0.85);
-      transition: 0.4s;
-    }
-
-    .contact-mail:hover img {
-      transform: scale(1.08);
-    }
-
-    .contact-mail:hover::after {
-      opacity: 1;
-      transform: scale(1);
-    }
-
-    /* ---------- RESPONSIVE ---------- */
-    @media(max-width:1024px) {
-      .project-card {
-        flex: 0 0 45%;
-        max-width: 45%;
-      }
-    }
-
-    @media(max-width:768px) {
-      nav {
-        left: 0;
-        width: 100%;
-        justify-content: center;
-      }
-
-      .nav-logo {
-        margin: auto;
-      }
-
-      .nav-separator {
-        display: none;
-      }
-
-      .hamburger {
-        display: block;
-        position: absolute;
-        left: 50%;
-        top: 2.5rem;
-        width: 26px;
-        height: 20px;
-        transform: translateX(-50%);
-        cursor: pointer;
-        z-index: 11;
-      }
-
-      .hamburger span {
-        display: block;
-        width: 100%;
-        height: 2px;
-        background: #fff;
-        margin: 5px 0;
-        transition: 0.3s;
-      }
-
-      .nav-links {
-        display: none;
-      }
-
-      .nav-links.active {
-        position: fixed;
-        inset: 0;
-        background: rgba(0, 0, 0, 0.9);
-        display: flex;
-        flex-direction: column;
-        gap: 2rem;
-        justify-content: center;
-        align-items: center;
-        font-family: "Moglan Demo", "Area Normal", sans-serif;
-      }
-
-      .featured-works {
-        top: 60%;
-        text-align: center;
-      }
-
-      .project-card {
-        flex: 0 0 100%;
-        max-width: 100%;
-        scroll-snap-align: center;
-      }
-
-      .project-card:not(.active) img {
-        filter: none;
-      }
-    }
+  .featured-works{top:60%;text-align:center;}
+  .projects-carousel{gap:0;}
+  .project-card{flex:0 0 100%;max-width:100%;scroll-snap-align:center;}
+  .project-card:not(.active) img{filter:none;}
+}
   </style>
 </head>
 <body>
-  <!-- INTRO -->
-  <div id="intro" class="intro">
-    <video autoplay muted loop playsinline>
-      <source src="videos/INTRO.mp4" type="video/mp4" />
-    </video>
-    <span class="enter-label">CLICK ANYWHERE TO ENTER</span>
-  </div>
 
-  <!-- HERO -->
-  <header class="hero">
-    <nav>
-      <img src="images/BLANCA_NAME.png" class="nav-logo" alt="Blanca Name logo" />
-      <span class="hamburger" id="hamburger"><span></span><span></span><span></span></span>
-      <span class="nav-separator"></span>
-      <div class="nav-links" id="navLinks">
-        <a href="projects.html">Projects</a>
-        <a href="skills.html">Skills</a>
-        <a href="about.html">About</a>
-        <a href="contact.html">Contact</a>
-        <a href="inquiry.html">Inquiry</a>
-      </div>
-    </nav>
+<!-- ===== INTRO (solo 1ª visita por sesión) ===== -->
+<div id="intro" class="intro">
+  <video autoplay muted loop playsinline>
+    <source src="videos/INTRO.mp4" type="video/mp4">
+  </video>
+  <span class="enter-label">CLICK ANYWHERE TO ENTER</span>
+</div>
 
-    <div class="featured-works" id="featured">
-      <h2 class="section-title">FEATURED WORKS</h2>
-      <button id="arrowLeft" class="carousel-arrow left hidden" aria-label="Prev">
-        <svg viewBox="0 0 24 24"><path d="M15.41 7.41 14 6l-6 6 6 6 1.41-1.41L10.83 12z" /></svg>
-      </button>
-      <button id="arrowRight" class="carousel-arrow right hidden" aria-label="Next">
-        <svg viewBox="0 0 24 24"><path d="m9 6 1.41 1.41L6.83 12l3.58 3.59L9 17l-6-6z" transform="scale(-1,1) translate(-24,0)" /></svg>
-      </button>
+<!-- ===== HERO ===== -->
+<header class="hero">
 
-      <div class="projects-carousel">
-        <a class="project-card" href="longevitas.html"><img src="images/longevitas.png" alt="Longevitas" /></a>
-        <a class="project-card" href="fernandodecarcer.html"><img src="images/FERNANDO DE CARCER_2.png" alt="Fernando de Cárcer" /></a>
-        <a class="project-card" href="mindtheseas.html"><img src="images/MIND_seas.png" alt="Mind the Seas" /></a>
-        <a class="project-card" href="montenegrobrokers.html"><img src="images/montenegro.png" alt="Montenegro Brokers" /></a>
-        <a class="project-card" href="thetag.html"><img src="images/the_tag.png" alt="The Tag" /></a>
-      </div>
-
-      <a href="projects.html" class="see-all-works">See all works</a>
+  <!-- MENÚ -->
+  <nav>
+    <img src="images/BLANCA_NAME.png" class="nav-logo" alt="Blanca Name logo">
+    <span class="hamburger" id="hamburger"><span></span><span></span><span></span></span>
+    <span class="nav-separator"></span>
+    <div class="nav-links" id="navLinks">
+      <a href="projects.html">Projects</a>
+      <a href="skills.html">Skills</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+      <a href="inquiry.html">Inquiry</a>
     </div>
-  </header>
+  </nav>
 
-  <!-- CONTACT CTA -->
-  <section class="contact-cta" id="contact">
-    <h2>GOT A PROJECT IN MIND?</h2>
-    <a href="mailto:blancapalazueloguijarro@gmail.com" class="contact-mail">
-      <img src="images/MAIL.png" alt="Send mail" />
-    </a>
-  </section>
+  <!-- CARRUSEL DESTACADO -->
+  <div class="featured-works" id="featured">
+    <h2 class="section-title">FEATURED WORKS</h2>
 
-  <!-- JS -->
-  <script>
-    const intro = document.getElementById('intro');
-    if (sessionStorage.getItem('introShown')) {
-      intro.remove();
-    } else {
-      intro.addEventListener('click', () => {
-        intro.classList.add('hide');
-        intro.querySelector('video').pause();
-        intro.addEventListener('transitionend', () => intro.remove(), { once: true });
-        sessionStorage.setItem('introShown', 'yes');
-      });
-    }
+    <button id="arrowLeft"  class="carousel-arrow left  hidden" aria-label="Prev">
+      <svg viewBox="0 0 24 24"><path d="M15.41 7.41 14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
+    </button>
+    <button id="arrowRight" class="carousel-arrow right hidden" aria-label="Next">
+      <svg viewBox="0 0 24 24"><path d="m9 6 1.41 1.41L6.83 12l3.58 3.59L9 17l-6-6z" transform="scale(-1,1) translate(-24,0)"/></svg>
+    </button>
 
-    const carousel = document.querySelector('.projects-carousel');
-    const leftArrow = document.getElementById('arrowLeft');
-    const rightArrow = document.getElementById('arrowRight');
+    <div class="projects-carousel">
+      <a class="project-card" href="longevitas.html"><img src="images/longevitas.png"             alt="Longevitas"></a>
+      <a class="project-card" href="fernandodecarcer.html"><img src="images/FERNANDO DE CARCER_2.png" alt="Fernando de Cárcer"></a>
+      <a class="project-card" href="mindtheseas.html"><img src="images/MIND_seas.png"             alt="Mind the Seas"></a>
+      <a class="project-card" href="montenegrobrokers.html"><img src="images/montenegro.png"      alt="Montenegro Brokers"></a>
+      <a class="project-card" href="thetag.html"><img src="images/the_tag.png"                    alt="The Tag"></a>
+    </div>
 
-    const getStep = () => {
-      const card = carousel.querySelector('.project-card');
-      const gap = parseFloat(getComputedStyle(carousel).gap) || 24;
-      return card.offsetWidth + gap;
-    };
+    <a href="projects.html" class="see-all-works">See all works</a>
+  </div>
+</header>
 
-    const updateArrows = () => {
-      const max = carousel.scrollWidth - carousel.clientWidth - 5;
-      leftArrow.classList.toggle('hidden', carousel.scrollLeft <= 5);
-      rightArrow.classList.toggle('hidden', carousel.scrollLeft >= max);
-    };
-    updateArrows();
+<!-- ===== CTA CONTACT ===== -->
+<section class="contact-cta" id="contact">
+  <h2>GOT A PROJECT IN MIND?</h2>
+  <a href="mailto:blancapalazueloguijarro@gmail.com" class="contact-mail">
+    <img src="images/MAIL.png" alt="Send mail">
+  </a>
+</section>
 
-    let isDown = false, startX = 0, startScroll = 0;
-    carousel.addEventListener('pointerdown', e => {
-      isDown = true; carousel.classList.add('dragging');
-      startX = e.clientX; startScroll = carousel.scrollLeft;
-    });
+<!-- ================= JS ================= -->
+<script>
+/* Intro sólo 1ª vez */
+const intro=document.getElementById('intro');
+if(sessionStorage.getItem('introShown')){
+  intro.remove();
+}else{
+  intro.addEventListener('click',()=>{
+    intro.classList.add('hide');
+    intro.querySelector('video').pause();
+    intro.addEventListener('transitionend',()=>intro.remove(),{once:true});
+    sessionStorage.setItem('introShown','yes');
+  });
+}
 
-    const stopDrag = () => { isDown = false; carousel.classList.remove('dragging'); };
-    carousel.addEventListener('pointerup', stopDrag);
-    carousel.addEventListener('pointerleave', stopDrag);
-    carousel.addEventListener('pointermove', e => {
-      if (!isDown) return;
-      e.preventDefault();
-      carousel.scrollLeft = startScroll - (e.clientX - startX) * 1.4;
-      updateArrows();
-    });
+/* Carrusel */
+const carousel   = document.querySelector('.projects-carousel');
+const leftArrow  = document.getElementById('arrowLeft');
+const rightArrow = document.getElementById('arrowRight');
 
-    leftArrow.addEventListener('click', () => carousel.scrollBy({ left: -getStep(), behavior: 'smooth' }));
-    rightArrow.addEventListener('click', () => carousel.scrollBy({ left: getStep(), behavior: 'smooth' }));
+const getStep =()=>{
+  const card=carousel.querySelector('.project-card');
+  const gap =parseFloat(getComputedStyle(carousel).gap)||24;
+  return card.offsetWidth+gap;
+};
+const updateArrows=()=>{
+  const max=carousel.scrollWidth-carousel.clientWidth-5;
+  leftArrow.classList.toggle('hidden',carousel.scrollLeft<=5);
+  rightArrow.classList.toggle('hidden',carousel.scrollLeft>=max);
+};
+updateArrows();
 
-    const obs = new IntersectionObserver(
-      entries => entries.forEach(e => e.target.classList.toggle('active', e.intersectionRatio > .9)),
-      { root: carousel, threshold: .9 }
-    );
-    document.querySelectorAll('.project-card').forEach(c => obs.observe(c));
-    carousel.addEventListener('scroll', updateArrows);
+let isDown=false,startX=0,startScroll=0;
+carousel.addEventListener('pointerdown',e=>{
+  isDown=true;carousel.classList.add('dragging');
+  startX=e.clientX;startScroll=carousel.scrollLeft;
+});
+const stop=()=>{isDown=false;carousel.classList.remove('dragging');};
+carousel.addEventListener('pointerup',stop);
+carousel.addEventListener('pointerleave',stop);
+carousel.addEventListener('pointermove',e=>{
+  if(!isDown)return;
+  e.preventDefault();
+  carousel.scrollLeft=startScroll-(e.clientX-startX)*1.4;
+  updateArrows();
+});
+leftArrow .addEventListener('click',()=>carousel.scrollBy({left:-getStep(),behavior:'smooth'}));
+rightArrow.addEventListener('click',()=>carousel.scrollBy({left: getStep(),behavior:'smooth'}));
 
-    const burger = document.getElementById('hamburger');
-    const navLinks = document.getElementById('navLinks');
-    burger.addEventListener('click', () => navLinks.classList.toggle('active'));
-  </script>
+/* tarjeta activa */
+const obs=new IntersectionObserver(
+  entries=>entries.forEach(e=>e.target.classList.toggle('active',e.intersectionRatio>.9)),
+  {root:carousel,threshold:.9}
+);
+document.querySelectorAll('.project-card').forEach(c=>obs.observe(c));
+carousel.addEventListener('scroll',updateArrows);
+
+/* Menú móvil */
+const burger  =document.getElementById('hamburger');
+const navLinks=document.getElementById('navLinks');
+burger.addEventListener('click',()=>navLinks.classList.toggle('active'));
+</script>
 </body>
 </html>
