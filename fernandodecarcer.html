@@ -41,7 +41,8 @@ nav a:hover{font-weight:700;}
 .hamburger span{display:block;width:100%;height:2px;background:#fff;margin:5px 0;}
 
 /* ---------- 5. WRAPPER ---------- */
-.wrapper{max-width:70rem;margin:11rem auto 6rem;padding:0 1rem;display:flex;flex-direction:column;gap:4rem;}
+.wrapper{max-width:70rem;margin:13rem auto 6rem;   /* ← más aire bajo la barra */ 
+         padding:0 1rem;display:flex;flex-direction:column;gap:4rem;}
 
 /* ---------- 6. CABECERA ---------- */
 h1{font-family:"Moglan Demo";font-size:1.4rem;font-weight:200;letter-spacing:.1rem;text-align:center;margin-bottom:.3rem;}
@@ -73,13 +74,22 @@ h2{font-family:"Sweet Sans Pro";font-weight:300;font-size:.9rem;letter-spacing:.
 
 /* ---------- 9. RESPONSIVE ---------- */
 @media(max-width:1024px){.media-row.cols-4{grid-template-columns:repeat(3,1fr);}}
+
+/* ===== MÓVIL ===== */
 @media(max-width:768px){
     nav{left:0;right:0;width:100%;justify-content:center;}
-    .nav-logo{margin:auto;}
+    .nav-logo{display:none;}                /* oculta el logo para evitar solape */
     .nav-separator{display:none;}
-    .hamburger{display:block;position:absolute;left:50%;top:2.5rem;width:26px;height:20px;transform:translateX(-50%);cursor:pointer;z-index:101;}
+
+    .hamburger{
+        display:block;position:absolute;left:50%;top:2.5rem;
+        width:26px;height:20px;transform:translateX(-50%);
+        cursor:pointer;z-index:101;
+    }
     .nav-links{display:none;}
     .nav-links.active{position:fixed;inset:0;background:rgba(0,0,0,.9);display:flex;flex-direction:column;gap:2rem;justify-content:center;align-items:center;font-family:"Moglan Demo","Area Normal",sans-serif;}
+
+    .wrapper{margin:12rem auto 4rem;}       /* empuja el contenido bajo la barra */
     .media-row.cols-4{grid-template-columns:repeat(2,1fr);}
     .viewer-content video,.viewer-content img{max-width:95vw;max-height:85vh;}
 }
@@ -162,35 +172,26 @@ h2{font-family:"Sweet Sans Pro";font-weight:300;font-size:.9rem;letter-spacing:.
 /* ---------- FORZAR AUTOPLAY EN MÓVIL ---------- */
 document.addEventListener('DOMContentLoaded',()=>{
   document.querySelectorAll('.thumb video').forEach(v=>{
-      v.muted=true;
-      v.setAttribute('playsinline','');
-      v.setAttribute('preload','auto');
+      v.muted=true;v.setAttribute('playsinline','');v.setAttribute('preload','auto');
       v.play().catch(()=>{});
   });
 });
 
-/* ---------- menú hamburguesa ---------- */
+/* ---------- menú móvil ---------- */
 document.getElementById('hamburger')
         .addEventListener('click',()=>document.getElementById('navLinks').classList.toggle('active'));
 
 /* ---------- visor ---------- */
-const viewer      = document.getElementById('viewer');
-const viewerCont  = document.getElementById('viewerContent');
-const viewerClose = document.getElementById('viewerClose');
+const viewer=document.getElementById('viewer');
+const viewerCont=document.getElementById('viewerContent');
+const viewerClose=document.getElementById('viewerClose');
 
 document.querySelectorAll('.thumb').forEach(t=>t.addEventListener('click',()=>openViewer(t)));
 
 function openViewer(thumb){
-    viewer.classList.add('open');
-    viewerCont.innerHTML='';
-    const node = thumb.firstElementChild.cloneNode(true);
-    if(node.tagName==='VIDEO'){
-        node.muted=false;
-        node.loop=true;
-        node.controls=true;
-        node.currentTime=0;
-        node.play();
-    }
+    viewer.classList.add('open');viewerCont.innerHTML='';
+    const node=thumb.firstElementChild.cloneNode(true);
+    if(node.tagName==='VIDEO'){node.muted=false;node.loop=true;node.controls=true;node.currentTime=0;node.play();}
     viewerCont.appendChild(node);
 }
 function closeViewer(){viewer.classList.remove('open');viewerCont.innerHTML='';}
