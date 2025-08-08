@@ -1,6 +1,6 @@
 <!-- =========================================================
      fernandodecarcer.html – Galería con filtros y visor
-     (fondo inmóvil · vídeos siempre en loop · menú uniforme)
+     (fondo inmóvil · vídeos en loop · menú idéntico a ALPHABOOK)
 ========================================================= -->
 <!DOCTYPE html>
 <html lang="es">
@@ -30,7 +30,7 @@ body::before{
     z-index:-1;pointer-events:none;transform:translateZ(0);
 }
 
-/* ---------- 4. MENÚ ---------- */
+/* ---------- 4. MENÚ (calcado de alphabook) ---------- */
 nav{position:absolute;top:2rem;left:5%;display:flex;align-items:center;gap:1.5rem;font-family:"Sweet Sans Pro";font-size:.8rem;letter-spacing:1px;text-transform:uppercase;z-index:100;}
 .nav-logo{height:1.4rem;cursor:pointer;}
 .nav-separator{width:1px;height:1.2rem;background:#ffffff80;}
@@ -41,7 +41,7 @@ nav a:hover{font-weight:700;}
 .hamburger span{display:block;width:100%;height:2px;background:#fff;margin:5px 0;}
 
 /* ---------- 5. WRAPPER ---------- */
-.wrapper{max-width:70rem;margin:13rem auto 6rem;   /* ← más aire bajo la barra */ 
+.wrapper{max-width:70rem;margin:12rem auto 6rem;  /* 12 rem como alphabook, despeja el menú */
          padding:0 1rem;display:flex;flex-direction:column;gap:4rem;}
 
 /* ---------- 6. CABECERA ---------- */
@@ -78,7 +78,7 @@ h2{font-family:"Sweet Sans Pro";font-weight:300;font-size:.9rem;letter-spacing:.
 /* ===== MÓVIL ===== */
 @media(max-width:768px){
     nav{left:0;right:0;width:100%;justify-content:center;}
-    .nav-logo{display:none;}                /* oculta el logo para evitar solape */
+    .nav-logo{margin:auto;}
     .nav-separator{display:none;}
 
     .hamburger{
@@ -89,7 +89,7 @@ h2{font-family:"Sweet Sans Pro";font-weight:300;font-size:.9rem;letter-spacing:.
     .nav-links{display:none;}
     .nav-links.active{position:fixed;inset:0;background:rgba(0,0,0,.9);display:flex;flex-direction:column;gap:2rem;justify-content:center;align-items:center;font-family:"Moglan Demo","Area Normal",sans-serif;}
 
-    .wrapper{margin:12rem auto 4rem;}       /* empuja el contenido bajo la barra */
+    .wrapper{margin:12rem auto 4rem;}   /* mismo margen que alphabook */
     .media-row.cols-4{grid-template-columns:repeat(2,1fr);}
     .viewer-content video,.viewer-content img{max-width:95vw;max-height:85vh;}
 }
@@ -169,10 +169,12 @@ h2{font-family:"Sweet Sans Pro";font-weight:300;font-size:.9rem;letter-spacing:.
 </div>
 
 <script>
-/* ---------- FORZAR AUTOPLAY EN MÓVIL ---------- */
+/* ---------- FORZAR AUTOPLAY EN iOS / ANDROID ---------- */
 document.addEventListener('DOMContentLoaded',()=>{
   document.querySelectorAll('.thumb video').forEach(v=>{
-      v.muted=true;v.setAttribute('playsinline','');v.setAttribute('preload','auto');
+      v.muted=true;
+      v.setAttribute('playsinline','');
+      v.setAttribute('preload','auto');
       v.play().catch(()=>{});
   });
 });
