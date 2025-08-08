@@ -1,28 +1,43 @@
 <!-- =========================================================
-     montenegro.html – Botón “View full site” visible sobre la pestaña
-     (único cambio: fondo inmóvil con pseudo-elemento ::before)
+     montenegro.html – Versión mejorada y accesible (agosto 2025)
+     Cambios clave:
+       • Metadatos SEO y favicon
+       • Navegación accesible (aria‑labels, button hamburger)
+       • Seguridad link externa (rel="noopener noreferrer")
+       • Toggle aria‑pressed / aria‑expanded en JS
+       • Variables CSS y prefers‑reduced‑motion
 ========================================================= -->
 <!DOCTYPE html>
 <html lang="es">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MONTENEGRO BROKERS – Project</title>
+<title>Montenegro Brokers – Real‑Estate Agency</title>
+<meta name="description" content="Proyecto de portfolio: rediseño web responsive para Montenegro Brokers, agencia inmobiliaria especializada en propiedades de lujo.">
+<link rel="icon" href="/favicon.ico" type="image/x-icon">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
 <style>
 /* ---------- 1. FUENTES ---------- */
-@font-face{font-family:"Area Normal";src:url("/fonts/AreaNormal.woff2") format("woff2"),url("/fonts/AreaNormal.woff") format("woff");}
-@font-face{font-family:"Sweet Sans Pro";src:url("/fonts/SWEETSANSPROREGULAR.OTF") format("opentype");}
-@font-face{font-family:"Moglan Demo";src:url("/fonts/MOGLAN_DEMO.TTF") format("truetype");}
+@font-face{font-family:"Area Normal";src:url("/fonts/AreaNormal.woff2") format("woff2"),url("/fonts/AreaNormal.woff") format("woff");font-display:swap;}
+@font-face{font-family:"Sweet Sans Pro";src:url("/fonts/SWEETSANSPROREGULAR.OTF") format("opentype");font-display:swap;}
+@font-face{font-family:"Moglan Demo";src:url("/fonts/MOGLAN_DEMO.TTF") format("truetype");font-display:swap;}
 
 /* ---------- 2. RESET & FONDO INMÓVIL ---------- */
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 
-html,body{height:100%;}
+:root{
+    --clr-text:#fff;
+    --clr-overlay:rgba(0,0,0,.65);
+    --ff-body:"Area Normal",sans-serif;
+    --ff-ui:"Sweet Sans Pro",sans-serif;
+    --ff-display:"Moglan Demo",cursive;
+}
+
+html,body{height:100%;scroll-behavior:smooth;font-family:var(--ff-body);color:var(--clr-text);}
+
 body{
     position:relative;                      /* stacking-context */
-    color:#fff;
-    font-family:"Area Normal",sans-serif;
 }
 /* capa fija que funciona también en móvil */
 body::before{
@@ -35,41 +50,50 @@ body::before{
     transform:translateZ(0);
 }
 
+@media(prefers-reduced-motion:reduce){
+    html{scroll-behavior:auto;}
+    body::before{animation:none;}
+}
+
 /* ---------- 3. MENÚ ---------- */
-nav{position:absolute;top:2rem;left:5%;display:flex;align-items:center;gap:1.5rem;font-family:"Sweet Sans Pro";font-size:.8rem;text-transform:uppercase;letter-spacing:1px;z-index:100;}
-.nav-logo{height:1.4rem;cursor:pointer;}
+nav{
+    position:absolute;top:2rem;left:5%;display:flex;align-items:center;gap:1.5rem;
+    font-family:var(--ff-ui);font-size:.8rem;text-transform:uppercase;letter-spacing:1px;z-index:100;
+}
+.nav-logo{height:1.4rem;cursor:pointer;user-select:none;}
 .nav-separator{width:1px;height:1.2rem;background:#ffffff80;}
 .nav-links{display:flex;gap:1.5rem;}
-nav a{color:#fff;text-decoration:none;transition:font-weight .25s;}
-nav a:hover{font-weight:700;}
-.hamburger{display:none;}
-.hamburger span{display:block;width:100%;height:2px;background:#fff;margin:5px 0;}
+nav a{color:var(--clr-text);text-decoration:none;transition:font-weight .25s;}
+nav a:hover,nav a:focus{font-weight:700;outline:none;}
+.hamburger{display:none;background:none;border:0;width:26px;height:20px;cursor:pointer;position:relative;}
+.hamburger span{display:block;width:100%;height:2px;background:var(--clr-text);margin:5px 0;transition:transform .3s ease;}
 
 /* ---------- 4. WRAPPER ---------- */
 .wrapper{max-width:90rem;margin:11rem auto 6rem;padding:0 1rem;display:flex;flex-direction:column;gap:4rem;}
 
 /* ---------- 5. CABECERA ---------- */
-h1{font-family:"Moglan Demo";font-size:1.4rem;font-weight:200;letter-spacing:.1rem;text-align:center;margin-bottom:.3rem;}
-h2{font-family:"Sweet Sans Pro";font-weight:300;font-size:.9rem;letter-spacing:.2rem;text-align:center;}
-.filter-bar{margin:2rem auto 0;display:flex;gap:1.2rem;justify-content:center;}
-.filter-btn{background:none;border:none;color:#fff;font-family:"Sweet Sans Pro";font-size:.75rem;letter-spacing:.1rem;text-transform:uppercase;cursor:pointer;position:relative;}
-.filter-btn.active::after{content:"";position:absolute;left:0;bottom:-.2rem;width:100%;height:1px;background:#fff;}
+h1{font-family:var(--ff-display);font-size:clamp(1.2rem,1.4vw+1rem,1.8rem);font-weight:200;letter-spacing:.1rem;text-align:center;margin-bottom:.3rem;}
+h2{font-family:var(--ff-ui);font-weight:300;font-size:.9rem;letter-spacing:.2rem;text-align:center;}
+.filter-bar{margin:2rem auto 0;display:flex;gap:1.2rem;justify-content:center;flex-wrap:wrap;}
+.filter-btn{background:none;border:none;color:var(--clr-text);font-family:var(--ff-ui);font-size:.75rem;letter-spacing:.1rem;text-transform:uppercase;cursor:pointer;position:relative;}
+.filter-btn:focus{outline:2px solid currentColor;outline-offset:2px;}
+.filter-btn.active::after{content:"";position:absolute;left:0;bottom:-.2rem;width:100%;height:1px;background:var(--clr-text);}
 
 /* ---------- 6. PREVIEW ---------- */
 .web-box{position:relative;margin:3.2rem auto 0;width:100%;max-width:1200px;border-radius:12px;overflow:hidden;}
 .scale-wrapper{transform:scale(.85);transform-origin:top left;width:117.647%;height:117.647%;}
 .web-box iframe{width:100%;height:90vh;max-height:1000px;border:0;border-radius:12px;}
-.full-link{position:absolute;top:.6rem;right:.9rem;z-index:10;display:inline-flex;align-items:center;gap:.3rem;font-family:"Sweet Sans Pro";font-size:.75rem;letter-spacing:.05rem;text-transform:uppercase;color:#fff;text-decoration:none;background:rgba(0,0,0,.65);padding:.25rem .6rem;border-radius:6px;}
-.full-link svg{width:.65rem;height:.65rem;fill:#fff;transform:rotate(30deg);}
+.full-link{position:absolute;top:.6rem;right:.9rem;z-index:10;display:inline-flex;align-items:center;gap:.3rem;font-family:var(--ff-ui);font-size:.75rem;letter-spacing:.05rem;text-transform:uppercase;color:var(--clr-text);text-decoration:none;background:var(--clr-overlay);padding:.25rem .6rem;border-radius:6px;}
+.full-link svg{width:.65rem;height:.65rem;fill:var(--clr-text);transform:rotate(30deg);}
 
 /* ---------- 7. RESPONSIVE ---------- */
 @media(max-width:768px){
     nav{left:0;right:0;width:100%;justify-content:center;}
     .nav-logo{margin:auto;}
     .nav-separator{display:none;}
-    .hamburger{display:block;position:absolute;left:50%;top:2.5rem;width:26px;height:20px;transform:translateX(-50%);cursor:pointer;z-index:101;}
+    .hamburger{display:block;position:absolute;left:50%;top:2.5rem;transform:translateX(-50%);z-index:101;}
     .nav-links{display:none;}
-    .nav-links.active{position:fixed;inset:0;background:rgba(0,0,0,.9);display:flex;flex-direction:column;gap:2rem;justify-content:center;align-items:center;font-family:"Moglan Demo","Area Normal",sans-serif;}
+    .nav-links.active{position:fixed;inset:0;background:rgba(0,0,0,.9);display:flex;flex-direction:column;gap:2rem;justify-content:center;align-items:center;font-family:var(--ff-display),var(--ff-body);}
 
     .web-box{max-width:380px;border-radius:22px;margin:3rem auto 0;}
     .scale-wrapper{transform:none;width:100%;height:100%;}
@@ -82,9 +106,9 @@ h2{font-family:"Sweet Sans Pro";font-weight:300;font-size:.9rem;letter-spacing:.
 <body>
 
 <!-- ---------- MENÚ ---------- -->
-<nav>
-    <a href="index.html#skipIntro"><img src="/images/BLANCA_NAME.png" class="nav-logo" alt="Home"></a>
-    <span class="nav-separator"></span>
+<nav role="navigation" aria-label="Principal">
+    <a href="index.html#skipIntro"><img src="/images/BLANCA_NAME.png" class="nav-logo" alt="Inicio" loading="lazy"></a>
+    <span class="nav-separator" aria-hidden="true"></span>
 
     <div class="nav-links" id="navLinks">
         <a href="projects.html">Projects</a>
@@ -94,47 +118,60 @@ h2{font-family:"Sweet Sans Pro";font-weight:300;font-size:.9rem;letter-spacing:.
         <a href="inquiry.html">Inquiry</a>
     </div>
 
-    <span class="hamburger" id="hamburger"><span></span><span></span><span></span></span>
+    <button class="hamburger" id="hamburger" aria-label="Abrir menú" aria-controls="navLinks" aria-expanded="false">
+        <span></span><span></span><span></span>
+    </button>
 </nav>
 
 <main class="wrapper">
 
     <!-- ---------- CABECERA ---------- -->
     <header>
-        <h1>MONTENEGRO&nbsp;BROKERS</h1>
-        <h2>REAL-ESTATE&nbsp;AGENCY</h2>
+        <h1>Montenegro&nbsp;Brokers</h1>
+        <h2>Real‑Estate&nbsp;Agency</h2>
 
-        <div class="filter-bar">
-            <button class="filter-btn active" data-filter="all">All</button>
-            <button class="filter-btn" data-filter="web">Web&nbsp;Design</button>
-            <button class="filter-btn" data-filter="dev">Web&nbsp;Development</button>
+        <div class="filter-bar" role="tablist" aria-label="Filtros de categoría">
+            <button class="filter-btn active" data-filter="all" role="tab" aria-selected="true">All</button>
+            <button class="filter-btn" data-filter="web" role="tab" aria-selected="false">Web&nbsp;Design</button>
+            <button class="filter-btn" data-filter="dev" role="tab" aria-selected="false">Web&nbsp;Development</button>
         </div>
     </header>
 
     <!-- ---------- PREVIEW ---------- -->
-    <div class="web-box">
-        <a href="https://montenegrobrokers.com" target="_blank" class="full-link">
+    <div class="web-box" aria-label="Vista previa Montenegro Brokers">
+        <a href="https://montenegrobrokers.com" target="_blank" rel="noopener noreferrer" class="full-link">
             View full site
-            <svg viewBox="0 0 24 24"><path d="M5 12h14M13 5l6 7-6 7" /></svg>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 5l6 7-6 7" /></svg>
         </a>
         <div class="scale-wrapper">
-            <iframe src="https://montenegrobrokers.com" loading="lazy"></iframe>
+            <iframe src="https://montenegrobrokers.com" loading="lazy" title="Montenegro Brokers website preview"></iframe>
         </div>
     </div>
 
 </main>
 
 <script>
-/* hamburguesa */
-document.getElementById('hamburger')
-        .addEventListener('click',()=>document.getElementById('navLinks').classList.toggle('active'));
+/* ---------- JS ACCESIBILIDAD & UX ---------- */
+const navLinks = document.getElementById('navLinks');
+const hamburger = document.getElementById('hamburger');
+
+hamburger.addEventListener('click', () => {
+  const expanded = hamburger.getAttribute('aria-expanded') === 'true' || false;
+  hamburger.setAttribute('aria-expanded', !expanded);
+  navLinks.classList.toggle('active');
+});
 
 /* filtros – solo visual */
-document.querySelectorAll('.filter-btn').forEach(btn=>{
-    btn.addEventListener('click',()=>{
-        document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
-        btn.classList.add('active');
+const filterButtons = document.querySelectorAll('.filter-btn');
+filterButtons.forEach(btn => {
+  btn.addEventListener('click', () => {
+    filterButtons.forEach(b => {
+      b.classList.remove('active');
+      b.setAttribute('aria-selected', 'false');
     });
+    btn.classList.add('active');
+    btn.setAttribute('aria-selected', 'true');
+  });
 });
 </script>
 
