@@ -1,42 +1,41 @@
 <!-- =========================================================
-     contact.html  – Tres botones circulares + fondo SIEMPRE estático
+     contact.html  –  3 botones circulares · fondo SIEMPRE inmóvil
 ========================================================= -->
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Contact</title>
 
     <style>
 /* ---------- 1. FUENTES ---------- */
-@font-face{
-    font-family:"Area Normal";
-    src:url("/fonts/AreaNormal.woff2") format("woff2"),
-        url("/fonts/AreaNormal.woff")  format("woff");
-}
-@font-face{
-    font-family:"Sweet Sans Pro";
-    src:url("/fonts/SWEETSANSPROREGULAR.OTF") format("opentype");
-}
-@font-face{
-    font-family:"Moglan Demo";
-    src:url("/fonts/MOGLAN_DEMO.TTF") format("truetype");
-}
+@font-face{font-family:"Area Normal";src:url("/fonts/AreaNormal.woff2") format("woff2"),url("/fonts/AreaNormal.woff") format("woff");}
+@font-face{font-family:"Sweet Sans Pro";src:url("/fonts/SWEETSANSPROREGULAR.OTF") format("opentype");}
+@font-face{font-family:"Moglan Demo";src:url("/fonts/MOGLAN_DEMO.TTF") format("truetype");}
 
-/* ---------- 2. RESET & FONDO ---------- */
+/* ---------- 2. RESET ---------- */
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 
+/* ---------- 3. FONDO INMÓVIL (desktop + móvil) ---------- */
 html,body{height:100%;}
 body{
     min-height:100vh;
-    background:url("/images/fondo_intro_2.png") center/cover no-repeat fixed;
-    background-attachment:fixed;           /* ← fijo en desktop */
     color:#fff;
     font-family:"Area Normal",sans-serif;
 }
+/* capa de fondo fija que nunca se desplaza */
+body::before{
+    content:"";
+    position:fixed;
+    inset:0;
+    background:url("/images/fondo_intro_2.png") center/cover no-repeat;
+    z-index:-1;
+    pointer-events:none;
+    transform:translateZ(0); /* mejora iOS */
+}
 
-/* ---------- 3. MENÚ ---------- */
+/* ---------- 4. MENÚ (sin cambios) ---------- */
 nav{
     position:absolute;top:2rem;left:5%;
     display:flex;align-items:center;gap:1.5rem;
@@ -51,28 +50,17 @@ nav a{color:#fff;text-decoration:none;transition:font-weight .25s;}
 nav a:hover{font-weight:700;}
 
 .hamburger{display:none;}
-.hamburger span{
-    display:block;width:100%;height:2px;background:#fff;margin:5px 0;
-}
+.hamburger span{display:block;width:100%;height:2px;background:#fff;margin:5px 0;}
 
-/* ---------- 4. BOTONES CIRCULARES ---------- */
-.contacts-wrapper{
-    display:flex;justify-content:center;align-items:center;
-    height:100vh;
-}
-.contacts-grid{
-    display:flex;gap:3rem;justify-content:center;align-items:center;
-}
+/* ---------- 5. BOTONES CIRCULARES ---------- */
+.contacts-wrapper{display:flex;justify-content:center;align-items:center;height:100vh;}
+.contacts-grid{display:flex;gap:3rem;justify-content:center;align-items:center;}
+
 .contact-btn{
-    position:relative;width:140px;height:140px;border-radius:50%;
-    overflow:hidden;display:block;
+    position:relative;width:140px;height:140px;border-radius:50%;overflow:hidden;display:block;
 }
-.contact-btn img{
-    width:100%;height:100%;object-fit:cover;border-radius:50%;transition:transform .4s;
-}
-.contact-btn::before{
-    content:"";position:absolute;inset:0;border:2px solid #fff;border-radius:50%;
-}
+.contact-btn img{width:100%;height:100%;object-fit:cover;border-radius:50%;transition:transform .4s;}
+.contact-btn::before{content:"";position:absolute;inset:0;border:2px solid #fff;border-radius:50%;}
 .contact-btn::after{
     content:"";position:absolute;inset:-8px;border:2px solid #fff;border-radius:50%;
     opacity:0;transform:scale(.85);transition:.4s;
@@ -80,13 +68,9 @@ nav a:hover{font-weight:700;}
 .contact-btn:hover img{transform:scale(1.08);}
 .contact-btn:hover::after{opacity:1;transform:scale(1);}
 
-/* ---------- 5. RESPONSIVE ---------- */
+/* ---------- 6. RESPONSIVE ---------- */
 @media(max-width:768px){
-
-    /* fondo fijo también en móvil */
-    body{background-attachment:fixed;}
-
-    /* menú */
+    /* menú móvil */
     nav{left:0;right:0;width:100%;justify-content:center;}
     .nav-logo{margin:auto;}
     .nav-separator{display:none;}
@@ -99,16 +83,16 @@ nav a:hover{font-weight:700;}
     .nav-links{display:none;}
     .nav-links.active{
         position:fixed;inset:0;background:rgba(0,0,0,.9);
-        display:flex;flex-direction:column;gap:2rem;
-        justify-content:center;align-items:center;
+        display:flex;flex-direction:column;gap:2rem;justify-content:center;align-items:center;
         font-family:"Moglan Demo","Area Normal",sans-serif;
     }
 
-    /* contactos en columna */
+    /* botones en columna */
     .contacts-grid{flex-direction:column;gap:2rem;}
 }
     </style>
 </head>
+
 <body>
 
 <!-- ======= MENÚ ======= -->
@@ -130,19 +114,19 @@ nav a:hover{font-weight:700;}
 <!-- ======= BOTONES ======= -->
 <section class="contacts-wrapper">
     <div class="contacts-grid">
-        <a href="https://wa.me/34671512365"           class="contact-btn" target="_blank" aria-label="WhatsApp">
-            <img src="images/whatsapp.png"  alt="WhatsApp">
+        <a href="https://wa.me/34671512365"                 class="contact-btn" target="_blank" aria-label="WhatsApp">
+            <img src="images/whatsapp.png"   alt="WhatsApp">
         </a>
-        <a href="mailto:blancapalazueloguijarro@gmail.com" class="contact-btn"              aria-label="Mail">
-            <img src="images/mail.png"      alt="Mail">
+        <a href="mailto:blancapalazueloguijarro@gmail.com"  class="contact-btn"              aria-label="Mail">
+            <img src="images/mail.png"       alt="Mail">
         </a>
-        <a href="https://instagram.com/blancapalazuelo"    class="contact-btn" target="_blank" aria-label="Instagram">
-            <img src="images/instagram.png" alt="Instagram">
+        <a href="https://instagram.com/blancapalazuelo"     class="contact-btn" target="_blank" aria-label="Instagram">
+            <img src="images/instagram.png"  alt="Instagram">
         </a>
     </div>
 </section>
 
-<!-- ======= JS: hamburguesa ======= -->
+<!-- ======= JS: menú móvil ======= -->
 <script>
 document.getElementById('hamburger')
         .addEventListener('click',()=>document.getElementById('navLinks').classList.toggle('active'));
