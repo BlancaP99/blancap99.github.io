@@ -60,8 +60,16 @@ h2{font-family:"Sweet Sans Pro";font-weight:300;font-size:.9rem;letter-spacing:.
 .media-row.cols-4{grid-template-columns:repeat(4,1fr);}
 .gallery-section.tight .media-row{gap:.3rem;}
 
-.thumb{cursor:pointer;border-radius:6px;overflow:visible;}
-.thumb video,.thumb img{width:100%;height:100%;object-fit:cover;border-radius:6px;transition:transform .3s;}
+/* ---------- THUMBS ---------- */
+.thumb{
+    position:relative;cursor:pointer;border-radius:6px;overflow:hidden;
+}
+/* ratio-holder para que la fila no colapse antes de cargar */
+.thumb::before{content:"";display:block;padding-top:56.25%;}       /* 16:9 */
+.thumb video,.thumb img{
+    position:absolute;top:0;left:0;width:100%;height:100%;
+    object-fit:cover;border-radius:6px;transition:transform .3s;
+}
 .thumb:hover video,.thumb:hover img{transform:scale(1.05);}
 
 /* -- tamaño reducido sólo para STREETXO_ -- */
@@ -80,6 +88,7 @@ h2{font-family:"Sweet Sans Pro";font-weight:300;font-size:.9rem;letter-spacing:.
     nav{left:0;right:0;width:100%;justify-content:center;}
     .nav-logo{margin:auto;}
     .nav-separator{display:none;}
+
     .hamburger{display:block;position:absolute;left:50%;top:2.5rem;width:26px;height:20px;transform:translateX(-50%);cursor:pointer;z-index:101;}
     .nav-links{display:none;}
     .nav-links.active{position:fixed;inset:0;background:rgba(0,0,0,.9);display:flex;flex-direction:column;gap:2rem;justify-content:center;align-items:center;font-family:"Moglan Demo","Area Normal",sans-serif;}
@@ -94,7 +103,7 @@ h2{font-family:"Sweet Sans Pro";font-weight:300;font-size:.9rem;letter-spacing:.
 
 <!-- ======= MENÚ ======= -->
 <nav>
-    <a href="index.html#skipIntro"><img src="/images/BLANCA_NAME.png" class="nav-logo" alt="Home"></a>
+    <a href="index.html#top"><img src="/images/BLANCA_NAME.png" class="nav-logo" alt="Home"></a>
     <span class="nav-separator"></span>
     <div class="nav-links" id="navLinks">
         <a href="projects.html">Projects</a>
@@ -178,7 +187,7 @@ document.addEventListener('DOMContentLoaded',()=>{
       v.muted=true;
       v.setAttribute('playsinline','');
       v.setAttribute('preload','auto');
-      v.play().catch(()=>{});   // silencio si falla en primer intento
+      v.play().catch(()=>{});   // silencio si falla
   });
 });
 
@@ -219,7 +228,7 @@ buttons.forEach(btn=>{
         btn.classList.add('active');
         const filter=btn.dataset.filter;
         sections.forEach(sec=>{
-            sec.style.display=(filter==='all'||sec.dataset.cat.includes(filter))?'':'none';
+            sec.style.display=(filter==='all'||sec.dataset.cat===filter)?'':'none';
         });
     });
 });
